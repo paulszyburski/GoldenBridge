@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Bridge — Independent Software Buying Guides</title>
+<meta name="description" content="Independent buying guides, comparison resources, checklists and decision tools for choosing business software and digital services.">
+<meta property="og:title" content="Gold Bridge — Independent Software Buying Guides">
+<meta property="og:description" content="Independent buying guides, comparison resources, checklists and decision tools for choosing business software and digital services.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-bg: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #5A5A58;
+  --color-accent: #8B7535;
+  --color-accent-light: #C6A94D;
+  --color-accent-bg: #F5F0E1;
+  --color-border: #E5E2DA;
+  --color-border-light: #EEECE6;
+  --color-dark-section: #1C1E21;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --max-width: 1120px;
+  --radius: 8px;
+  --radius-lg: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.7;
+  font-size: 17px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { color: var(--color-accent-light); }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+.logo span { color: var(--color-accent); }
+nav { display: flex; align-items: center; gap: 32px; }
+nav a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--color-text); }
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.menu-toggle svg { width: 26px; height: 26px; stroke: var(--color-text); }
+
+/* ── Hero ── */
+.hero {
+  padding: 100px 0 80px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.hero-badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 1.2;
+  max-width: 780px;
+  margin: 0 auto 24px;
+  color: var(--color-text);
+  letter-spacing: -0.015em;
+}
+.hero p {
+  font-size: 1.12rem;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.75;
+}
+.hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--color-text);
+  color: #fff;
+}
+.btn-primary:hover { background: #333; color: #fff; }
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+}
+.btn-secondary:hover { border-color: var(--color-text); color: var(--color-text); }
+
+/* ── Trust strip ── */
+.trust-strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 36px;
+  padding: 36px 0 0;
+  margin-top: 24px;
+  border-top: 1px solid var(--color-border-light);
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+.trust-item svg { width: 18px; height: 18px; stroke: var(--color-accent); flex-shrink: 0; }
+
+/* ── Section base ── */
+.section { padding: 88px 0; }
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  line-height: 1.25;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* ── What We Help With ── */
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+.help-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.help-card:hover {
+  border-color: var(--color-border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+.help-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--color-accent-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.help-icon svg { width: 22px; height: 22px; stroke: var(--color-accent); fill: none; }
+.help-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  margin-bottom: 10px;
+}
+.help-card p {
+  font-size: 0.93rem;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+/* ── Categories ── */
+.section-alt { background: var(--color-surface); border-top: 1px solid var(--color-border-light); border-bottom: 1px solid var(--color-border-light); }
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+  gap: 18px;
+  margin-top: 48px;
+}
+.cat-card {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  background: var(--color-bg);
+  transition: border-color 0.25s;
+}
+.cat-card:hover { border-color: var(--color-accent-light); }
+.cat-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+.cat-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.cat-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.03em;
+}
+
+/* ── How We Compare ── */
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  margin-top: 48px;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.method-step {
+  padding: 32px 28px;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+}
+.method-step:last-child { border-bottom: none; }
+.method-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--color-accent-light);
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+.method-step h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.method-step p {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (min-width: 700px) {
+  .method-grid { grid-template-columns: repeat(5, 1fr); }
+  .method-step { border-bottom: none; border-right: 1px solid var(--color-border-light); }
+  .method-step:last-child { border-right: none; }
+}
+
+/* ── Example Resources ── */
+.resource-list {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius);
+  transition: border-color 0.25s;
+}
+.resource-item:hover { border-color: var(--color-border); }
+.resource-type {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-bg);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.resource-item span:last-child {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* ── Disclosure + Privacy ── */
+.legal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+.legal-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+}
+.legal-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+}
+.legal-card p {
+  font-size: 0.92rem;
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+}
+
+@media (max-width: 700px) {
+  .legal-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Contact ── */
+.contact-section {
+  background: var(--color-dark-section);
+  color: #fff;
+  text-align: center;
+  padding: 80px 0;
+}
+.contact-section .section-label { color: var(--color-accent-light); }
+.contact-section .section-title { color: #fff; }
+.contact-section p {
+  color: rgba(255,255,255,0.65);
+  max-width: 480px;
+  margin: 0 auto 32px;
+  font-size: 1.02rem;
+}
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-accent-light);
+  padding: 14px 32px;
+  border: 1.5px solid rgba(198, 169, 77, 0.3);
+  border-radius: var(--radius);
+  transition: border-color 0.2s;
+}
+.contact-email:hover { border-color: var(--color-accent-light); color: var(--color-accent-light); }
+.contact-email svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--color-border-light);
+  padding: 48px 0 40px;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer-brand p {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+  max-width: 300px;
+  line-height: 1.6;
+}
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+.footer-links a:hover { color: var(--color-text); }
+.footer-bottom {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+.footer-disclosure {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 540px;
+}
+
+/* ── Mobile nav ── */
+@media (max-width: 768px) {
+  nav { display: none; }
+  nav.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: 20px 28px;
+    gap: 16px;
+  }
+  .menu-toggle { display: block; }
+  .hero { padding: 64px 0 56px; }
+  .hero h1 { font-size: 1.9rem; }
+  .section { padding: 60px 0; }
+  .resource-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+/* ── Fade-in animation ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">Gold<span>Bridge</span></a>
+    <nav id="mainNav">
+      <a href="#categories">Categories</a>
+      <a href="#methodology">How We Compare</a>
+      <a href="#disclosure">Disclosure</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-toggle" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Launch Phase</div>
+    <h1>Independent buying guides for choosing better software and digital tools.</h1>
+    <p>Gold Bridge helps users compare business software, online tools and digital services through practical guides, checklists, scorecards and transparent decision resources.</p>
+    <div class="hero-buttons">
+      <a href="#categories" class="btn btn-primary">Explore Categories</a>
+      <a href="#methodology" class="btn btn-secondary">How We Compare</a>
+    </div>
+    <div class="trust-strip">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Independent comparisons
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Transparent methodology
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Clear affiliate disclosure
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Human-reviewed content
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What We Help With -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">What We Do</div>
+      <div class="section-title">Practical help for software buying decisions</div>
+      <div class="section-desc">We create focused resources for people and small businesses who are actively comparing tools before a purchase.</div>
+    </div>
+    <div class="help-grid fade-up">
+      <div class="help-card">
+        <div class="help-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Compare software options</h3>
+        <p>Side-by-side feature, pricing and fit comparisons across tools in the same category.</p>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>Understand pricing and trade-offs</h3>
+        <p>Break down real costs, free tier limitations, and what you actually get at each price point.</p>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Choose based on workflow and budget</h3>
+        <p>Recommendations tailored to team size, use case and budget rather than generic rankings.</p>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Find alternatives to popular tools</h3>
+        <p>Discover less-known options that may be a better fit than the default market leaders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section section-alt" id="categories">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Categories</div>
+      <div class="section-title">Initial content focus areas</div>
+      <div class="section-desc">We are building a focused audience of users researching software and digital tools. Our first guides will cover these categories.</div>
+    </div>
+    <div class="cat-grid fade-up">
+      <div class="cat-card">
+        <h3>CRM Software</h3>
+        <p>Contact management, sales pipelines, and customer relationship tools for small teams.</p>
+        <span class="cat-status">Guides in progress</span>
+      </div>
+      <div class="cat-card">
+        <h3>Project Management</h3>
+        <p>Task tracking, team collaboration and workflow management tools.</p>
+        <span class="cat-status">Guides in progress</span>
+      </div>
+      <div class="cat-card">
+        <h3>Scheduling Tools</h3>
+        <p>Appointment booking, calendar management and availability scheduling software.</p>
+        <span class="cat-status">Buying resources being prepared</span>
+      </div>
+      <div class="cat-card">
+        <h3>Marketing Automation</h3>
+        <p>Email campaigns, lead nurturing, and automated marketing workflow platforms.</p>
+        <span class="cat-status">Buying resources being prepared</span>
+      </div>
+      <div class="cat-card">
+        <h3>AI Productivity Tools</h3>
+        <p>AI writing assistants, content tools and productivity software powered by language models.</p>
+        <span class="cat-status">Guides in progress</span>
+      </div>
+      <div class="cat-card">
+        <h3>Analytics &amp; Reporting</h3>
+        <p>Business intelligence dashboards, website analytics and data visualization tools.</p>
+        <span class="cat-status">Buying resources being prepared</span>
+      </div>
+      <div class="cat-card">
+        <h3>Customer Support</h3>
+        <p>Help desk software, live chat tools and ticketing systems for support teams.</p>
+        <span class="cat-status">Buying resources being prepared</span>
+      </div>
+      <div class="cat-card">
+        <h3>No-Code Automation</h3>
+        <p>Workflow automation, app builders and integration platforms for non-developers.</p>
+        <span class="cat-status">Guides in progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How We Compare -->
+<section class="section" id="methodology">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Methodology</div>
+      <div class="section-title">How we compare tools</div>
+      <div class="section-desc">Our editorial process is designed to be transparent and useful, not promotional.</div>
+    </div>
+    <div class="method-grid fade-up">
+      <div class="method-step">
+        <div class="method-num">01</div>
+        <h3>Identify the problem</h3>
+        <p>Start with a real user need and define the use case clearly before evaluating tools.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">02</div>
+        <h3>Compare pricing &amp; features</h3>
+        <p>Break down plans, limits, and what each tier actually includes for the target user.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">03</div>
+        <h3>Assess fit and limitations</h3>
+        <p>Evaluate who should use each tool — and who should avoid it. No tool fits everyone.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">04</div>
+        <h3>Document methodology</h3>
+        <p>Include clear criteria, update dates and explain how conclusions were reached.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">05</div>
+        <h3>Disclose relationships</h3>
+        <p>All affiliate or commercial relationships are clearly disclosed alongside content.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Example Resources -->
+<section class="section section-alt" id="resources">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Resource Types</div>
+      <div class="section-title">Example editorial formats</div>
+      <div class="section-desc">Our content focuses on high-intent comparison and buying decision topics. These are the types of resources we publish.</div>
+    </div>
+    <div class="resource-list fade-up">
+      <div class="resource-item">
+        <span class="resource-type">Buying Guide</span>
+        <span>Best CRM tools for small service businesses</span>
+      </div>
+      <div class="resource-item">
+        <span class="resource-type">Checklist</span>
+        <span>Project management checklist for 5-person teams</span>
+      </div>
+      <div class="resource-item">
+        <span class="resource-type">Scorecard</span>
+        <span>Scheduling software comparison scorecard</span>
+      </div>
+      <div class="resource-item">
+        <span class="resource-type">Comparison</span>
+        <span>AI writing tools: pricing and feature comparison</span>
+      </div>
+      <div class="resource-item">
+        <span class="resource-type">Calculator</span>
+        <span>CRM cost calculator for small teams</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Disclosure & Privacy -->
+<section class="section" id="disclosure">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Trust &amp; Transparency</div>
+      <div class="section-title">Affiliate disclosure and privacy</div>
+    </div>
+    <div class="legal-grid fade-up">
+      <div class="legal-card">
+        <h3>Affiliate Disclosure</h3>
+        <p>Some pages may contain affiliate links. If a user clicks a link and purchases a product, Gold Bridge may earn a commission at no additional cost to the user. Affiliate relationships do not determine our editorial conclusions. We aim to clearly disclose commercial relationships and explain how we compare products.</p>
+      </div>
+      <div class="legal-card">
+        <h3>Privacy Summary</h3>
+        <p>We do not sell personal data. If users contact us or subscribe to updates in the future, we will use that information only to provide the requested communication. Analytics and tracking, if used, will be implemented with appropriate consent where required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-label">Get in Touch</div>
+    <div class="section-title">Partnership and editorial inquiries</div>
+    <p>For partnership, editorial or general inquiries, reach us by email.</p>
+    <a href="mailto:partners@example.com" class="contact-email">
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      partners@example.com
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Gold<span>Bridge</span></div>
+        <p>Independent software and digital tool buying guides.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#methodology">How We Compare</a>
+        <a href="#disclosure">Affiliate Disclosure</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Gold Bridge. Last updated: May 2026.</p>
+      <div class="footer-disclosure">Some pages may contain affiliate links. Affiliate relationships do not determine editorial conclusions. <a href="#disclosure">Read full disclosure.</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll-triggered fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Close mobile nav on link click
+document.querySelectorAll('#mainNav a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mainNav').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>
