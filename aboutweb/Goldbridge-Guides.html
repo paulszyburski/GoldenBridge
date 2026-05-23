@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Bridge — Independent Software Buying Guides</title>
+<meta name="description" content="Gold Bridge publishes independent comparison resources, buying guides, checklists and decision tools for people choosing business software and digital services.">
+<meta property="og:title" content="Gold Bridge — Independent Software Buying Guides">
+<meta property="og:description" content="Gold Bridge publishes independent comparison resources, buying guides, checklists and decision tools for people choosing business software and digital services.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF8;--surface:#FFF;--text:#1A1A1A;--text2:#5A5A58;--accent:#8B7535;--accentL:#C6A94D;--accentBg:#F5F0E1;--border:#E5E2DA;--borderL:#EEECE6;--dark:#1C1E21;--partnerBg:#F8F6F0;--fd:'DM Serif Display',Georgia,serif;--fb:'Source Sans 3','Segoe UI',sans-serif;--mw:1120px;--r:8px;--rl:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--text);background:var(--bg);line-height:1.7;font-size:17px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{color:var(--accentL)}
+.c{max-width:var(--mw);margin:0 auto;padding:0 28px}
+
+/* Header */
+header{position:sticky;top:0;z-index:100;background:rgba(250,250,248,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--borderL)}
+.hi{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:var(--fd);font-size:1.45rem;color:var(--text);letter-spacing:-.01em;cursor:pointer}
+.logo span{color:var(--accent)}
+nav{display:flex;align-items:center;gap:30px}
+nav a{font-size:.9rem;font-weight:500;color:var(--text2);letter-spacing:.02em;transition:color .2s;cursor:pointer}
+nav a:hover{color:var(--text)}
+.mt{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.mt svg{width:26px;height:26px;stroke:var(--text)}
+.hr{display:flex;align-items:center;gap:4px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:var(--r);font-family:var(--fb);font-size:.95rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.bp{background:var(--text);color:#fff}.bp:hover{background:#333;color:#fff}
+.bs{background:transparent;color:var(--text);border:1.5px solid var(--border)}.bs:hover{border-color:var(--text);color:var(--text)}
+.bog{background:transparent;color:var(--accent);border:1.5px solid var(--accent);font-size:.85rem;padding:10px 20px}.bog:hover{background:var(--accentBg);color:var(--accent)}
+.bb{background:transparent;color:var(--text2);border:1.5px solid var(--border);font-size:.85rem;padding:10px 20px}.bb:hover{border-color:var(--text);color:var(--text)}
+
+/* Hero */
+.hero{padding:96px 0 76px;text-align:center}
+.hb{display:inline-flex;align-items:center;gap:8px;background:var(--accentBg);color:var(--accent);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:28px}
+.hb::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.hero h1{font-family:var(--fd);font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.2;max-width:760px;margin:0 auto 24px;letter-spacing:-.015em}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:620px;margin:0 auto 40px;line-height:1.75}
+.hbs{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.ts{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 36px;padding:36px 0 0;margin-top:24px;border-top:1px solid var(--borderL)}
+.ti{display:flex;align-items:center;gap:9px;font-size:.88rem;font-weight:500;color:var(--text2)}
+.ti svg{width:18px;height:18px;stroke:var(--accent);fill:none;flex-shrink:0}
+
+/* Sections */
+.s{padding:84px 0}
+.sl{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.st{font-family:var(--fd);font-size:clamp(1.6rem,3.5vw,2.15rem);line-height:1.25;margin-bottom:16px;letter-spacing:-.01em}
+.sd{font-size:1.04rem;color:var(--text2);max-width:580px;line-height:1.7}
+.sa{background:var(--surface);border-top:1px solid var(--borderL);border-bottom:1px solid var(--borderL)}
+
+/* Help cards */
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:48px}
+.hc{background:var(--surface);border:1px solid var(--borderL);border-radius:var(--rl);padding:32px 28px;transition:border-color .25s,box-shadow .25s}
+.hc:hover{border-color:var(--border);box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.hci{width:44px;height:44px;border-radius:10px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.hci svg{width:22px;height:22px;stroke:var(--accent);fill:none}
+.hc h3{font-family:var(--fd);font-size:1.1rem;margin-bottom:10px}
+.hc p{font-size:.93rem;color:var(--text2);line-height:1.65}
+
+/* Category cards */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:18px;margin-top:48px}
+.cc{border:1px solid var(--borderL);border-radius:var(--rl);padding:28px 24px;background:var(--bg);transition:border-color .25s,box-shadow .25s,transform .2s;cursor:pointer;text-decoration:none;display:block;color:inherit}
+.cc:hover{border-color:var(--accentL);box-shadow:0 4px 20px rgba(0,0,0,.05);transform:translateY(-2px);color:inherit}
+.cc h3{font-family:var(--fd);font-size:1.05rem;margin-bottom:8px}
+.cc p{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.cs{font-size:.76rem;font-weight:600;color:var(--accent);letter-spacing:.03em;display:block;margin-bottom:12px}
+.cf{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--accent)}
+.cf svg{width:14px;height:14px;stroke:var(--accent);fill:none;transition:transform .2s}
+.cc:hover .cf svg{transform:translateX(3px)}
+
+/* Methodology */
+.mg{display:grid;grid-template-columns:1fr;gap:0;margin-top:48px;border:1px solid var(--borderL);border-radius:var(--rl);overflow:hidden;background:var(--surface)}
+.ms{padding:30px 28px;border-bottom:1px solid var(--borderL)}.ms:last-child{border-bottom:none}
+.mn{font-family:var(--fd);font-size:1.5rem;color:var(--accentL);opacity:.6;margin-bottom:10px}
+.ms h3{font-size:.98rem;font-weight:600;margin-bottom:8px}
+.ms p{font-size:.88rem;color:var(--text2);line-height:1.6}
+@media(min-width:700px){.mg{grid-template-columns:repeat(5,1fr)}.ms{border-bottom:none;border-right:1px solid var(--borderL)}.ms:last-child{border-right:none}}
+
+/* Preview cards */
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:48px}
+.pc{background:var(--surface);border:1px solid var(--borderL);border-radius:var(--rl);overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.pc:hover{border-color:var(--border);box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.pch{padding:24px 28px 18px;border-bottom:1px solid var(--borderL)}
+.pt{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accentBg);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:12px}
+.pch h3{font-family:var(--fd);font-size:1.1rem;line-height:1.35}
+.pcb{padding:20px 28px 24px}
+.pcb p{font-size:.9rem;color:var(--text2);line-height:1.65;margin-bottom:18px}
+.pm{font-size:.76rem;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.pm svg{width:13px;height:13px;stroke:var(--accent);fill:none;flex-shrink:0}
+
+/* Partner */
+.ps{background:var(--partnerBg);border-top:1px solid var(--borderL);border-bottom:1px solid var(--borderL)}
+.pco{max-width:720px}
+.pco>p{font-size:1rem;color:var(--text2);line-height:1.8;margin-bottom:16px}
+.pe{margin-top:36px}
+.pe h3{font-family:var(--fd);font-size:1.15rem;margin-bottom:20px}
+.eg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.ei{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:var(--surface);border:1px solid var(--borderL);border-radius:var(--r);font-size:.9rem;font-weight:500;color:var(--text);line-height:1.45}
+.ei svg{width:18px;height:18px;stroke:var(--accent);fill:none;flex-shrink:0;margin-top:2px}
+.pd{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-size:.88rem;color:var(--text2);line-height:1.7}
+
+/* Legal */
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.lc{background:var(--surface);border:1px solid var(--borderL);border-radius:var(--rl);padding:36px 32px}
+.lc h3{font-family:var(--fd);font-size:1.12rem;margin-bottom:14px}
+.lc p{font-size:.92rem;color:var(--text2);line-height:1.75}
+.lu{font-size:.78rem;color:var(--accent);font-weight:600;margin-top:14px;letter-spacing:.02em}
+@media(max-width:700px){.lg{grid-template-columns:1fr}}
+
+/* Contact */
+.cos{background:var(--dark);color:#fff;text-align:center;padding:80px 0}
+.cos .sl{color:var(--accentL)}.cos .st{color:#fff}
+.cos p{color:rgba(255,255,255,.65);max-width:480px;margin:0 auto 32px;font-size:1.02rem}
+.ce{display:inline-flex;align-items:center;gap:10px;font-size:1.05rem;font-weight:600;color:var(--accentL);padding:14px 32px;border:1.5px solid rgba(198,169,77,.3);border-radius:var(--r);transition:border-color .2s}
+.ce:hover{border-color:var(--accentL);color:var(--accentL)}
+.ce svg{width:20px;height:20px;stroke:currentColor;fill:none}
+
+/* Footer */
+footer{border-top:1px solid var(--borderL);padding:48px 0 40px}
+.fi{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px}
+.fib p{font-size:.88rem;color:var(--text2);margin-top:6px;max-width:300px;line-height:1.6}
+.fl{display:flex;gap:28px;flex-wrap:wrap}
+.fl a{font-size:.88rem;font-weight:500;color:var(--text2);cursor:pointer}.fl a:hover{color:var(--text)}
+.fb{margin-top:36px;padding-top:24px;border-top:1px solid var(--borderL);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.fb p{font-size:.8rem;color:var(--text2);line-height:1.6}
+.fbd{font-size:.8rem;color:var(--text2);line-height:1.6;max-width:560px}
+
+/* Detail pages */
+.dp{padding:64px 0 84px;display:none}.dp.active{display:block}
+.db{font-size:.82rem;color:var(--text2);margin-bottom:28px;display:flex;align-items:center;gap:8px}
+.db a{color:var(--accent);cursor:pointer}
+.dh{margin-bottom:40px}
+.dh h1{font-family:var(--fd);font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.25;margin-bottom:12px;letter-spacing:-.01em}
+.dh p{font-size:1.04rem;color:var(--text2);max-width:640px;line-height:1.7}
+.dsb{display:inline-flex;align-items:center;gap:8px;background:var(--accentBg);color:var(--accent);font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px}
+.dsb::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.dc{max-width:720px}
+.dc h2{font-family:var(--fd);font-size:1.25rem;margin:36px 0 14px}.dc h2:first-child{margin-top:0}
+.dc p{font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:14px}
+.dc ul{list-style:none;padding:0;margin:0 0 20px}
+.dc ul li{font-size:.92rem;color:var(--text2);line-height:1.65;padding:6px 0 6px 22px;position:relative}
+.dc ul li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;border:2px solid var(--accent)}
+.dd{margin-top:36px;padding:24px 28px;background:var(--accentBg);border-radius:var(--r);font-size:.88rem;color:var(--text2);line-height:1.7}
+.dd strong{color:var(--text);font-weight:600}
+.da{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap}
+
+/* Tables */
+.ct{width:100%;border-collapse:collapse;margin:20px 0 24px;border:1px solid var(--borderL);border-radius:var(--r);overflow:hidden}
+.ct th,.ct td{text-align:left;padding:14px 18px;font-size:.88rem;border-bottom:1px solid var(--borderL)}
+.ct th{background:var(--accentBg);color:var(--accent);font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase}
+.ct td{color:var(--text2)}.ct tr:last-child td{border-bottom:none}.ct tr:hover td{background:rgba(139,117,53,.03)}
+
+/* Checklist */
+.ci{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--borderL)}.ci:last-child{border-bottom:none}
+.cb{width:20px;height:20px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:2px}
+.ci h4{font-size:.92rem;font-weight:600;margin-bottom:4px}
+.ci p{font-size:.85rem;color:var(--text2);line-height:1.55}
+
+/* Fade-in */
+.fu{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}.fu.visible{opacity:1;transform:translateY(0)}
+
+/* Mobile */
+@media(max-width:768px){nav{display:none}nav.open{display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:20px 28px;gap:16px}.mt{display:block}.hero{padding:60px 0 52px}.hero h1{font-size:1.85rem}.s{padding:56px 0}.pg{grid-template-columns:1fr}.eg{grid-template-columns:1fr}}
+
+/* Theme toggle */
+.tt{position:relative;width:52px;height:28px;background:var(--border);border-radius:100px;border:none;cursor:pointer;padding:0;flex-shrink:0;transition:background .3s;margin-left:8px}
+[data-theme=dark] .tt{background:#2E3035}
+.tk{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s}
+[data-theme=dark] .tk{transform:translateX(24px);background:#2A2C30}
+.tk svg{width:14px;height:14px;transition:opacity .25s,transform .3s}
+.si{stroke:var(--accent);fill:none;position:absolute}
+.mi{fill:var(--accentL);stroke:none;position:absolute;opacity:0;transform:rotate(-30deg)}
+[data-theme=dark] .si{opacity:0;transform:rotate(30deg)}
+[data-theme=dark] .mi{opacity:1;transform:rotate(0deg)}
+
+/* Dark mode */
+[data-theme=dark]{--bg:#141517;--surface:#1C1E21;--text:#E8E6E1;--text2:#9B9A96;--accent:#C6A94D;--accentL:#D4BA6A;--accentBg:rgba(198,169,77,.12);--border:#2E3035;--borderL:#252729;--dark:#0D0E10;--partnerBg:#1A1C1F}
+[data-theme=dark] header{background:rgba(20,21,23,.92)}
+[data-theme=dark] nav.open{background:var(--bg)}
+[data-theme=dark] .bp{background:var(--accent);color:#141517}[data-theme=dark] .bp:hover{background:var(--accentL);color:#141517}
+[data-theme=dark] .bs{color:var(--text);border-color:var(--border)}
+[data-theme=dark] .cos{background:#0A0B0C}[data-theme=dark] .cos p{color:rgba(255,255,255,.5)}
+</style>
+</head>
+<body>
+
+<header><div class="c hi">
+<a class="logo" onclick="SP('home')">Gold<span>Bridge</span></a>
+<nav id="mn">
+<a onclick="SP('home','categories')">Categories</a>
+<a onclick="SP('home','methodology')">How We Compare</a>
+<a onclick="SP('home','resources')">Guides</a>
+<a onclick="SP('home','partners')">For Partners</a>
+<a onclick="SP('home','disclosure')">Disclosure</a>
+<a onclick="SP('home','contact')">Contact</a>
+</nav>
+<div class="hr">
+<button class="tt" id="themeToggle" aria-label="Toggle dark mode"><div class="tk">
+<svg class="si" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+<svg class="mi" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</div></button>
+<button class="mt" onclick="document.getElementById('mn').classList.toggle('open')" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</div>
+</div></header>
+
+<!-- HOME -->
+<div id="page-home">
+
+<section class="hero"><div class="c">
+<div class="hb">Independent editorial publication</div>
+<h1>Independent buying guides for software and digital tools.</h1>
+<p>Gold Bridge is a software buying-guide publication. We create comparison resources, checklists, scorecards and decision tools for people and small businesses choosing business software.</p>
+<div class="hbs">
+<a onclick="SP('home','categories')" class="btn bp">Browse Categories</a>
+<a onclick="SP('home','methodology')" class="btn bs">Our Methodology</a>
+</div>
+<div class="ts">
+<div class="ti"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Editorially independent</div>
+<div class="ti"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Transparent comparison criteria</div>
+<div class="ti"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>All affiliate links disclosed</div>
+<div class="ti"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Human-written and reviewed</div>
+</div>
+</div></section>
+
+<!-- About -->
+<section class="s" id="about"><div class="c">
+<div class="fu">
+<div class="sl">What Gold Bridge Publishes</div>
+<div class="st">Practical resources for software buying decisions</div>
+<div class="sd">We create focused editorial content for people and small businesses who are actively comparing software before a purchase. Each resource follows a consistent, documented methodology.</div>
+</div>
+<div class="hg fu">
+<div class="hc"><div class="hci"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3>Side-by-side comparisons</h3><p>Feature, pricing and fit comparisons for tools in the same category, structured around real selection criteria.</p></div>
+<div class="hc"><div class="hci"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><h3>Pricing breakdowns</h3><p>Real costs, free-tier limitations, and what you actually get at each price point — no hidden surprises.</p></div>
+<div class="hc"><div class="hci"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><h3>Workflow-based recommendations</h3><p>Recommendations based on team size, use case and budget — not affiliate payout or generic popularity.</p></div>
+<div class="hc"><div class="hci"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>Alternatives to market leaders</h3><p>Lesser-known tools that may fit better than the default choices — evaluated with the same methodology.</p></div>
+</div>
+</div></section>
+
+<!-- Categories -->
+<section class="s sa" id="categories"><div class="c">
+<div class="fu">
+<div class="sl">Editorial Categories</div>
+<div class="st">Initial content categories</div>
+<div class="sd">Gold Bridge is currently building its first buying guides and comparison resources. Below are the editorial categories we are actively developing content for.</div>
+</div>
+<div class="cg fu">
+<a class="cc" onclick="SP('cat-crm')" aria-label="View CRM Software category"><h3>CRM Software</h3><p>Contact management, sales pipelines, and customer relationship tools for small teams and freelancers.</p><span class="cs">First guide in editorial review</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-pm')" aria-label="View Project Management category"><h3>Project Management</h3><p>Task tracking, team collaboration and workflow management for teams of 3–25 people.</p><span class="cs">Comparison structure in progress</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-scheduling')" aria-label="View Scheduling Tools category"><h3>Scheduling Tools</h3><p>Appointment booking, calendar management and availability scheduling for service businesses.</p><span class="cs">Research and outline phase</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-marketing')" aria-label="View Marketing Automation category"><h3>Marketing Automation</h3><p>Email campaigns, lead nurturing, and automated marketing workflow platforms for small teams.</p><span class="cs">Launch category — guides planned</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-ai')" aria-label="View AI Productivity Tools category"><h3>AI Productivity Tools</h3><p>AI writing assistants, content tools and productivity software powered by language models.</p><span class="cs">First guide in editorial review</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-analytics')" aria-label="View Analytics &amp; Reporting category"><h3>Analytics &amp; Reporting</h3><p>Business intelligence dashboards, website analytics and data visualization tools.</p><span class="cs">Launch category — guides planned</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-support')" aria-label="View Customer Support category"><h3>Customer Support</h3><p>Help desk software, live chat tools and ticketing systems for support teams under 20 agents.</p><span class="cs">Research and outline phase</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+<a class="cc" onclick="SP('cat-nocode')" aria-label="View No-Code Automation category"><h3>No-Code Automation</h3><p>Workflow automation, app builders and integration platforms for non-developers.</p><span class="cs">Comparison structure in progress</span><span class="cf">View category <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+</div></div></section>
+
+<!-- Methodology -->
+<section class="s" id="methodology"><div class="c">
+<div class="fu">
+<div class="sl">Our Methodology</div>
+<div class="st">How we research and compare tools</div>
+<div class="sd">Every Gold Bridge resource follows a five-step editorial process designed to be transparent and useful — not promotional.</div>
+</div>
+<div class="mg fu">
+<div class="ms"><div class="mn">01</div><h3>Define the use case</h3><p>Start with a specific user need — team size, budget range, workflow — and scope the comparison to that context.</p></div>
+<div class="ms"><div class="mn">02</div><h3>Compare pricing &amp; features</h3><p>Break down plans, limits, and what each tier actually includes. Note hidden costs and upgrade triggers.</p></div>
+<div class="ms"><div class="mn">03</div><h3>Assess fit and limitations</h3><p>Evaluate who should use each tool — and who should not. No tool is right for everyone, and we say so.</p></div>
+<div class="ms"><div class="mn">04</div><h3>Document criteria</h3><p>Publish the criteria used, include update dates, and explain how editorial conclusions were reached.</p></div>
+<div class="ms"><div class="mn">05</div><h3>Disclose all relationships</h3><p>Affiliate and commercial relationships are disclosed alongside the content they appear in. Always.</p></div>
+</div>
+</div></section>
+
+<!-- Guides -->
+<section class="s sa" id="resources"><div class="c">
+<div class="fu">
+<div class="sl">Content Formats</div>
+<div class="st">Editorial formats in development</div>
+<div class="sd">These are the types of buying resources Gold Bridge publishes. Each format follows our documented comparison methodology and includes full affiliate disclosure.</div>
+</div>
+<div class="pg fu">
+
+<div class="pc"><div class="pch"><span class="pt">Buying Guide</span><h3>CRM software for small teams (under 10 people)</h3></div>
+<div class="pcb"><p>A practical guide to comparing CRM tools by team size, sales workflow, pricing model and implementation complexity.</p>
+<div class="pm"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Currently in editorial review · Target publish: June 2026</div>
+<a onclick="SP('guide-crm')" class="btn bog">See comparison format →</a></div></div>
+
+<div class="pc"><div class="pch"><span class="pt">Checklist</span><h3>Project management tool checklist for 5-person teams</h3></div>
+<div class="pcb"><p>A structured checklist for small teams evaluating task tracking, collaboration features, client visibility and budget fit.</p>
+<div class="pm"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Comparison structure in progress · Target publish: Q3 2026</div>
+<a onclick="SP('guide-pm')" class="btn bog">See checklist format →</a></div></div>
+
+<div class="pc"><div class="pch"><span class="pt">Scorecard</span><h3>Scheduling software comparison scorecard</h3></div>
+<div class="pcb"><p>A scored comparison evaluating appointment booking, automated reminders, calendar integrations and pricing transparency.</p>
+<div class="pm"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Research phase · Target publish: Q3 2026</div>
+<a onclick="SP('guide-scheduling')" class="btn bog">See scorecard format →</a></div></div>
+
+</div></div></section>
+
+<!-- Partners -->
+<section class="s ps" id="partners"><div class="c">
+<div class="fu">
+<div class="sl">For Affiliate &amp; Advertising Partners</div>
+<div class="st">Working with Gold Bridge</div>
+</div>
+<div class="pco fu">
+<p>Gold Bridge is an independent editorial publication focused on software buying guides. We write comparison resources, checklists, scorecards and decision tools for readers who are actively researching options before a purchase.</p>
+<p>Our audience is being built through search-focused editorial content, transparent comparison resources and future newsletter updates. We do not use paid ad arbitrage, social spam, fake accounts, synthetic traffic, incentivized clicks or undisclosed promotion.</p>
+<p>As a launch-stage publication, we are building our initial content library and growing our readership organically. We value long-term partnerships with software companies whose products we can evaluate honestly within our editorial categories.</p>
+<p>All commercial and affiliate relationships are clearly disclosed. Affiliate partnerships do not influence our editorial conclusions or comparison outcomes.</p>
+<div class="pe"><h3>What partners can expect from us</h3>
+<div class="eg"><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Brand-safe, human-written editorial content</div><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Clear affiliate disclosure on every page</div><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Readers with real buying and comparison intent</div><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No spam, fake accounts, or synthetic traffic</div><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Documented editorial methodology</div><div class="ei"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Focused exclusively on software and digital tools</div></div></div>
+<div class="pd">Some resources contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost to them. Affiliate relationships are always disclosed, and they never determine our editorial conclusions or the order in which products appear.</div>
+</div></div></section>
+
+<!-- Disclosure -->
+<section class="s" id="disclosure"><div class="c">
+<div class="fu">
+<div class="sl">Trust &amp; Transparency</div>
+<div class="st">Affiliate disclosure and privacy</div>
+</div>
+<div class="lg fu">
+<div class="lc"><h3>Affiliate Disclosure</h3><p>Some pages on Gold Bridge contain affiliate links. If a reader clicks a link and purchases a product, Gold Bridge may earn a commission at no additional cost to the reader. Affiliate relationships do not determine our editorial conclusions, the order of product listings, or the scores assigned in our comparisons. We aim to disclose all commercial relationships clearly and explain the criteria behind every recommendation.</p><div class="lu">Last updated: May 2026</div></div>
+<div class="lc"><h3>Privacy Summary</h3><p>Gold Bridge does not sell personal data. If readers contact us or subscribe to future updates, we use that information only to provide the requested communication. We do not collect unnecessary personal data. Analytics and tracking, if used, are implemented with appropriate consent mechanisms where required by applicable regulation.</p><div class="lu">Last updated: May 2026</div></div>
+</div></div></section>
+
+<!-- Contact -->
+<!-- TODO: Replace Gmail with domain email before premium affiliate applications -->
+<section class="cos" id="contact"><div class="c">
+<div class="sl">Get in Touch</div>
+<div class="st">Partnership and editorial inquiries</div>
+<p>For affiliate partnerships, editorial inquiries, corrections or general questions — reach us by email.</p>
+<a href="mailto:partners.goldbridge@gmail.com" class="ce"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>partners.goldbridge@gmail.com</a>
+</div></section>
+
+</div><!-- end page-home -->
+
+<div id="page-cat-crm" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> CRM Software</div>
+<div class="dh"><div class="dsb">First guide in editorial review</div><h1>CRM Software</h1><p>Software for managing contacts, leads, sales pipelines and customer relationships. Gold Bridge covers CRM tools aimed at small teams, consultants, agencies, service businesses and freelancers.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Our CRM buying guides are written for small teams (typically 1–15 people), solo consultants, agencies managing client relationships, service businesses tracking leads, and sales-led businesses looking for affordable pipeline management.</p>
+<h2>What buyers typically compare</h2><ul><li>Pricing per user and total cost of ownership</li><li>Pipeline management and deal tracking</li><li>Contact management and data import</li><li>Email integration and communication logging</li><li>Workflow automation and task triggers</li><li>Reporting and sales forecasting</li><li>Ease of setup and learning curve</li><li>Migration effort from existing tools</li><li>Customer support and documentation quality</li><li>Third-party integrations</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>CRM software for small teams — buying guide</li><li>CRM pricing comparison table</li><li>CRM checklist for service businesses</li><li>CRM alternatives guide</li><li>CRM cost calculator</li></ul>
+<h2>What we do not cover</h2><p>Gold Bridge does not cover enterprise CRM implementations, CRM customization consulting, or CRM systems designed for organizations with more than 50 users. Our focus is practical guidance for smaller teams making their first CRM purchase or switching from a tool that no longer fits.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('guide-crm')" class="btn bog">See CRM guide format preview →</a><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-pm" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> Project Management</div>
+<div class="dh"><div class="dsb">Comparison structure in progress</div><h1>Project Management</h1><p>Tools for task tracking, collaboration, project visibility and client or team workflows. Gold Bridge covers project management software for small teams, agencies and remote-first organizations.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Small teams of 3–25 people, creative and consulting agencies, remote teams, operations managers, and founders who need structured task management without enterprise-grade complexity.</p>
+<h2>What buyers typically compare</h2><ul><li>Task views (list, board, timeline, calendar)</li><li>Collaboration features and commenting</li><li>Client access and permissions</li><li>Workflow automation</li><li>Built-in time tracking</li><li>Third-party integrations</li><li>Pricing per user</li><li>Ease of adoption for non-technical teams</li><li>Reporting and project dashboards</li><li>Mobile app quality</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>Project management checklist for 5-person teams</li><li>Best project management tools for small agencies</li><li>Project management pricing comparison</li><li>Simple vs complex PM tools — when to upgrade</li><li>Project management alternatives guide</li></ul>
+<h2>What we do not cover</h2><p>Enterprise resource planning, construction project management, or specialized engineering workflow tools. Our guides focus on general-purpose project management for small, non-technical teams.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('guide-pm')" class="btn bog">See PM checklist format preview →</a><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-scheduling" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> Scheduling Tools</div>
+<div class="dh"><div class="dsb">Research and outline phase</div><h1>Scheduling Tools</h1><p>Appointment booking, calendar management, reminders and availability scheduling software. Gold Bridge covers scheduling tools for consultants, service businesses, coaches and freelancers.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Consultants, service-based businesses, coaches, freelancers, small practices managing appointment workflows, and agencies that schedule client meetings frequently.</p>
+<h2>What buyers typically compare</h2><ul><li>Calendar integrations (Google, Outlook, iCal)</li><li>Automated reminders and confirmations</li><li>Booking page customization</li><li>Payment collection at booking</li><li>Team scheduling and round-robin</li><li>Client notifications</li><li>No-show reduction features</li><li>Pricing and plan limits</li><li>Ease of use and setup time</li><li>Integrations with other business tools</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>Scheduling software comparison scorecard</li><li>Appointment booking checklist</li><li>Scheduling tools for service businesses</li><li>Calendly alternatives guide</li><li>Scheduling software pricing comparison</li></ul>
+<h2>What we do not cover</h2><p>Shift scheduling for large workforces, medical appointment systems with clinical integration requirements, or resource planning for manufacturing. Our focus is on client-facing appointment scheduling for small service providers.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('guide-scheduling')" class="btn bog">See scorecard format preview →</a><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-marketing" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> Marketing Automation</div>
+<div class="dh"><div class="dsb">Launch category — guides planned</div><h1>Marketing Automation</h1><p>Tools for email campaigns, lead nurturing, segmentation, marketing workflows and campaign operations. Gold Bridge covers marketing automation platforms suited to small businesses and teams.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Small businesses, solo marketers, agencies managing client campaigns, ecommerce teams running email sequences, and founders looking for their first automation platform.</p>
+<h2>What buyers typically compare</h2><ul><li>Email automation and drip campaign builders</li><li>Audience segmentation capabilities</li><li>Landing page builders</li><li>CRM integration</li><li>Campaign analytics and reporting</li><li>Email deliverability reputation</li><li>Template quality and customization</li><li>Pricing based on contact list size</li><li>Visual workflow builders</li><li>Compliance features (GDPR, CAN-SPAM)</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>Marketing automation tools for small teams</li><li>Email automation pricing comparison</li><li>Marketing automation checklist</li><li>Beginner-friendly marketing automation tools</li><li>Alternatives to popular platforms</li></ul>
+<h2>What we do not cover</h2><p>Enterprise marketing clouds, social media management platforms, or advertising campaign management tools. Our focus is on email-centric marketing automation for smaller teams.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-ai" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> AI Productivity Tools</div>
+<div class="dh"><div class="dsb">First guide in editorial review</div><h1>AI Productivity Tools</h1><p>AI writing assistants, productivity tools, summarization software, meeting assistants and workflow helpers. Gold Bridge covers practical AI tools for small teams, consultants and freelancers.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Freelancers, consultants, small content teams, founders, and operations teams looking for practical productivity improvements through AI-assisted tools — not hype, not replacements for skilled work.</p>
+<h2>What buyers typically compare</h2><ul><li>Use case fit (writing, summarization, research, meetings)</li><li>Output quality and reliability</li><li>Integrations with existing workflows</li><li>Pricing and usage limits</li><li>Privacy and data handling policies</li><li>Collaboration features</li><li>Export options and formatting</li><li>Learning curve</li><li>Usage caps and rate limits</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>AI productivity tools for small teams</li><li>AI writing tools pricing comparison</li><li>AI meeting assistant checklist</li><li>AI tools for consultants</li><li>Limitations and alternatives guide</li></ul>
+<h2>What we do not cover</h2><p>Developer-focused AI APIs, machine learning platforms, or AI model training tools. We focus on practical, ready-to-use productivity tools that non-technical users can adopt without engineering support.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-analytics" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> Analytics &amp; Reporting</div>
+<div class="dh"><div class="dsb">Launch category — guides planned</div><h1>Analytics &amp; Reporting</h1><p>Business dashboards, website analytics, reporting tools and data visualization software. Gold Bridge covers analytics tools accessible to small businesses without dedicated data teams.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Small businesses, agencies reporting to clients, ecommerce operators tracking performance, founders who need visibility into key metrics, and marketing teams measuring campaign results.</p>
+<h2>What buyers typically compare</h2><ul><li>Supported data sources and connectors</li><li>Dashboard builder flexibility</li><li>Automated report scheduling</li><li>Third-party integrations</li><li>Privacy and compliance features</li><li>Export options (PDF, CSV, sharing)</li><li>Pricing and plan limits</li><li>Ease of setup for non-technical users</li><li>Visualization quality</li><li>Team access and permissions</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>Analytics tools for small businesses</li><li>Dashboard software comparison</li><li>Reporting tools checklist</li><li>Website analytics alternatives</li><li>Analytics pricing comparison</li></ul>
+<h2>What we do not cover</h2><p>Enterprise BI platforms, data warehousing, or tools requiring SQL expertise. We focus on tools that business owners and small teams can adopt without engineering support.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-support" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> Customer Support</div>
+<div class="dh"><div class="dsb">Research and outline phase</div><h1>Customer Support</h1><p>Help desk software, live chat, ticketing systems and customer support workflows. Gold Bridge covers support tools for small teams, SaaS companies, ecommerce stores and service businesses.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Small support teams (typically under 20 agents), SaaS companies with growing customer bases, ecommerce stores handling order inquiries, and service businesses managing ongoing client communication.</p>
+<h2>What buyers typically compare</h2><ul><li>Ticket management and prioritization</li><li>Live chat features</li><li>Knowledge base and self-service tools</li><li>Automation and routing rules</li><li>Third-party integrations</li><li>Pricing per agent</li><li>Reporting and customer satisfaction metrics</li><li>Customer interaction history</li><li>Chatbot and self-service capabilities</li><li>Setup complexity and onboarding time</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>Customer support software for small teams</li><li>Help desk pricing comparison</li><li>Live chat vs ticketing — what small teams need</li><li>Customer support checklist</li><li>Alternatives to popular help desk tools</li></ul>
+<h2>What we do not cover</h2><p>Enterprise contact center platforms, call center routing systems, or industry-specific support tools (healthcare, financial services). We focus on general-purpose support software for small teams.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-cat-nocode" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','categories')">Categories</a> <span>/</span> No-Code Automation</div>
+<div class="dh"><div class="dsb">Comparison structure in progress</div><h1>No-Code Automation</h1><p>Workflow automation, app builders, integration platforms and tools that help non-developers automate repetitive tasks. Gold Bridge covers no-code tools for small businesses, agencies and non-technical teams.</p></div>
+<div class="dc">
+<h2>Who this category is for</h2><p>Small businesses looking to eliminate manual work, operations managers connecting tools across their stack, founders automating repetitive processes, agencies streamlining client workflows, and non-technical teams building internal tools.</p>
+<h2>What buyers typically compare</h2><ul><li>Supported integrations and app connectors</li><li>Workflow complexity (simple triggers vs multi-step logic)</li><li>Ease of use for non-developers</li><li>Pricing by tasks, operations, or executions</li><li>Reliability and uptime</li><li>Pre-built templates and examples</li><li>Error handling and debugging tools</li><li>Team collaboration features</li><li>Data privacy and security</li><li>Learning curve and documentation</li></ul><h2>Planned Gold Bridge resources</h2><ul><li>No-code automation tools for small businesses</li><li>Automation platform pricing comparison</li><li>Zapier alternatives guide</li><li>No-code workflow checklist</li><li>App builder vs automation platform — which to choose</li></ul>
+<h2>What we do not cover</h2><p>Developer-focused iPaaS platforms, enterprise integration middleware, or low-code tools requiring programming knowledge. We focus on tools accessible to non-technical users.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> Future guides may contain affiliate links. If a reader clicks through and makes a purchase, Gold Bridge may earn a commission at no additional cost. Affiliate relationships do not determine our editorial conclusions or the order in which products appear.</div>
+<div class="da"><a onclick="SP('home','categories')" class="btn bb">← Back to categories</a></div></div></div></div>
+<div id="page-guide-crm" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','resources')">Guides</a> <span>/</span> CRM Buying Guide Preview</div>
+<div class="dh"><div class="dsb">Editorial preview — not yet published</div><h1>CRM software for small teams: comparison format preview</h1><p>This page shows the structure and comparison criteria for our upcoming CRM buying guide. The guide is currently in editorial review and is not yet a complete published resource.</p></div>
+<div class="dc">
+<h2>Who this guide is for</h2>
+<p>Small teams (1–10 people), freelancers, agencies and service businesses choosing their first CRM or switching from a tool that no longer fits their workflow. This guide focuses on practical needs like contact management, pipeline tracking and affordable pricing — not enterprise feature sets.</p>
+<h2>What CRM buyers should compare</h2>
+<p>Our comparison framework evaluates CRM tools across the following criteria. These are the fields planned for the published guide's comparison table:</p>
+<table class="ct"><thead><tr><th>Comparison criteria</th><th>What we evaluate</th></tr></thead><tbody>
+<tr><td>Pricing per user</td><td>Monthly and annual cost per seat, free tier limitations</td></tr>
+<tr><td>Pipeline management</td><td>Deal stages, visual pipeline, drag-and-drop workflow</td></tr>
+<tr><td>Contact management</td><td>Import, deduplication, tagging, search and filtering</td></tr>
+<tr><td>Email integration</td><td>Gmail/Outlook sync, email logging, templates</td></tr>
+<tr><td>Automation</td><td>Task triggers, follow-up reminders, workflow rules</td></tr>
+<tr><td>Setup complexity</td><td>Time to functional setup, migration tools, onboarding</td></tr>
+<tr><td>Reporting</td><td>Sales reports, activity tracking, forecasting basics</td></tr>
+<tr><td>Integrations</td><td>Native connectors, Zapier/API availability</td></tr>
+<tr><td>Support</td><td>Documentation quality, chat/email support, response time</td></tr>
+</tbody></table>
+<p>Tools commonly evaluated in this category include HubSpot CRM, Pipedrive, Freshsales, Zoho CRM and others. These are examples of tools commonly reviewed in CRM comparisons — not Gold Bridge recommendations.</p>
+<h2>How affiliate links will be disclosed</h2>
+<p>The published guide will include a clear affiliate disclosure at the top of the page, before any product links. Readers will know which links are affiliate links and that our editorial conclusions are not influenced by these relationships.</p>
+<h2>Editorial status</h2>
+<p>This guide is currently in editorial review. Target publication: June 2026. The comparison criteria above represent the planned structure, not yet a complete evaluation.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> This preview page does not contain affiliate links. The published version may include affiliate links, which will be clearly disclosed.</div>
+<div class="da"><a onclick="SP('cat-crm')" class="btn bog">View CRM category →</a><a onclick="SP('home','resources')" class="btn bb">← Back to guides</a></div>
+</div></div></div>
+<div id="page-guide-pm" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','resources')">Guides</a> <span>/</span> PM Checklist Preview</div>
+<div class="dh"><div class="dsb">Format preview — in development</div><h1>Project management checklist for 5-person teams: format preview</h1><p>This page shows the checklist structure for our upcoming project management evaluation resource. The checklist is in development and is not yet a complete published resource.</p></div>
+<div class="dc">
+<h2>Who this checklist is for</h2>
+<p>Small teams of around 5 people evaluating project management tools for the first time, or switching from informal tracking (spreadsheets, email threads, sticky notes) to a dedicated tool. This checklist helps structure the decision without overwhelming small teams with enterprise criteria.</p>
+<h2>Checklist areas</h2>
+<p>The published checklist will cover the following evaluation areas. Each area will include specific questions to ask during a trial or demo:</p><div class="ci"><div class="cb"></div><div><h4>Task visibility</h4><p>Can every team member see what needs to be done without asking someone?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Ownership and deadlines</h4><p>Can tasks be clearly assigned with due dates that trigger reminders?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Client access</h4><p>Can you share project visibility with a client without giving internal access?</p></div></div><div class="ci"><div class="cb"></div><div><h4>File sharing</h4><p>Can documents be attached to tasks or does your team need a separate file system?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Notifications</h4><p>Are notifications configurable, or do they overwhelm small teams by default?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Recurring tasks</h4><p>Does the tool handle repeating work without manual re-creation each week?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Time tracking</h4><p>Is time tracking built in, or does your team need a separate tool?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Reporting</h4><p>Can you generate a progress summary for stakeholders without exporting to a spreadsheet?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Integrations</h4><p>Does the tool connect to your existing email, calendar and communication tools?</p></div></div><div class="ci"><div class="cb"></div><div><h4>Adoption difficulty</h4><p>How long until your team actually uses it daily instead of reverting to old habits?</p></div></div>
+<h2>Red flags when choosing a PM tool</h2>
+<ul>
+<li>Requires a minimum number of paid seats larger than your team</li>
+<li>Core features locked behind enterprise pricing tiers</li>
+<li>No free trial or demo environment</li>
+<li>Complex setup that requires dedicated admin time</li>
+<li>No way to export your data if you want to switch later</li>
+</ul>
+<h2>Pricing questions to ask</h2>
+<ul>
+<li>What is the per-user monthly cost on an annual plan?</li>
+<li>What features are excluded from the tier you are evaluating?</li>
+<li>Are guest or client seats free or paid?</li>
+<li>What happens to your data if you cancel?</li>
+</ul>
+<h2>Editorial status</h2>
+<p>This checklist structure is in progress. Target publication: Q3 2026. The checklist areas above represent planned content, not yet a finalized evaluation.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> This preview page does not contain affiliate links. The published version may include affiliate links, which will be clearly disclosed.</div>
+<div class="da"><a onclick="SP('cat-pm')" class="btn bog">View Project Management category →</a><a onclick="SP('home','resources')" class="btn bb">← Back to guides</a></div>
+</div></div></div>
+<div id="page-guide-scheduling" class="dp"><div class="c">
+<div class="db"><a onclick="SP('home')">Home</a> <span>/</span> <a onclick="SP('home','resources')">Guides</a> <span>/</span> Scheduling Scorecard Preview</div>
+<div class="dh"><div class="dsb">Format preview — research phase</div><h1>Scheduling software comparison scorecard: format preview</h1><p>This page shows the scorecard structure for our upcoming scheduling software comparison. The scorecard is in the research phase and is not yet a complete published resource.</p></div>
+<div class="dc">
+<h2>Who this scorecard is for</h2>
+<p>Consultants, service businesses, coaches and freelancers who book client appointments and need a reliable scheduling tool. This scorecard helps compare the options that matter most for one-on-one and small-team booking workflows.</p>
+<h2>What the scorecard evaluates</h2>
+<p>Each scheduling tool will be scored across these criteria. The scoring methodology will be documented in the published version:</p>
+<table class="ct"><thead><tr><th>Scoring criteria</th><th>What we evaluate</th></tr></thead><tbody>
+<tr><td>Booking page flexibility</td><td>Customization, branding, multiple event types</td></tr>
+<tr><td>Calendar integrations</td><td>Google Calendar, Outlook, iCal sync reliability</td></tr>
+<tr><td>Automated reminders</td><td>Email and SMS confirmations, follow-up sequences</td></tr>
+<tr><td>Team scheduling</td><td>Round-robin, collective availability, team pages</td></tr>
+<tr><td>Payment support</td><td>Stripe/PayPal integration, deposits, prepayment</td></tr>
+<tr><td>Cancellation / rescheduling</td><td>Buffer times, policies, client self-service</td></tr>
+<tr><td>Pricing transparency</td><td>Clear plan comparison, no hidden upgrade triggers</td></tr>
+<tr><td>Client experience</td><td>Booking flow simplicity, mobile friendliness</td></tr>
+<tr><td>Integrations</td><td>CRM, video conferencing, forms, payment processors</td></tr>
+<tr><td>Setup time</td><td>Time from signup to functional booking page</td></tr>
+</tbody></table>
+<h2>What buyers should check before choosing</h2>
+<ul>
+<li>Does the free tier include the calendar integration you use?</li>
+<li>Are reminder emails customizable or fixed templates?</li>
+<li>Can you collect payment at the time of booking?</li>
+<li>What happens if you exceed the plan's appointment limit?</li>
+<li>Can clients reschedule without contacting you directly?</li>
+</ul>
+<h2>Editorial status</h2>
+<p>This scorecard is in the research phase. Target publication: Q3 2026. The scoring criteria above represent the planned evaluation framework, not yet a completed comparison.</p>
+<div class="dd"><strong>Affiliate disclosure:</strong> This preview page does not contain affiliate links. The published version may include affiliate links, which will be clearly disclosed.</div>
+<div class="da"><a onclick="SP('cat-scheduling')" class="btn bog">View Scheduling Tools category →</a><a onclick="SP('home','resources')" class="btn bb">← Back to guides</a></div>
+</div></div></div>
+<footer><div class="c">
+<div class="fi">
+<div class="fib"><div class="logo" onclick="SP('home')" style="cursor:pointer">Gold<span>Bridge</span></div><p>An independent editorial publication creating buying guides, comparisons and decision resources for software and digital tools.</p></div>
+<div class="fl">
+<a onclick="SP('home','about')">About</a>
+<a onclick="SP('home','categories')">Categories</a>
+<a onclick="SP('home','methodology')">Methodology</a>
+<a onclick="SP('home','resources')">Guides</a>
+<a onclick="SP('home','partners')">For Partners</a>
+<a onclick="SP('home','disclosure')">Disclosure</a>
+<a onclick="SP('home','disclosure')">Privacy</a>
+<a onclick="SP('home','contact')">Contact</a>
+</div>
+</div>
+<div class="fb">
+<p>&copy; 2026 Gold Bridge. All content is editorially independent. Last updated: May 2026.</p>
+<div class="fbd">Some resources contain affiliate links. Affiliate relationships do not determine editorial conclusions. <a onclick="SP('home','disclosure')">Read full disclosure.</a></div>
+</div>
+</div></footer>
+
+<script>
+function SP(p,s){
+document.getElementById('mn').classList.remove('open');
+document.querySelectorAll('.dp').forEach(function(e){e.classList.remove('active')});
+var h=document.getElementById('page-home');
+if(p==='home'){h.style.display='';if(s){setTimeout(function(){var el=document.getElementById(s);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},50)}else{window.scrollTo({top:0,behavior:'smooth'})}}
+else{h.style.display='none';var t=document.getElementById('page-'+p);if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'instant'})}}}
+var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.12});
+document.querySelectorAll('.fu').forEach(function(el){ob.observe(el)});
+var tg=document.getElementById('themeToggle'),rt=document.documentElement,sv=localStorage.getItem('gb-theme');
+if(sv==='dark'||(!sv&&window.matchMedia('(prefers-color-scheme:dark)').matches))rt.setAttribute('data-theme','dark');
+tg.addEventListener('click',function(){var d=rt.getAttribute('data-theme')==='dark';rt.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('gb-theme',d?'light':'dark')});
+</script>
+</body></html>

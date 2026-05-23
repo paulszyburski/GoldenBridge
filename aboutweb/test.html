@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+            <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+      <meta name="ulp-version" content="1.110.3">
+    
+    
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="https://cdn.cj.com/ui/images/v1/favicon/light.ico">
+    
+    
+    <style>
+      @font-face {
+        font-family: "ulp-font";
+        src: url("https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/roboto-webfont/Roboto-Regular-webfont.woff");
+      }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdn.auth0.com/ulp/react-components/1.187.3/css/main_wcag_compliant.cdn.min.css">
+    <style id="custom-styles-container">
+      
+        
+
+
+
+
+        
+          :root, .af-custom-form-container .af-form {
+    --primary-color: #15817B;
+  }
+        
+      
+
+        
+          :root, .af-custom-form-container .af-form {
+    --button-font-color: #FFFFFF;
+  }
+        
+      
+
+        
+          :root {
+    --secondary-button-border-color: #AAAAAA;
+    --social-button-border-color: #AAAAAA;
+    --radio-button-border-color: #AAAAAA;
+  }
+        
+      
+
+        
+          :root {
+    --secondary-button-text-color: #656565;
+  }
+        
+      
+
+        
+      
+
+        
+          :root {
+    --link-color: #1A6FBA;
+  }
+        
+      
+
+        
+          :root {
+    --title-font-color: #222222;
+  }
+        
+      
+
+        
+          :root {
+    --font-default-color: #656565;
+  }
+        
+      
+
+        
+          :root {
+    --widget-background-color: #FFFFFF;
+  }
+        
+      
+
+        
+          :root {
+    --box-border-color: #FFFFFF;
+  }
+        
+      
+
+        
+          :root {
+    --font-light-color: #222222;
+  }
+        
+      
+
+        
+          :root {
+    --input-text-color: #222222;
+  }
+        
+      
+
+        
+          :root {
+    --input-border-color: #C8CCCE;
+    --border-default-color: #C8CCCE;
+  }
+        
+      
+
+        
+          :root {
+    --input-background-color: #FFFFFF;
+  }
+        
+      
+
+        
+          :root {
+    --icon-default-color: #656565;
+  }
+        
+      
+
+        
+          :root {
+    --error-color: #E1523D;
+    --error-text-color: #ffffff;
+  }
+        
+      
+
+        
+          :root {
+    --success-color: #15817B;
+  }
+        
+      
+
+        
+          :root {
+    --base-focus-color: #333333;
+    --transparency-focus-color: rgba(51,51,51, 0.15);
+  }
+        
+      
+
+        
+          :root {
+    --base-hover-color: #333333;
+    --transparency-hover-color: rgba(51,51,51, var(--hover-transparency-value));
+  }
+        
+      
+
+        
+          
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ulp-captcha-widget-theme: dark;
+        }
+      }
+      @media (not (prefers-color-scheme: dark)) {
+        :root {
+          --ulp-captcha-widget-theme: light;
+        }
+      }
+        
+      
+
+
+
+
+        
+          @font-face {
+    font-family: 'ULP Custom';
+    font-style: normal;
+    font-weight: var(--font-default-weight);
+    src: local('ULP Custom'), url('https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/roboto-webfont/Roboto-Regular-webfont.woff') format('woff');
+  }
+
+  body {
+    --font-family: 'ULP Custom', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif;
+  }
+        
+      
+
+        
+          html, :root, .af-custom-form-container .af-form {
+    font-size: 14px;
+    --default-font-size: 14px;
+  }
+        
+      
+
+        
+          body {
+    --title-font-size: 1.5rem;
+    --title-font-weight: var(--font-bold-weight);
+  }
+        
+      
+
+        
+          .c2cface91 {
+    font-size: 0.875rem;
+    font-weight: var(--font-default-weight);
+  }
+        
+      
+
+        
+          .c10f927da {
+    font-size: 0.875rem;
+    font-weight: var(--font-default-weight);
+  }
+  .ulp-passkey-benefit-heading {
+    font-size: 1.025rem;
+  }
+        
+      
+
+        
+          .c1ea4f31e, .c41f09d5a {
+    font-size: 1rem;
+    font-weight: var(--font-bold-weight);
+  }
+        
+      
+
+        
+          body {
+    --ulp-label-font-size: 1rem;
+    --ulp-label-font-weight: var(--font-default-weight);
+  }
+        
+      
+
+        
+          .cf1f2a2e1, .cff36c100, [id^='ulp-container-'] a {
+    font-size: 0.875rem;
+    font-weight: var(--font-bold-weight) !important;
+  }
+        
+      
+
+        
+          
+        
+      
+
+
+
+
+        
+          :root {
+    --button-border-width: 1px;
+    --social-button-border-width: 1px;
+    --radio-border-width: 1px;
+  }
+        
+      
+
+        
+          body {
+    --button-border-radius: 3px;
+    --radio-border-radius: 3px;
+  }
+        
+      
+
+        
+          :root {
+    --input-border-width: 1px;
+  }
+        
+      
+
+        
+          body {
+    --input-border-radius: 3px;
+  }
+
+  .af-custom-form-container .af-form {
+    --border-radius: 3px;
+  }
+        
+      
+
+        
+          :root {
+    --border-radius-outer: 3px;
+  }
+        
+      
+
+        
+          :root {
+    --box-border-width: 0px;
+  }
+        
+      
+
+        
+          
+        
+      
+
+
+
+
+        
+          
+    body {
+      --logo-alignment: 0 auto;
+    }
+  
+        
+      
+
+        
+          
+    .cd1405eca {
+      content: url('https://platform.cj.com/nav/static/logo.svg');
+    }
+  
+        
+      
+
+        
+          body {
+    --logo-height: 52px;
+  }
+  .cd1405eca {
+    height: var(--logo-height);
+  }
+  
+        
+      
+
+        
+          
+    body {
+      --header-alignment: center;
+    }
+  
+        
+      
+
+        
+          
+        
+      
+
+
+
+
+        
+          .c53204626 {
+    --page-background-alignment: center;
+  }
+        
+      
+
+        
+          body {
+    --page-background-color: #F6F6F6;
+  }
+        
+      
+
+        
+          
+        
+      
+
+
+
+
+      
+    </style>
+    <style>
+    /* By default, hide features for javascript-disabled browsing */
+    /* We use !important to override any css with higher specificity */
+    /* It is also overriden by the styles in <noscript> in the header file */
+    .no-js {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  </style>
+  <noscript>
+    <style>
+      /* We use !important to override the default for js enabled */
+      /* If the display should be other than block, it should be defined specifically here */
+      .js-required { display: none !important; }
+      .no-js {
+        clip: auto;
+        clip-path: none;
+        height: auto;
+        overflow: auto;
+        position: static;
+        white-space: normal;
+        width: 100%;
+      }
+      .no-js-container {
+        width: var(--prompt-width);
+      }
+    </style>
+  </noscript>
+    
+
+        <!-- Pendo Analytics -->
+<script>
+    try {
+        (function(apiKey){
+            if (!apiKey) return;
+            (function(p,e,n,d,o){
+                var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
+                v=['initialize','identify','updateOptions','pageLoad','track'];
+                for(w=0,x=v.length;w<x;++w)(function(m){
+                    o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
+                y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
+                z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);
+            })(window,document,'script','pendo');
+            pendo.initialize({
+                cookieDomain: '.cj.com',
+                visitor: { id: '' },
+                account: { id: '' },
+            });
+        })('6f6e9e64-2f81-4d5e-823e-848582caa2d9');
+    } catch(e) {
+        console.error('Pendo initialization failed:', e);
+    }
+</script>
+        <link rel="icon" href="https://cdn.cj.com/ui/images/v1/favicon/dark.ico" media="(prefers-color-scheme: dark)" />
+        <style>
+            body {
+                --logo-height: 60px;
+                font-family: Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+            }
+
+            #component-container {
+                display: none;
+            }
+
+            .form-vertical {
+                text-align: start;
+                width: 288px;
+                padding: 0 16px;
+                margin: auto;
+            }
+
+            .form-group {
+                margin: 16px 0;
+            }
+
+            .form-link {
+                font-size: 13px;
+                text-align: center;
+            }
+
+            .form-link a {
+                font-size: 13px;
+                text-decoration: underline;
+                color: #333333;
+            }
+
+            .form-link a:hover {
+                cursor: pointer;
+            }
+
+            /*this centers the 'Already have an account? Log in' language inside the auth0:widget */
+            .ulp-alternate-action {
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .footer {
+                color: #777777;
+                bottom: 0;
+                width: 100%;
+                padding-bottom: 16px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: small;
+            }
+
+            .footer-item {
+                padding: 0 8px 8px 8px;
+            }
+
+            .footer-item:last-child {
+                flex-basis: 100%;
+                text-align: center;
+            }
+
+            .footer-item a {
+                font-size: 12.5px;
+                text-decoration: underline;
+                color: #777777;
+            }
+
+            .footer-item a:hover {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body class="_widget-auto-layout">
+        
+        
+        
+            <main class="_widget login-id">
+  <section class="c1454cea5 _prompt-box-outer c6a1a17ad">
+    <div class="c0637c539 c736a2b0b">
+      
+    
+      
+        
+          
+        
+      
+    
+      <div class="c9145151e">
+        <header class="c0d866a27 cbd7a9f82" id="screen-header" tabindex="-1">
+          <div title="CJ Affiliate" id="custom-prompt-logo" style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important"></div>
+        
+          <img class="cd1405eca c8adfbb4f" id="prompt-logo-center" src="https://platform.cj.com/nav/static/logo.svg" alt="CJ Affiliate">
+        
+          
+            <h1 class="cf16e5828 c2bcbaa94">Welcome</h1>
+          
+        
+          <div class="c2cface91 ce2c6aa5c">
+            <p class="c6710508d cfac82f55">Log in to continue to the CJ Platform.</p>
+          </div>
+        </header>
+      
+        <div class="c10f927da cf690fed8">
+          
+        
+          
+            <div class="c8b5bc2a4 c99a0a31d">
+              <div class="c19f68a82">
+                
+              
+                
+              
+                
+                  
+                    <form method="POST" class="cc3eb9530 _form-login-id" data-form-primary="true" data-disable-html-validations="true">
+                      
+                    
+                      <input type="hidden" name="state" value="hKFo2SBoYXl6QVY1OEFSaUJydUlKZUtSWUJvdnRvSFhQcXY4daFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGo3NG5ab3dOcTQ3cVB1MjRqYnVKcWQ1UFJjaG5zazMwo2NpZNkgcXBYNjlzbng3WFNjSUJMcDg1ZTVieEI5QWpEcU5qcGM">
+                    
+                      
+                    
+                      
+                    
+                      <div class="c8b5bc2a4 c99a0a31d">
+                        <div class="c19f68a82">
+                          
+                        
+                          
+                            
+                              <div class="input-wrapper _input-wrapper">
+                                <div class="c810d01ab c3998fdbe text c80d74b62 ulp-field" data-action-text="" data-alternate-action-text="">
+                                  <label id="username-label" class="ca387bce3 ca1ce339b c2d68104e" for="username">
+                                    Email address
+                                  
+                                    <span class="required" aria-hidden="true">*</span>
+                                  </label>
+                                
+                                  <input class="input cace10f8b c2612ccfa" inputMode="email" name="username" id="username" type="text" aria-labelledby="username-label" aria-required="true" value="" required autoComplete="email" autoCapitalize="none" spellCheck="false">
+                                </div>
+                              
+                                
+                                  <div id="error-cs-username-required" class="ulp-error-info aria-error-check" data-ulp-validation-function="ulpRequiredFunction" data-ulp-validation-event-listeners="blur,change,input,focus" data-ulp-validation-target="username" aria-live="polite" aria-atomic="true">
+                                    Please enter an email address
+                                  </div>
+                                
+                              
+                                
+                              
+                                
+                                  <div id="error-cs-email-invalid" class="ulp-error-info aria-error-check" data-ulp-validation-function="ulpEmailValidationFunction" data-ulp-validation-event-listeners="blur,change,input,focus" data-ulp-validation-target="username" aria-live="polite" aria-atomic="true">Email is not valid.</div>
+                                
+                              
+                                
+                              
+                                
+                                  <div id="error-cs-pattern-mismatch" class="ulp-error-info aria-error-check" data-ulp-validation-function="ulpPatternCheckFunction" data-ulp-validation-event-listeners="blur,change,input,focus" data-ulp-validation-target="username" aria-live="polite" aria-atomic="true"></div>
+                                
+                              
+                                
+                              </div>
+                            
+                          
+                        
+                          
+                        
+                          
+                            
+                              <div data-captcha-provider="recaptcha_v2" data-captcha-sitekey="6LcUhyETAAAAAO2TSmGq_vu46qPBpJdxHGHeV6Dp" data-captcha-lang="en" class="ulp-captcha-container">
+                                
+                                  <div class="ulp-recaptcha ulp-captcha" id="ulp-recaptcha"></div>
+                                
+                              
+                                
+                                  <input type="hidden" name="captcha" value="">
+                                
+                              </div>
+                            
+                              <span id="error-element-third-party-captcha" class="ulp-input-error-message ulp-captcha-client-error hide">
+                                <span class="ulp-input-error-icon" aria-hidden="true"></span>
+                              We couldn’t load the security challenge. Please try again. (Error code: #{errorCode})</span>
+                            
+                              <div id="captcha-status" class="screen-reader-only" aria-live="polite" role="status" aria-atomic="true"></div>
+                            
+                          
+                        </div>
+                      </div>
+                    
+                      
+                    
+                      <input class="hide" type="password" autoComplete="off" tabindex="-1" aria-hidden="true">
+                    
+                      <input type="hidden" id="js-available" name="js-available" value="false">
+                    
+                      <input type="hidden" id="webauthn-available" name="webauthn-available" value="false">
+                    
+                      <input type="hidden" id="is-brave" name="is-brave" value="false">
+                    
+                      <input type="hidden" id="webauthn-platform-available" name="webauthn-platform-available" value="false">
+                    
+                      
+                    
+                      <div class="c639c8753">
+                        
+                          <button type="submit" name="action" value="default" class="c1ea4f31e ce8ba4066 c44f7e4fd c4d2cc3a8 _button-login-id" data-action-button-primary="true">Continue</button>
+                        
+                      </div>
+                    </form>
+                  
+                
+              </div>
+            </div>
+          
+        
+          
+        
+          
+            <div class="ulp-alternate-action  _alternate-action __s16nu9">
+              <p class="c6710508d cfac82f55 cf638c58c"> 
+                <a class="cff36c100 ce08d2b8d" href="/u/signup/identifier?state=hKFo2SBoYXl6QVY1OEFSaUJydUlKZUtSWUJvdnRvSFhQcXY4daFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGo3NG5ab3dOcTQ3cVB1MjRqYnVKcWQ1UFJjaG5zazMwo2NpZNkgcXBYNjlzbng3WFNjSUJMcDg1ZTVieEI5QWpEcU5qcGM"> </a>
+              </p>
+            </div>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        </div>
+      </div>
+    
+      
+    </div>
+  
+    
+  </section>
+</main>
+<script id="client-scripts">
+window.ulpFlags = {"custom_prompts_passkeys":true,"enable_ulp_wcag_compliance":true,"enable_ulp_rtl_support":false,"disable_ulp_form_submission_fix":false};!function(){var e,t,k,L,F,P,R,N,n,I,q,O,j,M,D,r,a,i,o,u={exports:function(e,t){return"object"==typeof e.ulpFlags&&null!==e.ulpFlags?e.ulpFlags:{}}}.exports(window,document),c=((e={}).exports=function(n,l){var r={},a={};function u(e,t){if(e.classList)return e.classList.add(t);var n=e.className.split(" ");-1===n.indexOf(t)&&(n.push(t),e.className=n.join(" "))}function i(e,t,n,r){return e.addEventListener(t,n,r)}function o(e){return"string"==typeof e}function c(e,t){return o(e)?l.querySelector(e):e.querySelector(t)}function s(e,t){var n=o(e)?l.querySelectorAll(e):e.querySelectorAll(t);return Array.prototype.slice.call(n)}function f(e,t){if(e.classList)return e.classList.remove(t);var n=e.className.split(" "),r=n.indexOf(t);-1!==r&&(n.splice(r,1),e.className=n.join(" "))}function d(e,t){return e.getAttribute(t)}function p(e,t,n){return e.setAttribute(t,n)}function m(e){return e.remove()}var e=["text","number","email","password","tel","url"],t="select,textarea,"+e.map(function(e){return'input[type="'+e+'"]'}).join(",");return{addClass:u,toggleClass:function(e,t,n){if(!0===n||!1===n)return r=e,a=t,!0!==n?f(r,a):u(r,a);var r,a;if(e.classList)return e.classList.toggle(t);var i=e.className.split(" "),o=i.indexOf(t);-1!==o?i.splice(o,1):i.push(t),e.className=i.join(" ")},hasClass:function(e,t){return e.classList?e.classList.contains(t):-1!==e.className.split(" ").indexOf(t)},addClickListener:function(e,t){return i(e,"click",t)},addEventListener:i,getAttribute:d,hasAttribute:function(e,t){return e.hasAttribute(t)},getElementById:function(e){return l.getElementById(e)},getParent:function(e){return e.parentNode},isString:o,loadScript:function(e,t){var n=l.createElement("script");for(var r in t)r.startsWith("data-")?n.dataset[r.replace("data-","")]=t[r]:n[r]=t[r];n.src=e,l.body.appendChild(n)},removeScript:function(e){l.querySelectorAll('script[src="'+e+'"]').forEach(function(e){e.remove()})},poll:function(e){var i=e.interval||2e3,t=e.url||n.location.href,o=e.condition||function(){return!0},u=e.onSuccess||function(){},c=e.onError||function(){};return setTimeout(function r(){if(l.hidden)return setTimeout(r,i);var a=new XMLHttpRequest;return a.open("GET",t),a.setRequestHeader("Accept","application/json"),a.onload=function(){if(200===a.status){var e="application/json"===a.getResponseHeader("Content-Type").split(";")[0]?JSON.parse(a.responseText):a.responseText;return o(e)?u():setTimeout(r,i)}if(429!==a.status)return c({status:a.status,responseText:a.responseText});var t=1e3*Number.parseInt(a.getResponseHeader("X-RateLimit-Reset")),n=t-(new Date).getTime();return setTimeout(r,i<n?n:i)},a.send()},i)},querySelector:c,querySelectorAll:s,removeClass:f,removeElement:m,setAttribute:p,removeAttribute:function(e,t){return e.removeAttribute(t)},swapAttributes:function(e,t,n){var r=d(e,t),a=d(e,n);p(e,n,r),p(e,t,a)},setGlobalFlag:function(e,t){r[e]=!!t},getGlobalFlag:function(e){return!!r[e]},setSubmittedForm:function(e,t){a[e]=t},getSubmittedForm:function(e){return a[e]},preventFormSubmit:function(e){e.stopPropagation(),e.preventDefault()},getUlpFields:function(e){var t=[];return s(e,'input[name^="ulp-"], textarea[name^="ulp-"], select[name^="ulp-"]').forEach(function(e){t.push({name:d(e,"name"),value:e.value})}),t},appendUlpFieldsToForm:function(n,e){e&&e.length&&(s(n,'input[type="hidden"][name^="ulp-"], textarea[name^="ulp-"], select[name^="ulp-"]').forEach(function(e){m(e)}),e.forEach(function(e){var t=l.createElement("input");p(t,"type","hidden"),p(t,"name",e.name),p(t,"value",e.value),n.appendChild(t)}))},matchMedia:function(e){return"function"==typeof n.matchMedia&&n.matchMedia(e).matches},dispatchEvent:function(e,t,n){var r;"function"!=typeof Event?(r=l.createEvent("Event")).initCustomEvent(t,n,!1):r=new Event(t,{bubbles:n}),e.dispatchEvent(r)},timeoutPromise:function(e,a){return new Promise(function(t,n){var r=setTimeout(function(){n(new Error("timeoutPromise: promise timed out"))},e);a.then(function(e){clearTimeout(r),t(e)},function(e){clearTimeout(r),n(e)})})},createMutationObserver:function(e){return"undefined"==typeof MutationObserver?null:new MutationObserver(e)},consoleWarn:function(){(console.warn||console.log).apply(console,arguments)},getConfigJson:function(e){try{var t=c(e);if(!t)return null;var n=t.value;return n?JSON.parse(n):null}catch(e){return null}},getCSSVariable:function(e){return getComputedStyle(l.documentElement).getPropertyValue(e)},removeAndTrimString:function(e,t){var n=new RegExp(t,"g"),r=e.replace(n,"");return r=r.replace(/\s+/g,"  ").trim()},htmlEncode:function(e){var t=l.createTextNode(e),n=l.createElement("span");return n.appendChild(t),n.innerHTML||""},cleanServerErrorMessage:function(e,t){0<e.length&&0<t.length&&t.forEach(function(e){m(e)})},arrayFrom:function(e){return Array.prototype.slice.call(e)},arrayIncludes:function(e,t){return-1!==e.indexOf(t)},stringStartsWith:function(e,t){return 0===e.indexOf(t)},stringEndsWith:function(e,t){return-1!==e.indexOf(t,e.length-t.length)},setTimeout:setTimeout,globalWindow:n,SUPPORTED_INPUT_TYPES:e,ELEMENT_TYPE_SELECTOR:t,RUN_INIT:!0}},e.exports)(window,document),l=function(){var e={};function b(e){if(!("string"==typeof e||e instanceof String)){var t=typeof e;throw null===e?t="null":"object"===t&&(t=e.constructor.name),new TypeError("Expected a string but received a "+t)}}function g(e,t){var n,r;b(e),r="object"==typeof t?(n=t.min||0,t.max):(n=t,arguments[2]);var a=encodeURI(e).split(/%..|./).length-1;return n<=a&&(void 0===r||a<=r)}function y(e,t){for(var n in void 0===e&&(e={}),t)void 0===e[n]&&(e[n]=t[n]);return e}var w={require_tld:!0,allow_underscores:!1,allow_trailing_dot:!1,allow_numeric_tld:!1,allow_wildcard:!1,ignore_max_length:!1},t="(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])",n="("+t+"[.]){3}"+t,r=new RegExp("^"+n+"$"),a="(?:[0-9a-fA-F]{1,4})",i=new RegExp("^((?:"+a+":){7}(?:"+a+"|:)|(?:"+a+":){6}(?:"+n+"|:"+a+"|:)|(?:"+a+":){5}(?::"+n+"|(:"+a+"){1,2}|:)|(?:"+a+":){4}(?:(:"+a+"){0,1}:"+n+"|(:"+a+"){1,3}|:)|(?:"+a+":){3}(?:(:"+a+"){0,2}:"+n+"|(:"+a+"){1,4}|:)|(?:"+a+":){2}(?:(:"+a+"){0,3}:"+n+"|(:"+a+"){1,5}|:)|(?:"+a+":){1}(?:(:"+a+"){0,4}:"+n+"|(:"+a+"){1,6}|:)|(?::((?::"+a+"){0,5}:"+n+"|(?::"+a+"){1,7}|:)))(%[0-9a-zA-Z-.:]{1,})?$");function _(e,t){return void 0===t&&(t=""),b(e),(t=String(t))?"4"===t?r.test(e):"6"===t&&i.test(e):_(e,4)||_(e,6)}var E={allow_display_name:!1,allow_underscores:!1,require_display_name:!1,allow_utf8_local_part:!0,require_tld:!0,blacklisted_chars:"",ignore_max_length:!1,host_blacklist:[],host_whitelist:[]},x=/^([^\x00-\x1F\x7F-\x9F\cX]+)</i,A=/^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i,C=/^[a-z\d]+$/,S=/^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i,T=/^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A1-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i,k=/^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*$/i,L=254;function u(e,t,n,r,a){if(b(e),e=e.trim(),(t=y(t,E)).require_display_name||t.allow_display_name){var i=e.match(x);if(i){var o=i[1];if(e=e.replace(o,"").replace(/(^<|>$)/g,""),a(o," ")&&(o=o.slice(0,-1)),!function(e){var t=e.replace(/^"(.+)"$/,"$1");if(!t.trim())return!1;if(/[\.";<>]/.test(t)){if(t===e)return!1;if(t.split('"').length!==t.split('\\"').length)return!1}return!0}(o))return!1}else if(t.require_display_name)return!1}if(!t.ignore_max_length&&e.length>L)return!1;var u=e.split("@"),c=u.pop(),l=c.toLowerCase();if(n(t.host_blacklist,l))return!1;if(0<t.host_whitelist.length&&!n(t.host_whitelist,l))return!1;var s=u.join("@");if(t.domain_specific_validation&&("gmail.com"===l||"googlemail.com"===l)){var f=(s=s.toLowerCase()).split("+")[0];if(!g(f.replace(/\./g,""),{min:6,max:30}))return!1;for(var d=f.split("."),p=0;p<d.length;p++)if(!C.test(d[p]))return!1}if(!(!1!==t.ignore_max_length||g(s,{max:64})&&g(c,{max:254})))return!1;if(!function(e,t){b(e),(t=y(t,w)).allow_trailing_dot&&"."===e[e.length-1]&&(e=e.substring(0,e.length-1)),!0===t.allow_wildcard&&0===e.indexOf("*.")&&(e=e.substring(2));var n=e.split("."),r=n[n.length-1];if(t.require_tld){if(n.length<2)return!1;if(!t.allow_numeric_tld&&!/^([a-z\u00A1-\u00A8\u00AA-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,}|xn[a-z0-9-]{2,})$/i.test(r))return!1;if(/\s/.test(r))return!1}return!(!t.allow_numeric_tld&&/^\d+$/.test(r))&&n.every(function(e){return!(63<e.length&&!t.ignore_max_length||!/^[a-z_\u00a1-\uffff0-9-]+$/i.test(e)||/[\uff01-\uff5e]/.test(e)||/^-|-$/.test(e)||!t.allow_underscores&&/_/.test(e))})}(c,{require_tld:t.require_tld,ignore_max_length:t.ignore_max_length,allow_underscores:t.allow_underscores})){if(!t.allow_ip_domain)return!1;if(!_(c)){if(!r(c,"[")||!a(c,"]"))return!1;var m=c.slice(1,-1);if(0===m.length||!_(m))return!1}}if('"'===s[0])return s=s.slice(1,s.length-1),t.allow_utf8_local_part?k.test(s):S.test(s);for(var h=t.allow_utf8_local_part?T:A,v=(d=s.split("."),0);v<d.length;v++)if(!h.test(d[v]))return!1;return!t.blacklisted_chars||-1===s.search(new RegExp("["+t.blacklisted_chars+"]+","g"))}return e.exports=function(r,a,n,i,o){return{ulpRequiredFunction:function(e,t){return!t||!!e.value},ulpPasswordPolicyFunction:function(e,t){if(r&&r.ulpFlags&&r.ulpFlags.disable_ulp_form_submission_fix)return!0;if(!e||"password"!==e.name)return!0;if(!a.querySelector(".cbb0710e0.c1b7ab535"))return!0;if(!e.value)return!0;var n=e.classList&&e.classList.contains("c13697023");return!t&&!n||!n},ulpEmailValidationFunction:function(e,t){return!t||!e.value||!!u(e.value,void 0,n,i,o)},ulpPatternCheckFunction:function(e,t){return!t||!e.value||function(e){if("password"===e.name)return!0;var t=e.getAttribute("pattern");return!t||null!==e.value.match(t)}(e)}}},e.exports}()(window,document,c.arrayIncludes,c.stringStartsWith,c.stringEndsWith),s={exports:function(e,t){for(var i="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",s=new Uint8Array(256),o=0;o<i.length;o++)s[i.charCodeAt(o)]=o;function u(e){var t,n=new Uint8Array(e),r=n.length,a="";for(t=0;t<r;t+=3)a+=i[n[t]>>2],a+=i[(3&n[t])<<4|n[t+1]>>4],a+=i[(15&n[t+1])<<2|n[t+2]>>6],a+=i[63&n[t+2]];return r%3==2?a=a.substring(0,a.length-1):r%3==1&&(a=a.substring(0,a.length-2)),a}function n(){return navigator&&navigator.credentials&&"undefined"!=typeof PublicKeyCredential}return{base64URLEncode:u,base64URLDecode:function(e){var t,n,r,a,i,o=.75*e.length,u=e.length,c=0,l=new Uint8Array(o);for(t=0;t<u;t+=4)n=s[e.charCodeAt(t)],r=s[e.charCodeAt(t+1)],a=s[e.charCodeAt(t+2)],i=s[e.charCodeAt(t+3)],l[c++]=n<<2|r>>4,l[c++]=(15&r)<<4|a>>2,l[c++]=(3&a)<<6|63&i;return l.buffer},publicKeyCredentialToJSON:function e(t){if(t instanceof Array){var n=[];for(o=0;o<t.length;o+=1)n.push(e(t[o]));return n}if(t instanceof ArrayBuffer)return u(t);if(t instanceof Object){var r={};for(var a in t)r[a]=e(t[a]);return r}return t},str2ab:function(e){for(var t=new ArrayBuffer(e.length),n=new Uint8Array(t),r=0,a=e.length;r<a;r++)n[r]=e.charCodeAt(r);return t},isWebAuthnAvailable:n,isWebauthnPlatformAuthenticatorAvailableAsync:function(e){return n()?e(1e3,PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()):Promise.resolve(!1)}}}}.exports(window,document);({exports:function(e,r,a,t){var n=e(".cb85808f5"),i=e("#alert-trigger"),o=e(".c36cbbd17"),u=e(".c7114abf2"),c=!1;i&&u&&n&&t(n,function(e){var t=e.target===i,n=u.contains(e.target);return t&&!c?(r(o,"show"),void(c=!0)):t&&c||c&&!n?(a(o,"show"),void(c=!1)):void 0})}}).exports(c.querySelector,c.addClass,c.removeClass,c.addClickListener),(k="recaptcha_v2",L="recaptcha_enterprise",F="hcaptcha",P="friendly_captcha",R="arkose",N="auth0_v2",(t={}).exports=function(i,u,c,l,s,f,d,p,e){if(!e.enable_ulp_rtl_support){var m=500,h=3,v=0,b=c("div[data-captcha-sitekey]"),g=c(".ulp-captcha-client-error"),n=g?g.innerHTML:"",y=c("div[data-captcha-sitekey] input");if(b){var t=x(),r=A();t&&r&&function(){var e="captchaCallback_"+Math.floor(1000001*Math.random()),t=x(),n={async:!0,defer:!0},r=function(e,t,n,r){switch(x()){case k:return"https://www.recaptcha.net/recaptcha/api.js?render=explicit&hl="+e+"&onload="+t;case L:return"https://www.recaptcha.net/recaptcha/enterprise.js?render=explicit&hl="+e+"&onload="+t;case F:return"https://js.hcaptcha.com/1/api.js?render=explicit&hl="+e+"&onload="+t;case P:return"https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.min.js";case R:return"https://"+n+".arkoselabs.com/v2/"+r+"/api.js";case N:return"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload="+t}}(E(),e,b?b.getAttribute("data-captcha-client-subdomain"):null,A());if(t===R||t===N){n["data-callback"]=e;var o=!(n.onerror=function(){if(v<h)return u(r),i(r,n),void v++;u(r),C("BYPASS_CAPTCHA")}),a=function(e){o=!0;try{if(!e||"function"!=typeof e.run||"function"!=typeof e.setConfig)return void S("INVALID_CREDENTIALS");r=e,a=c('form[data-form-primary="true"]'),i=function(e){var t=y?y.value:"";t&&""!==t||(e.preventDefault(),e.stopPropagation(),setTimeout(function(){r.run()},m))},a&&(a.addEventListener("submit",i,!0),r.setConfig({onCompleted:function(e){if(!e||!e.token)return a&&a.removeEventListener("submit",i,!0),void S("INVALID_CREDENTIALS");C(e.token),a&&(a.removeEventListener("submit",i,!0),a.requestSubmit?a.requestSubmit():a.submit())},onError:function(n){return fetch("https://status.arkoselabs.com/api/v2/status.json").then(function(e){return e.json()}).then(function(e){var t=e.status.indicator;return"none"===t}).catch(function(e){return!1}).then(function(e){if(e&&v<h)return r.reset(),new Promise(function(e){setTimeout(function(){e(r.run())},m),v++});var t=n&&n.cf4bfcf44?n.cf4bfcf44:"RUNTIME_ERROR";g.innerHTML=g.innerHTML.replace("#{errorCode}",p(t)),l(b,"cf4bfcf44"),s(g,"hide"),C("BYPASS_CAPTCHA"),a.removeEventListener("submit",i,!0)})}}))}catch(e){S("INIT_ERROR")}var r,a,i};t===N&&(a=function(){T()}),window[e]=a,t===R&&(n.onload=function(){setTimeout(function(){o||S("INVALID_CREDENTIALS")},250)})}else window[e]=function(){delete window[e],T()},t===P&&(l(_(),"frc-captcha"),d(_(),"data-sitekey",A()),n.onload=window[e]);i(r,n)}()}}function w(){switch(x()){case k:return window.grecaptcha;case L:return window.grecaptcha.enterprise;case F:return window.hcaptcha;case P:return window.friendlyChallenge;case R:return window.arkose;case N:return window.turnstile}}function _(){return c(function(){switch(x()){case k:case L:return"#ulp-recaptcha";case F:return"#ulp-hcaptcha";case P:return"#ulp-friendly-captcha";case R:return"#ulp-arkose";case N:return"#ulp-auth0-v2-captcha"}}())}function E(){return b?b.getAttribute("data-captcha-lang"):null}function x(){return b?b.getAttribute("data-captcha-provider"):null}function A(){return b?b.getAttribute("data-captcha-sitekey"):null}function C(e){return y.value=e}function S(e){if(g&&b){g.innerHTML=n.replace("#{errorCode}",p(e||"INIT_ERROR")),l(b,"cf4bfcf44"),s(g,"hide");var t=c("#error-element-captcha");t&&l(t,"hide")}}function T(){var e=w(),t=f("--ulp-captcha-widget-theme");t=t?t.trim():"light";var n=c("#captcha-status"),r=n?n.getAttribute("data-captcha-expired-error"):"";if(x()===P)"dark"===t&&l(c(".frc-captcha"),"dark"),(o=e.autoWidget).opts.language=E(),o.opts.doneCallback=function(e){C(e)};else{var a=_();d(a,"tabindex","-1");var i={sitekey:A(),theme:t,"expired-callback":function(){C(""),l(b,"cf4bfcf44"),e.reset(o),n&&(n.textContent=r),a.focus()},callback:function(e){C(e),s(b,"cf4bfcf44"),n&&(n.textContent="")}};x()===N&&(i.language=E(),i.retry="never",i.size="flexible",i["response-field"]=!1,i["error-callback"]=function(e){return console.error("ERROR: Auth Challenge Error Code",e),C(""),v<h?(v++,w().reset(o)):(g.innerHTML=g.innerHTML.replace("#{errorCode}",p(e)),l(b,"cf4bfcf44"),s(g,"hide")),!0});var o=e.render(a,i);n&&(n.textContent="")}}},t.exports)(c.loadScript,c.removeScript,c.querySelector,c.addClass,c.removeClass,c.getCSSVariable,c.setAttribute,c.htmlEncode,u),(I="recaptcha_v2",q="recaptcha_enterprise",O="hcaptcha",j="friendly_captcha",M="arkose",D="auth0_v2",(n={}).exports=function(i,u,c,l,s,f,d,p,e){if(e.enable_ulp_rtl_support){var m=500,h=3,v=0,b=c("div[data-captcha-sitekey]"),g=c(".ulp-captcha-client-error"),n=g?g.innerHTML:"",y=c("div[data-captcha-sitekey] input");if(b){var t=x(),r=A();t&&r&&function(){var e="captchaCallback_"+Math.floor(1000001*Math.random()),t=x(),n={async:!0,defer:!0},r=function(e,t,n,r){switch(x()){case I:return"https://www.recaptcha.net/recaptcha/api.js?render=explicit&hl="+e+"&onload="+t;case q:return"https://www.recaptcha.net/recaptcha/enterprise.js?render=explicit&hl="+e+"&onload="+t;case O:return"https://js.hcaptcha.com/1/api.js?render=explicit&hl="+e+"&onload="+t;case j:return"https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.min.js";case M:return"https://"+n+".arkoselabs.com/v2/"+r+"/api.js";case D:return"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload="+t}}(E(),e,b?b.getAttribute("data-captcha-client-subdomain"):null,A());if(t===M||t===D){n["data-callback"]=e;var o=!(n.onerror=function(){if(v<h)return u(r),i(r,n),void v++;u(r),C("BYPASS_CAPTCHA")}),a=function(e){o=!0;try{if(!e||"function"!=typeof e.run||"function"!=typeof e.setConfig)return void S("INVALID_CREDENTIALS");r=e,a=c('form[data-form-primary="true"]'),i=function(e){var t=y?y.value:"";t&&""!==t||(e.preventDefault(),e.stopPropagation(),setTimeout(function(){r.run()},m))},a&&(a.addEventListener("submit",i,!0),r.setConfig({language:E(),onCompleted:function(e){if(!e||!e.token)return a&&a.removeEventListener("submit",i,!0),void S("INVALID_CREDENTIALS");C(e.token),a&&(a.removeEventListener("submit",i,!0),a.requestSubmit?a.requestSubmit():a.submit())},onError:function(n){return fetch("https://status.arkoselabs.com/api/v2/status.json").then(function(e){return e.json()}).then(function(e){var t=e.status.indicator;return"none"===t}).catch(function(e){return!1}).then(function(e){if(e&&v<h)return r.reset(),new Promise(function(e){setTimeout(function(){e(r.run())},m),v++});var t=n&&n.cf4bfcf44?n.cf4bfcf44:"RUNTIME_ERROR";g.innerHTML=g.innerHTML.replace("#{errorCode}",p(t)),l(b,"cf4bfcf44"),s(g,"hide"),C("BYPASS_CAPTCHA"),a.removeEventListener("submit",i,!0)})}}))}catch(e){S("INIT_ERROR")}var r,a,i};t===D&&(a=function(){T()}),window[e]=a,t===M&&(n.onload=function(){setTimeout(function(){o||S("INVALID_CREDENTIALS")},250)})}else window[e]=function(){delete window[e],T()},t===j&&(l(_(),"frc-captcha"),d(_(),"data-sitekey",A()),d(_(),"data-lang",E()),n.onload=window[e]);i(r,n)}()}}function w(){switch(x()){case I:return window.grecaptcha;case q:return window.grecaptcha.enterprise;case O:return window.hcaptcha;case j:return window.friendlyChallenge;case M:return window.arkose;case D:return window.turnstile}}function _(){return c(function(){switch(x()){case I:case q:return"#ulp-recaptcha";case O:return"#ulp-hcaptcha";case j:return"#ulp-friendly-captcha";case M:return"#ulp-arkose";case D:return"#ulp-auth0-v2-captcha"}}())}function E(){return b?b.getAttribute("data-captcha-lang"):null}function x(){return b?b.getAttribute("data-captcha-provider"):null}function A(){return b?b.getAttribute("data-captcha-sitekey"):null}function C(e){return y.value=e}function S(e){if(g&&b){g.innerHTML=n.replace("#{errorCode}",p(e||"INIT_ERROR")),l(b,"cf4bfcf44"),s(g,"hide");var t=c("#error-element-captcha");t&&l(t,"hide")}}function T(){var e=w(),t=f("--ulp-captcha-widget-theme");t=t?t.trim():"light";var n=c("#captcha-status"),r=n?n.getAttribute("data-captcha-expired-error"):"";if(x()===j)"dark"===t&&l(c(".frc-captcha"),"dark"),(o=e.autoWidget).opts.language=E(),o.opts.doneCallback=function(e){C(e)};else{var a=_();d(a,"tabindex","-1");var i={sitekey:A(),theme:t,"expired-callback":function(){C(""),l(b,"cf4bfcf44"),e.reset(o),n&&(n.textContent=r),a.focus()},callback:function(e){C(e),s(b,"cf4bfcf44"),n&&(n.textContent="")}};x()===D&&(i.language=E(),i.retry="never",i.size="flexible",i["response-field"]=!1,i["error-callback"]=function(e){return console.error("ERROR: Auth Challenge Error Code",e),C(""),v<h?(v++,w().reset(o)):(g.innerHTML=g.innerHTML.replace("#{errorCode}",p(e)),l(b,"cf4bfcf44"),s(g,"hide")),!0});var o=e.render(a,i);n&&(n.textContent="")}}},n.exports)(c.loadScript,c.removeScript,c.querySelector,c.addClass,c.removeClass,c.getCSSVariable,c.setAttribute,c.htmlEncode,u),((r={}).exports=function(r,e,a,i,o,u,c,l,n,s,t){if(!t.enable_ulp_wcag_compliance){if(r("body._simple-labels"))return e(".ca387bce3.no-js").forEach(function(e){o(e,"no-js")}),void e(".ca387bce3.js-required").forEach(function(e){i(e,"hide")});e(".c810d01ab:not(.c083e360b):not(disabled)").forEach(function(e){i(e,"cedba15b2");var t,n=r(e,".input");n.value&&i(e,"c442beaac"),a(e,"change",f),a(n,"blur",f),a(n,"animationstart",d),t=n,c(function(){t.value&&l(t,"change",!0)},100)})}function f(e){var t=e.target,n=u(t);t.value||s(t,"data-autofilled")?i(n,"c442beaac"):o(n,"c442beaac")}function d(e){var t=e.target;"onAutoFillStart"===e.animationName&&(n(t,"data-autofilled",!0),l(e.target,"change",!0),a(t,"keyup",p,{once:!0}))}function p(e){var t=e.target;n(t,"data-autofilled","")}},r.exports)(c.querySelector,c.querySelectorAll,c.addEventListener,c.addClass,c.removeClass,c.getParent,c.setTimeout,c.dispatchEvent,c.setAttribute,c.getAttribute,u),{exports:function(e,t,r,a,i,o,u,c){function n(e){var t=r("submitted"),n=i("submittedForm");a("submitted",!0),o("submittedForm",e.currentTarget),t&&n&&n===e.currentTarget?u(e):"apple"===c(e.target,"data-provider")&&setTimeout(function(){a("submitted",!1)},2e3)}var l=e("form");l&&l.forEach(function(e){t(e,"submit",n)})}}.exports(c.querySelectorAll,c.addEventListener,c.getGlobalFlag,c.setGlobalFlag,c.getSubmittedForm,c.setSubmittedForm,c.preventFormSubmit,c.getAttribute),{exports:function(t,e,n){var r=t("form._form-detect-browser-capabilities"),a=t("main.login-id"),i=t("main.signup-with-passkeys"),o=t("div#passkey-detect-browser-capabilities");if(r||a||i||o){var u=e.isWebAuthnAvailable();t("#webauthn-available").value=u?"true":"false",t("#js-available").value="true",navigator.brave?navigator.brave.isBrave().then(function(e){t("#is-brave").value=e,c()}):c()}function c(){u?e.isWebauthnPlatformAuthenticatorAvailableAsync(n).then(function(e){t("#webauthn-platform-available").value=e?"true":"false",r&&r.submit()}).catch(function(e){t("#webauthn-platform-available").value="false",r&&r.submit()}):(t("#webauthn-platform-available").value="false",r&&r.submit())}}}.exports(c.querySelector,s,c.timeoutPromise),function(){var e={};function s(e,a,n,t,r,i,o,u,c){var l="user-initiated-passkey-challenge",s=a("#allow-passkeys");if(s&&s.value){var f=r("#passkey-config-json");if(f){var d=a(".passkey-begin-button"),p=n.isWebauthnPlatformAuthenticatorAvailableAsync(t),m=a("#username"),h=f,v=new AbortController;h.publicKey.challenge=n.base64URLDecode(h.publicKey.challenge);var b=a('form[data-form-primary="true"]');d&&e(d,function(e){d.disabled=!0,v.abort(l),navigator.credentials.get(h).then(function(e){var r=_(e);p.then(function(e){if(r.isUserVerifyingPlatformAuthenticatorAvailable=e,w(JSON.stringify(r)),c.custom_prompts_passkeys){var t=b?o(b):[];if(t.length){var n=a("form._form-passkey-challenge");u(n,t)}}g()})}).catch(function(e){y(e)})}),window.PublicKeyCredential&&window.PublicKeyCredential.isConditionalMediationAvailable&&window.PublicKeyCredential.isConditionalMediationAvailable().then(function(e){if(e){var t=Object.assign({},h,{mediation:"conditional",signal:v.signal});navigator.credentials.get(t).then(function(e){m.blur();var r=_(e);p.then(function(e){if(r.isUserVerifyingPlatformAuthenticatorAvailable=e,w(JSON.stringify(r)),c.custom_prompts_passkeys){var t=b?o(b):[];if(t.length){var n=a("form._form-passkey-challenge");u(n,t)}}g()})}).catch(function(e){e!==l&&"AbortError"!==e.name&&i("autofill UI error",e)})}}).catch(function(){})}}function g(){a("form._form-passkey-challenge").submit()}function y(e){var t;a("#action").value="showError::"+(t=e,JSON.stringify({name:t.name,message:t.message,stack:t.stack})),a("form._form-passkey-challenge").submit()}function w(e){a("#passkey").value=e}function _(e){var t={id:e.id,rawId:n.base64URLEncode(e.rawId),type:e.type,response:{clientDataJSON:n.base64URLEncode(e.response.clientDataJSON),authenticatorData:n.base64URLEncode(e.response.authenticatorData),signature:n.base64URLEncode(e.response.signature),userHandle:e.response.userHandle?n.base64URLEncode(e.response.userHandle):null}};return e.authenticatorAttachment&&(t.authenticatorAttachment=e.authenticatorAttachment),t}}return e.exports=function(e,t,n,r,a,i,o,u,c,l){return e(window,"load",function(e){s(t,n,r,a,i,o,u,c,l)}),{configurePasskeys:s}},e.exports}()(c.addEventListener,c.addClickListener,c.querySelector,s,c.timeoutPromise,c.getConfigJson,c.consoleWarn,c.getUlpFields,c.appendUlpFieldsToForm,u),{exports:function(t,e,n){var r=e(".passkey-hidden-ui"),a=navigator.userAgent.toLowerCase(),i=!!window.safari||a.match(/safari/)&&!a.match(/chrome/)&&!a.match(/chromium/);!r||r.length<=0||(i?r.forEach(function(e){t(e,"passkey-hidden-ui")}):window.PublicKeyCredential&&window.PublicKeyCredential.isConditionalMediationAvailable&&window.PublicKeyCredential.isConditionalMediationAvailable().then(function(e){e?r.forEach(function(e){n(e)}):r.forEach(function(e){t(e,"passkey-hidden-ui")})}).catch(function(e){r.forEach(function(e){t(e,"passkey-hidden-ui")})}))}}.exports(c.removeClass,c.querySelectorAll,c.removeElement),{exports:function(n,e,r,a,i,o,u,c,l,t,s,f){if(f.enable_ulp_wcag_compliance){var d=e("[id^='ulp-container-']");if(d&&d.length){var p=t(_);if(p)for(var m=0;m<d.length;m++)p.observe(d[m],{childList:!0,subtree:!0})}_()}function h(e){var t=e.target,n=o(t);t.value||c(t,"data-autofilled")?a(n,"c442beaac"):i(n,"c442beaac")}function v(e){var t=e.target,n=o(t);a(n,"focus"),w(t,n)}function b(e){var t=e.target,n=o(t);i(n,"focus"),h(e),w(t,n)}function g(e){var t=e.target;l(t,"data-autofilled","")}function y(e){var t=e.target;"onAutoFillStart"===e.animationName&&(l(t,"data-autofilled",!0),dispatchEvent(e.target,"change",!0),r(t,"keyup",g,{once:!0}))}function w(e,t){e.value?a(t,"c442beaac"):i(t,"c442beaac")}function _(){e(".ulp-field").forEach(function(e){if(!u(e,"cedba15b2")){var t=n(e,s);t&&(a(e,"cedba15b2"),w(t,e),setTimeout(function(){w(t,e)},50),t===document.activeElement&&a(e,"focus"),r(t,"change",h),r(t,"focus",v),r(t,"blur",b),r(t,"animationstart",y))}})}}}.exports(c.querySelector,c.querySelectorAll,c.addEventListener,c.addClass,c.removeClass,c.getParent,c.hasClass,c.getAttribute,c.setAttribute,c.createMutationObserver,c.ELEMENT_TYPE_SELECTOR,u),{exports:function(n,e,r,a,i,o,u,t,c,l){if(!l.enable_ulp_wcag_compliance){var s=e("[id^='ulp-container-']");if(s&&s.length){var f=t(b);if(f)for(var d=0;d<s.length;d++)f.observe(s[d],{childList:!0,subtree:!0});b()}}function p(e){var t=e.target,n=o(t);t.value?a(n,"c442beaac"):i(n,"c442beaac")}function m(e){var t=e.target,n=o(t);a(n,"focus"),v(t,n)}function h(e){var t=e.target,n=o(t);i(n,"focus"),v(t,n)}function v(e,t){e.value?a(t,"c442beaac"):i(t,"c442beaac")}function b(){e("[id^='ulp-container-'] .ulp-field").forEach(function(e){if(!u(e,"cedba15b2")){var t=n(e,c);t&&(a(e,"cedba15b2"),v(t,e),setTimeout(function(){v(t,e)},50),t===document.activeElement&&a(e,"focus"),r(t,"change",p),r(t,"focus",m),r(t,"blur",h))}})}}}.exports(c.querySelector,c.querySelectorAll,c.addEventListener,c.addClass,c.removeClass,c.getParent,c.hasClass,c.createMutationObserver,c.ELEMENT_TYPE_SELECTOR,u),{exports:function(r,o,a,i,u,c,l,s,f,d,p,m,t,h,v,e,n,b,g,y,w){if(y.enable_ulp_wcag_compliance){var _=!1,E=e+',input[type="checkbox"]';return P(),[E,x,A,C,S,T,L,k,F,P]}function x(e){var t=u(e,"data-ulp-validation-function"),n=i(e);return{functionName:t,element:r(n,E),parent:n}}function A(e){var a=[],i=[];return o(e,"[data-ulp-validation-function]").forEach(function(e){var t=x(e),n=[];if(t.element){if("input"===t.element.tagName.toLowerCase()){var r=u(t.element,"type");"checkbox"!==r&&-1===v.indexOf(r)&&n.push("Unsupported input type: "+r)}}else n.push("Could not find element");m[t.functionName]||n.push("Could not find function with name: "+t.functionName),n.length?i=i.concat(n):a.push(e)}),i.length&&t(i.join("\r\n")),a}function C(e,t,n){var r=x(e),a=(0,m[r.functionName])(r.element,t,n);a?s(e,"ulp-validator-error")&&(d(e,"ulp-validator-error"),l(e,"data-is-error")):s(e,"ulp-validator-error")||(f(e,"ulp-validator-error"),c(e,"data-is-error",!0));var i=o(r.parent,".ulp-validator-error");return p(r.parent,"ulp-error",!!i.length),a}function S(t){var n=x(t),e=(u(t,"data-ulp-validation-event-listeners")||"").replace(/\s/g,"").split(",").filter(function(e){return!!e});e.length&&e.forEach(function(e){a(n.element,e,function(){C(t,_,e)})})}function T(e,t,n){_=!0;var r=n.filter(function(e){return!C(e,_,"submit")});if(y.disable_ulp_form_submission_fix){if(!r.length)return t.submitter&&"default"==u(t.submitter,"value")&&c(t.submitter,"disabled",!0),void e.submit();h(t);var a=x(r[0]);return a.element.focus({preventScroll:!0}),void a.parent.scrollIntoView({behavior:"smooth"})}var i=w&&w("invalidPasswordPolicy");if(!r.length&&!i)return t.submitter&&"default"==u(t.submitter,"value")&&c(t.submitter,"disabled",!0),void e.submit();if(h(t),r.length){var o=x(r[0]);o.element.focus({preventScroll:!0}),o.parent.scrollIntoView({behavior:"smooth"})}}function k(){var t=r('form[data-form-primary="true"]'),n=A(t);0!==n.length&&(n.forEach(function(e){S(e)}),a(t,"submit",function(e){T(t,e,n)}))}function L(){var n=r('form[data-form-primary="true"]'),e=o('form[data-form-secondary="true"]');n&&e.length&&e.forEach(function(t){a(t,"submit",function(){var e=b(n);e.length&&g(t,e)})})}function F(){if(n)for(var e in n)n.hasOwnProperty(e)&&(m[e]=n[e])}function P(){var e=r("form[data-disable-html-validations]");e&&(F(),c(e,"novalidate",""),k(),y.custom_prompts_passkeys&&L())}}}.exports(c.querySelector,c.querySelectorAll,c.addEventListener,c.getParent,c.getAttribute,c.setAttribute,c.removeAttribute,c.hasClass,c.addClass,c.removeClass,c.toggleClass,c.globalWindow,c.consoleWarn,c.preventFormSubmit,c.SUPPORTED_INPUT_TYPES,c.ELEMENT_TYPE_SELECTOR,l,c.getUlpFields,c.appendUlpFieldsToForm,u,c.getGlobalFlag),{exports:function(r,o,a,i,u,c,l,t,s,f,e,n){if(!n.enable_ulp_wcag_compliance){var d=!1,p=e+',input[type="checkbox"]';return w(),[p,m,h,v,b,g,y,w]}function m(e){var t=u(e,"data-ulp-validation-function"),n=i(e);return{functionName:t,element:r(n,p),parent:n}}function h(e){var a=[],i=[];return o(e,"[data-ulp-validation-function]").forEach(function(e){var t=m(e),n=[];if(t.element){if("input"===t.element.tagName.toLowerCase()){var r=u(t.element,"type");"checkbox"!==r&&-1===f.indexOf(r)&&n.push("Unsupported input type: "+r)}}else n.push("Could not find element");l[t.functionName]||n.push("Could not find function with name: "+t.functionName),n.length?i=i.concat(n):a.push(e)}),i.length&&t(i.join("\r\n")),a}function v(e,t,n){var r=m(e),a=(0,l[r.functionName])(r.element,t,n);c(e,"ulp-validator-error",!a);var i=o(r.parent,".ulp-validator-error");return c(r.parent,"ulp-error",!!i.length),a}function b(t){var n=m(t),e=(u(t,"data-ulp-validation-event-listeners")||"").replace(/\s/g,"").split(",").filter(function(e){return!!e});e.length&&e.forEach(function(e){a(n.element,e,function(){v(t,d,e)})})}function g(e,t,n){d=!0;var r=n.filter(function(e){return!v(e,d,"submit")});if(r.length){s(t);var a=m(r[0]);a.element.focus({preventScroll:!0}),a.parent.scrollIntoView({behavior:"smooth"})}else e.submit()}function y(){var t=r('form[data-form-primary="true"]'),n=h(t);0!==n.length&&(n.forEach(function(e){b(e)}),a(t,"submit",function(e){g(t,e,n)}))}function w(){var e=o("[id^='ulp-container-']");e&&e.length&&y()}}}.exports(c.querySelector,c.querySelectorAll,c.addEventListener,c.getParent,c.getAttribute,c.toggleClass,c.globalWindow,c.consoleWarn,c.preventFormSubmit,c.SUPPORTED_INPUT_TYPES,c.ELEMENT_TYPE_SELECTOR,u),{exports:function(e,t,n){function r(n){t(n,"click",function(e){e.preventDefault();var t=document.createElement("input");t.name="action",t.type="hidden",t.value=n.value,n.form.appendChild(t),n.form.submit(),n.form.removeChild(t)})}function a(){e('form button[type="submit"][formnovalidate], form input[type="submit"][formnovalidate]').forEach(function(e){r(e)})}return n&&a(),[a,r]}}.exports(c.querySelectorAll,c.addEventListener,c.RUN_INIT),((a={}).exports=function(o,e,u,c,l,s,t,f,n){if(n.enable_ulp_wcag_compliance){var r=e('[class*="aria-error-check"]');if(r&&r.length){var a=t(function(e){e&&e.length&&e.map(function(e){if(e.target&&u(e.target,"aria-error-check")){var t=o('[id="'+c(e.target,"data-ulp-validation-target")+'"');if(t){var n=c(t,"aria-describedby");c(e.target,"data-is-error")?(r=t,a=n,i=e.target.id,a&&-1!==a.search(i)||l(r,"aria-describedby",a?a+" "+i:i),l(r,"aria-invalid",!0)):function(e,t,n){if(t){var r=f(t,n);r.length?l(e,"aria-describedby",r):(s(e,"aria-invalid"),s(e,"aria-describedby"))}else s(e,"aria-invalid"),s(e,"aria-describedby")}(t,n,e.target.id)}}var r,a,i})});a&&r.map(function(e){a.observe(e,{attributes:!0,attributeFilter:["class","data-is-error"]})})}}},a.exports)(c.querySelector,c.querySelectorAll,c.hasClass,c.getAttribute,c.setAttribute,c.removeAttribute,c.createMutationObserver,c.removeAndTrimString,u),(o="https://accounts.google.com/gsi/client",(i={}).exports=function(t,n,c,e){var r=e("#one-tap-config-json");if(r&&r.clientId){var a=0;!function e(){t(o,{async:!0,defer:!0,onload:function(){!function(){var e=window.google;if(e&&e.accounts&&e.accounts.id){var t={client_id:r.clientId,callback:i,auto_select:!!r.autoSelect,nonce:r.nonce,cancel_on_tap_outside:!!r.cancelOnTapOutside,itp_support:!!r.itpSupport};r.context&&(t.context=r.context),e.accounts.id.initialize(t),e.accounts.id.prompt()}}()},onerror:function(){n(o),a<2&&(a++,e())}})}()}function i(e){if(e&&e.credential){var t,n=document.createElement("form");n.method="POST",n.action=(t=c('form[data-form-primary="true"]'))&&t.getAttribute("action")?t.getAttribute("action"):window.location.pathname,n.style.display="none";var r=document.createElement("input");r.type="hidden",r.name="action",r.value="google-one-tap",n.appendChild(r);var a=document.createElement("input");a.type="hidden",a.name="one_tap_credential",a.value=e.credential,n.appendChild(a);var i=c('form[data-form-primary="true"]'),o=i?c(i,'input[name="state"]'):null;if(o){var u=document.createElement("input");u.type="hidden",u.name="state",u.value=o.value,n.appendChild(u),document.body.appendChild(n),n.submit()}}}},i.exports)(c.loadScript,c.removeScript,c.querySelector,c.getConfigJson),function(){var e={},p=['input[type="text"]','input[type="email"]','input[type="tel"]','input[type="number"]','input[type="url"]','input[type="password"]',"input:not([type])"].join(", "),m=['input:not([type="hidden"]):not([aria-hidden="true"]):not([disabled])','select:not([aria-hidden="true"]):not([disabled])','textarea:not([aria-hidden="true"]):not([disabled])','button:not([aria-hidden="true"]):not([disabled])'].join(", ");function h(e){var t=window.getComputedStyle(e);return"none"!==t.display&&"hidden"!==t.visibility}return e.exports=function(t,e,n,r){if(e.enable_ulp_wcag_compliance&&!t("#prompt-alert")){var a=r("(pointer: coarse), (pointer: fine), (pointer: none)"),i=r("(hover: hover), (hover: none)");if(a&&i&&(r("(pointer: coarse)")||!r("(hover: hover)")))return;var o=t(".c1454cea5");if(o){for(var u=n(o.querySelectorAll(m)),c=null,l=0;l<u.length;l++)if(h(u[l])){c=u[l];break}if(c){for(var s=n(o.querySelectorAll(p)),f=null,d=0;d<s.length;d++)if(h(s[d])){f=s[d];break}setTimeout(function(){if(f&&f===c)f.focus();else{var e=t("#screen-header");e&&e.focus()}},250)}}}},e.exports}()(c.querySelector,u,c.arrayFrom,c.matchMedia)}();
+</script>
+
+            <div id="component-container">
+                <div id="widget-signup-link" class="form-vertical">
+                    <div id="sign-up-container" class="form-group">
+                        <div class="form-link">
+                            <span id="sign-up-question">Don't have an account?</span>
+                            <a id="sign-up" href="https://www.cj.com/join">Sign up here.</a>
+                        </div>
+                    </div>
+                </div>
+
+                <footer id="widget-footer" class="footer">
+                    <div class="footer-item">
+                        <a id="privacy-lbl" href="https://www.cj.com/legal/privacy ">Privacy Policy</a>
+                    </div>
+                    <div class="footer-item">
+                        <a id="support-lbl" href="http://www.cj.com/support-center">Support Center</a>
+                    </div>
+                    <div class="footer-item">
+                        <span>© <span id="copyright-year">2026</span> Commission Junction LLC</span>
+                    </div>
+                </footer>
+            </div>
+            <script>
+                // Translations for footer text (provided by Terraform template context)
+                const translations = {"cs":{"privacyPolicy":"Zásady ochrany osobních údajů","signUpLink":"Zaregistrujte se zde.","signUpQuestion":"Nemáte účet?","supportCenter":"Centrum podpory"},"de":{"privacyPolicy":"Datenschutzrichtlinie","signUpLink":"Hier registrieren.","signUpQuestion":"Noch kein Konto?","supportCenter":"Support Center"},"en":{"privacyPolicy":"Privacy Policy","signUpLink":"Sign up here.","signUpQuestion":"Don't have an account?","supportCenter":"Support Center"},"es":{"privacyPolicy":"Política de Privacidad","signUpLink":"Regístrate aquí.","signUpQuestion":"¿No tienes una cuenta?","supportCenter":"Centro de Soporte"},"fr":{"privacyPolicy":"Politique de Confidentialité","signUpLink":"Inscrivez-vous ici.","signUpQuestion":"Vous n'avez pas de compte?","supportCenter":"Centre de Support"},"ja":{"privacyPolicy":"プライバシーポリシー","signUpLink":"こちらからサインアップ。","signUpQuestion":"アカウントをお持ちでないですか？","supportCenter":"サポートセンター"},"pl":{"privacyPolicy":"Polityka prywatności","signUpLink":"Zarejestruj się tutaj.","signUpQuestion":"Nie masz konta?","supportCenter":"Centrum wsparcia"},"pt":{"privacyPolicy":"Política de Privacidade","signUpLink":"Cadastre-se aqui.","signUpQuestion":"Não tem uma conta?","supportCenter":"Centro de Suporte"},"zh":{"privacyPolicy":"隐私政策","signUpLink":"在此注册。","signUpQuestion":"还没有账户？","supportCenter":"支持中心"}};
+
+                function getLanguage() {
+                    // Try Auth0 locale first
+                    const auth0Locale = "en";
+                    if (auth0Locale && !auth0Locale.startsWith("{" + "{")) {
+                        const lang = auth0Locale.split('-')[0].toLowerCase();
+                        if (translations[lang]) return lang;
+                    }
+
+                    // Fall back to browser language
+                    const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+                    return translations[browserLang] ? browserLang : 'en';
+                }
+
+                function applyTranslations() {
+                    const lang = getLanguage();
+                    const texts = translations[lang];
+
+                    const privacyLink = document.getElementById('privacy-lbl');
+                    const supportLink = document.getElementById('support-lbl');
+                    const signUpQuestion = document.getElementById('sign-up-question');
+                    const signUpLink = document.getElementById('sign-up');
+
+                    if (privacyLink) privacyLink.textContent = texts.privacyPolicy;
+                    if (supportLink) supportLink.textContent = texts.supportCenter;
+                    if (signUpQuestion) signUpQuestion.textContent = texts.signUpQuestion;
+                    if (signUpLink) signUpLink.textContent = texts.signUpLink;
+                }
+
+                console.log("variables for universal login widget", {
+                    applicationId: "qpX69snx7XScIBLp85e5bxB9AjDqNjpc"
+                });
+                (function insertSignupLink() {
+                    // auth0 made me do this
+                    const form = document.querySelector('form')
+                    if (!form) return;
+
+                    const widgetSignupLink = document.getElementById('widget-signup-link')
+                    form.after(
+                        widgetSignupLink.parentElement.removeChild(widgetSignupLink)
+                    )
+                })();
+
+                (function insertFooter() {
+                    // auth0 made me do this
+                    const promptBoxOuter = document.querySelector('._prompt-box-outer')
+                    if (!promptBoxOuter) return;
+
+                    const promptBoxOuterFirstChild = promptBoxOuter.firstElementChild
+                    if (!promptBoxOuterFirstChild) return;
+
+                    const widgetFooter = document.getElementById('widget-footer')
+                    promptBoxOuterFirstChild.appendChild(
+                        widgetFooter.parentElement.removeChild(widgetFooter)
+                    )
+
+                    // Apply translations after footer is inserted
+                    applyTranslations();
+                })();
+            </script>
+            
+    </body>
+</html>
