@@ -1,74 +1,181 @@
 import json
+import re
+import os
+from datetime import datetime
 
 def import_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
-    
 
-def create_offer_candidate(row):
+def export_json(data, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def parse_epc(epc_raw):
+    if not epc_raw or epc_raw == None:
+        return None, None
+    parts = epc_raw.split()
+    if len(parts) < 2:
+        return None, None
+    return parts[0], parts[1]
+
+
+def extract_number(value):
+    if not value:
+        return None
+    match = re.search(r"\d+(?:\.\d+)?", value)
+    return float(match.group(0)) if match else None
+
+
+def remove_commas_keep_dots(value):
+    if value is None:
+        return value
+    return value.replace(",", "")
+
+
+def add_reason(reason_codes, condition, code):
+    if condition:
+        reason_codes.append(code)
+
+
+def create_offer_candidate(row, file):
+    platform_id = row["platform_id"]
+    partner_id = row["id"]
+    offer_id = row["id"]
+
+    offer_name = row["name"]
+
+    category = row["category"]
+    description = row["description_raw"]
+
     sale_commission_raw = row["sale_commission_raw"]
     lead_commission_raw = row["lead_commission_raw"]
-    three_month_epc = row["three_month_epc"]
-    seven_day_epc = row["seven_day_epc"]
 
-    payout_type = "NotProvided"
-    payout_percent = "NotProvided"
-    payout_amount_original = "NotProvided"
-    payout_currency = "NotProvided"
+    three_month_epc_raw = row["three_month_epc"]
+    seven_day_epc_raw = row["seven_day_epc"]
 
-    three_month_epc_original = "NotProvided"
-    three_month_epc_currency = "NotProvided"
-    seven_day_epc_original = "NotProvided"
-    seven_day_epc_currency = "NotProvided"
+    payout_type = None
+    payout_percent = None
+    payout_amount_original = None
+    payout_currency = None
 
-    cookie_window_days = "Unknown"
-    
+    three_month_epc_original = None
+    three_month_epc_currency = None
+    seven_day_epc_original = None
+    seven_day_epc_currency = None
+    partner_terms_available = False
+
+    cookie_window_days = None
+    target_markets = row["servicable_area_raw"]
+    if target_markets != None:
+        target_markets = row["servicable_area_raw"].split(", ")
+        if "U.S." in target_markets:
+            target_markets = ["U.S."]
+
+    affiliate_access_status = "not_applied"
+    approval_required_before_scaling = True
+    affiliate_approval_difficulty = row["application_approval_signal_raw"].split()[0] if row["application_approval_signal_raw"].split()[0] != "Manual" else "Unknown"
+
+    source_platform = "cj"
+    source_file = file
+    source_row_id = row["id"]
+    reason_codes = []
     
     if sale_commission_raw != "Unknown" and lead_commission_raw == "Unknown":
         sale_commission_raw_splitted = sale_commission_raw.split()
         if sale_commission_raw[-1] == "%":#check if its a percent payout
             payout_type = "RevShare"
-            payout_percent = int(sale_commission_raw_splitted[-1][:-1])
+            parsed_percent = extract_number(sale_commission_raw)
+            payout_percent = parsed_percent if parsed_percent is not None else None
         else:
             payout_type = "CPA"
-            payout_amount_original = float(sale_commission_raw_splitted[1])
-            payout_currency = sale_commission_raw_splitted[2]
+            parsed_amount = extract_number(sale_commission_raw)
+            payout_amount_original = parsed_amount if parsed_amount is not None else None
+            payout_currency = sale_commission_raw_splitted[-1] if len(sale_commission_raw_splitted) > 1 else None
 
     elif sale_commission_raw == "Unknown" and lead_commission_raw != "Unknown":
         lead_commission_raw_splitted = lead_commission_raw.split()
         if lead_commission_raw[-1] == "%":#check if its a percent payout
             payout_type = "RevShare"
-            payout_percent = int(lead_commission_raw_splitted[-1][:-1])
+            parsed_percent = extract_number(lead_commission_raw)
+            payout_percent = parsed_percent if parsed_percent is not None else None
         else:
             payout_type = "CPL"
-            payout_amount_original = float(lead_commission_raw_splitted[1])
-            payout_currency = lead_commission_raw_splitted[2]
+            parsed_amount = extract_number(lead_commission_raw)
+            payout_amount_original = parsed_amount if parsed_amount is not None else None
+            payout_currency = lead_commission_raw_splitted[-1] if len(lead_commission_raw_splitted) > 1 else None
     
     elif sale_commission_raw != "Unknown" and lead_commission_raw != "Unknown":
         payout_type = "Hybrid"
 
-    print(payout_type, payout_percent, payout_amount_original, payout_currency)
+    three_month_epc_original, three_month_epc_currency = parse_epc(three_month_epc_raw)
+    seven_day_epc_original, seven_day_epc_currency = parse_epc(seven_day_epc_raw)
 
+    if three_month_epc_original != None: three_month_epc_original = float(remove_commas_keep_dots(three_month_epc_original))
+    if seven_day_epc_original != None: seven_day_epc_original = float(remove_commas_keep_dots(seven_day_epc_original))
 
-        
-    
+    add_reason(reason_codes, description == None, "DESCRIPTION_MISSING_IN_SOURCE")
+    add_reason(reason_codes, sale_commission_raw == None and lead_commission_raw == None, "COMMISSIONS_MISSING_IN_SOURCE")
+    add_reason(reason_codes, payout_type == None, "PAYOUT_TYPE_NOT_DETERMINED")
+    add_reason(reason_codes, payout_percent in (None, None) and payout_type in ("RevShare", "Hybrid"), "PAYOUT_PERCENT_MISSING_OR_UNPARSEABLE")
+    add_reason(reason_codes, payout_amount_original == None and payout_type in ("CPA", "CPL", "Hybrid"), "PAYOUT_AMOUNT_MISSING_OR_UNPARSEABLE")
+    add_reason(reason_codes, payout_currency == None and payout_type in ("CPA", "CPL", "Hybrid"), "PAYOUT_CURRENCY_MISSING_OR_UNPARSEABLE")
+    add_reason(reason_codes, three_month_epc_original == None, "THREE_MONTH_EPC_MISSING_OR_UNPARSEABLE")
+    add_reason(reason_codes, three_month_epc_currency == None, "THREE_MONTH_EPC_CURRENCY_MISSING")
+    add_reason(reason_codes, seven_day_epc_original == None, "SEVEN_DAY_EPC_MISSING_OR_UNPARSEABLE")
+    add_reason(reason_codes, seven_day_epc_currency == None, "SEVEN_DAY_EPC_CURRENCY_MISSING")
+    add_reason(reason_codes, cookie_window_days is None, "COOKIE_WINDOW_UNKNOWN")
+    add_reason(reason_codes, not target_markets or target_markets == [None], "TARGET_MARKETS_MISSING_IN_SOURCE")
+    add_reason(reason_codes, affiliate_approval_difficulty == "Unknown", "APPROVAL_DIFFICULTY_NOT_DEFINED")
+    add_reason(reason_codes, not partner_terms_available, "TERMS_UNKNOWN")
 
     data = {
-        "payout_type": row["sale_commission_raw"][:-3],
-        "payout_amount_original": row["sale_commission_raw"],
-        "payout_currency": row["three_month_epc"][-3:],
-        "payout_percent":"",
-        "payout_amount_usd":""
+        "platform_id": platform_id,
+        "partner_id": partner_id,
+        "offer_id": offer_id,
+        "offer_name": offer_name,
+        "category": category,
+        "description": description,
+        "payout_type": payout_type,
+        "payout_percent": payout_percent,
+        "payout_amount_original": payout_amount_original,
+        "payout_currency": payout_currency,
+        "three_month_epc_original": three_month_epc_original,
+        "three_month_epc_currency": three_month_epc_currency,
+        "seven_day_epc_original": seven_day_epc_original,
+        "seven_day_epc_currency": seven_day_epc_currency,
+        "cookie_window_days": cookie_window_days,
+        "target_markets": target_markets,
+        "affiliate_access_status": affiliate_access_status,
+        "approval_required_before_scaling": approval_required_before_scaling,
+        "affiliate_approval_difficulty": affiliate_approval_difficulty,
+        "source_platform": source_platform,
+        "source_file": source_file,
+        "source_row_id": source_row_id,
+        "sale_commission_raw": sale_commission_raw,
+        "lead_commission_raw": lead_commission_raw,
+        "three_month_epc_raw": three_month_epc_raw,
+        "seven_day_epc_raw": seven_day_epc_raw,
+        "backup_offer_available": False,
+        "partner_terms_available": partner_terms_available,
+        "reason_codes": reason_codes,
     }
+    return data
 
-def map_json(json):
+def map_json(json_data, file):
     mapped_json = []
-    for row in json:
-        mapped_row = create_offer_candidate(row)
+    for row in json_data:
+        mapped_row = create_offer_candidate(row, file)
         mapped_json.append(mapped_row)
     return mapped_json
 
 if __name__ == "__main__":
-    path = f"data/normalized/cj/advertisers/24-05-2026/12-11-56.json"
+    today = datetime.now().strftime("%d-%m-%Y")
+    noww = datetime.now().strftime("%H-%M-%S")
+    path = f"data/normalized/cj/advertisers/24-05-2026/14-21-47.json"
     jsonn = import_json(path)
-    map_json(jsonn)
+    mapped_json = map_json(jsonn, path)
+    output_path = f"data/processed/cj/advertisers/{today}/{noww}.json"
+    export_json(mapped_json, output_path)
+    print(f"Exported mapped json to: {output_path}. {len(mapped_json)} total rows")

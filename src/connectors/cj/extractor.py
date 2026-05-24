@@ -3,6 +3,13 @@ from datetime import datetime
 import json
 import os
 
+def get_text_or_none(parent, **find_kwargs):
+    tag = parent.find(**find_kwargs)
+    if not tag:
+        return None
+    text = tag.get_text(" ", strip=True)
+    return text if text else None
+
 def import_html(path):
     with open(path, "r", encoding="utf-8") as f:
         html = f.read()
@@ -12,7 +19,7 @@ def extract_raw_data_from_html(html, path):
     soup = BeautifulSoup(html, "html.parser")
     extracted_data = []
 
-    rows = soup.find_all(class_="adv-row")
+    rows = soup.find_all(class_="adv-row-wrapper")
     for row in rows:
         platform_id = "cj"
         adv_name = row.find(class_="adv-name")
@@ -28,7 +35,11 @@ def extract_raw_data_from_html(html, path):
         application_approval_signal_raw = row.find(class_="approval-odds-text").text
         relationship_raw = "not applied"
 
-        adv_servicable_area = row.find
+        adv_description = get_text_or_none(row, id="advertiser-description")
+        adv_servicable_area = row.find(class_="serviceable-areas-content serv-area-all")
+        
+
+
 
         source_platform = "cj"
         source_file = path
@@ -40,16 +51,17 @@ def extract_raw_data_from_html(html, path):
                 earnings_raw = i
                 break
 
+        if adv_servicable_area:
+            adv_servicable_area = adv_servicable_area.text.strip()
+
         if adv_id_tag:
             adv_id_tag.extract() 
         
         
         if three_month_epc[-3:] != "USD":
             continue
-        print(three_month_epc[-3:])
 
         name = adv_name.get_text(strip=True) if adv_name else None
-        print(sale_commission_raw == "")
         data = {
             "platform_id": platform_id if sale_commission_raw else "Unknown",
             "name": name if name else "Unknown",
@@ -62,6 +74,8 @@ def extract_raw_data_from_html(html, path):
             "lead_commission_raw": lead_commission_raw if lead_commission_raw else "Unknown",
             "application_approval_signal_raw": application_approval_signal_raw if sale_commission_raw else "Unknown",
             "relationship_raw": relationship_raw if sale_commission_raw else "Unknown",
+            "description_raw": adv_description if adv_description else "Unknown",
+            "servicable_area_raw": adv_servicable_area if adv_servicable_area else "Unknown",
             "source_platform": source_platform if sale_commission_raw else "Unknown",
             "source_file": source_file if source_file else "Unknown",
             "raw_fragment": raw_fragment if raw_fragment else "Unknown",
