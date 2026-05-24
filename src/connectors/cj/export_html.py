@@ -1,5 +1,7 @@
 from connector import open_main_page_cj
 from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+from playwright.sync_api import Error as PlaywrightError
 import os
 from datetime import datetime
 
@@ -7,11 +9,12 @@ def count_cells(results_container):
     return results_container.locator(":scope > div").count()
 
 
-def scroll_until_fully_loaded(page, results_container, max_rounds=80, pause_ms=1200, stable_rounds_needed=10, N_rows=100):
+def scroll_until_fully_loaded(page, results_container, max_rounds=80, pause_ms=1200, stable_rounds_needed=10, N_rows=2000):
     stable_rounds = 0
     previous = count_cells(results_container)
 
     for _ in range(max_rounds):
+        print(previous)
         results_container.hover()
         page.mouse.wheel(0, 4000)
         page.wait_for_timeout(pause_ms)
@@ -41,13 +44,21 @@ def expand_loaded_rows(page, results_container, pause_ms=300):
 
         already_expanded = False
         if detail_row.count() > 0:
-            detail_text = detail_row.inner_text(timeout=1000).strip().lower()
-            already_expanded = bool(detail_text) and "loading" not in detail_text
+            try:
+                detail_text = (detail_row.text_content(timeout=700) or "").strip().lower()
+                already_expanded = bool(detail_text) and "loading" not in detail_text
+            except (PlaywrightTimeoutError, PlaywrightError):
+                # Some rows are briefly detached while the virtualized list re-renders.
+                # Treat them as not expanded and continue.
+                already_expanded = False
 
         if already_expanded:
             continue
 
-        row.click(force=True, timeout=5000)
+        try:
+            row.click(force=True, timeout=5000)
+        except (PlaywrightTimeoutError, PlaywrightError):
+            continue
         page.wait_for_timeout(pause_ms)
 
     page.wait_for_timeout(1500)

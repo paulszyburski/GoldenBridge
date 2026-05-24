@@ -173,7 +173,7 @@ def map_json(json_data, file):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     noww = datetime.now().strftime("%H-%M-%S")
-    path = f"data/normalized/cj/advertisers/24-05-2026/14-21-47.json"
+    path = f"data/normalized/cj/advertisers/24-05-2026/14-50-22.json"
     jsonn = import_json(path)
     mapped_json = map_json(jsonn, path)
     output_path = f"data/processed/cj/advertisers/{today}/{noww}.json"
