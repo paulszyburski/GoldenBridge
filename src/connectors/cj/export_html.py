@@ -9,7 +9,7 @@ def count_cells(results_container):
     return results_container.locator(":scope > div").count()
 
 
-def scroll_until_fully_loaded(page, results_container, max_rounds=80, pause_ms=1200, stable_rounds_needed=10, N_rows=2000):
+def scroll_until_fully_loaded(page, results_container, max_rounds=80, pause_ms=1200, stable_rounds_needed=10, N_rows=100):
     stable_rounds = 0
     previous = count_cells(results_container)
 
@@ -63,6 +63,31 @@ def expand_loaded_rows(page, results_container, pause_ms=300):
 
     page.wait_for_timeout(1500)
 
+def open_all_detail_tabs(page, results_container, pause_ms=250):
+    wrappers = results_container.locator(":scope > .adv-row-wrapper")
+    wrappers_count = wrappers.count()
+
+    for i in range(wrappers_count):
+        wrapper = wrappers.nth(i)
+        detail_row = wrapper.locator(".adv-detail-row").first
+        if detail_row.count() == 0:
+            continue
+
+        nav_items = detail_row.locator("ul.more-information-relationship-history-switch li[data-nav-id]")
+        nav_count = nav_items.count()
+        if nav_count == 0:
+            continue
+
+        for j in range(nav_count):
+            tab = nav_items.nth(j)
+            try:
+                tab.click(force=True, timeout=4000)
+            except (PlaywrightTimeoutError, PlaywrightError):
+                continue
+            page.wait_for_timeout(pause_ms)
+
+    page.wait_for_timeout(1200)
+
 def scrape_html():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -75,6 +100,7 @@ def scrape_html():
         page.wait_for_timeout(20000)
         scroll_until_fully_loaded(page, results_container)
         expand_loaded_rows(page, results_container)
+        open_all_detail_tabs(page, results_container)
 
         html = page.content()
 

@@ -67,15 +67,20 @@ def create_offer_candidate(row, file):
     partner_terms_available = False
 
     cookie_window_days = None
-    target_markets = row["servicable_area_raw"]
-    if target_markets != None:
-        target_markets = row["servicable_area_raw"].split(", ")
-        if "U.S." in target_markets:
-            target_markets = ["U.S."]
+
+    target_markets_raw = row["servicable_area_raw"]
+    target_markets_processed = []
+
+    if target_markets_raw != None:
+        target_markets_raw_splitted = row["servicable_area_raw"].split(", ")
+        for target_market in ["U.S.", "UNITED STATES"]:
+            if target_market in target_markets_raw_splitted:
+                target_markets_processed.append(target_market)
 
     affiliate_access_status = "not_applied"
     approval_required_before_scaling = True
-    affiliate_approval_difficulty = row["application_approval_signal_raw"].split()[0] if row["application_approval_signal_raw"].split()[0] != "Manual" else "Unknown"
+    affiliate_approval_difficulty = "filled in code below"
+
 
     source_platform = "cj"
     source_file = file
@@ -109,6 +114,15 @@ def create_offer_candidate(row, file):
     elif sale_commission_raw != "Unknown" and lead_commission_raw != "Unknown":
         payout_type = "Hybrid"
 
+    if row["application_approval_signal_raw"].split()[0] == "Manual":
+        affiliate_approval_difficulty = "medium"
+    elif row["application_approval_signal_raw"].split()[0] == "Lower":
+        affiliate_approval_difficulty = "premium"
+    elif row["application_approval_signal_raw"].split()[0] == "Higher":
+        affiliate_approval_difficulty = "easy"
+    else:
+        affiliate_approval_difficulty = "Unknown"
+
     three_month_epc_original, three_month_epc_currency = parse_epc(three_month_epc_raw)
     seven_day_epc_original, seven_day_epc_currency = parse_epc(seven_day_epc_raw)
 
@@ -126,7 +140,7 @@ def create_offer_candidate(row, file):
     add_reason(reason_codes, seven_day_epc_original == None, "SEVEN_DAY_EPC_MISSING_OR_UNPARSEABLE")
     add_reason(reason_codes, seven_day_epc_currency == None, "SEVEN_DAY_EPC_CURRENCY_MISSING")
     add_reason(reason_codes, cookie_window_days is None, "COOKIE_WINDOW_UNKNOWN")
-    add_reason(reason_codes, not target_markets or target_markets == [None], "TARGET_MARKETS_MISSING_IN_SOURCE")
+    add_reason(reason_codes, not target_markets_processed or target_markets_processed == [], "TARGET_MARKETS_MISSING_IN_SOURCE")
     add_reason(reason_codes, affiliate_approval_difficulty == "Unknown", "APPROVAL_DIFFICULTY_NOT_DEFINED")
     add_reason(reason_codes, not partner_terms_available, "TERMS_UNKNOWN")
 
@@ -146,7 +160,7 @@ def create_offer_candidate(row, file):
         "seven_day_epc_original": seven_day_epc_original,
         "seven_day_epc_currency": seven_day_epc_currency,
         "cookie_window_days": cookie_window_days,
-        "target_markets": target_markets,
+        "target_markets": target_markets_processed,
         "affiliate_access_status": affiliate_access_status,
         "approval_required_before_scaling": approval_required_before_scaling,
         "affiliate_approval_difficulty": affiliate_approval_difficulty,
@@ -161,6 +175,7 @@ def create_offer_candidate(row, file):
         "partner_terms_available": partner_terms_available,
         "reason_codes": reason_codes,
     }
+    #TODO: ADD OTHER UN ADDED ROWS LIKE COOKIE WINDOW
     return data
 
 def map_json(json_data, file):

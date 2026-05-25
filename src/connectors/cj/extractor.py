@@ -10,6 +10,13 @@ def get_text_or_none(parent, **find_kwargs):
     text = tag.get_text(" ", strip=True)
     return text if text else None
 
+def get_compact_text(parent, selector):
+    tag = parent.select_one(selector)
+    if not tag:
+        return None
+    text = tag.get_text(" ", strip=True)
+    return text if text else None
+
 def import_html(path):
     with open(path, "r", encoding="utf-8") as f:
         html = f.read()
@@ -37,10 +44,11 @@ def extract_raw_data_from_html(html, path):
 
         adv_description = get_text_or_none(row, id="advertiser-description")
         adv_servicable_area = row.find(class_="serviceable-areas-content serv-area-all")
+        program_terms_text = get_compact_text(row, ".advertiser-program-terms")
+        relationship_history_text = get_compact_text(row, ".advertiser-relationship-history")
+        linked_accounts_text = get_compact_text(row, ".advertiser-linked-accounts")
+        detail_tabs_loaded = bool(row.select("ul.more-information-relationship-history-switch li[data-nav-id]"))
         
-
-
-
         source_platform = "cj"
         source_file = path
         raw_fragment = str(row)
@@ -76,10 +84,15 @@ def extract_raw_data_from_html(html, path):
             "relationship_raw": relationship_raw if sale_commission_raw else "Unknown",
             "description_raw": adv_description if adv_description else "Unknown",
             "servicable_area_raw": adv_servicable_area if adv_servicable_area else "Unknown",
+            "program_terms_raw": program_terms_text if program_terms_text else "Unknown",
+            "relationship_history_raw": relationship_history_text if relationship_history_text else "Unknown",
+            "linked_accounts_raw": linked_accounts_text if linked_accounts_text else "Unknown",
+            "detail_tabs_loaded": detail_tabs_loaded,
             "source_platform": source_platform if sale_commission_raw else "Unknown",
             "source_file": source_file if source_file else "Unknown",
             "raw_fragment": raw_fragment if raw_fragment else "Unknown",
         }
+        #TODO: ADD OTHER UN ADDED ROWS LIKE COOKIE WINDOW
         extracted_data.append(data)
     return extracted_data
 
@@ -93,7 +106,7 @@ def save_json(extracted_data, path):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
-    path = f"data/raw/cj/advertisers/24-05-2026/html"
+    path = f"data/raw/cj/advertisers/25-05-2026/html"
 
     json_path = f"data/normalized/cj/advertisers/{today}/{now}.json"
 
