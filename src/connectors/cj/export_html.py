@@ -1,4 +1,7 @@
-from connector import open_main_page_cj
+try:
+    from .connector import open_main_page_cj
+except ImportError:
+    from connector import open_main_page_cj
 from playwright.sync_api import sync_playwright
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import Error as PlaywrightError
@@ -9,12 +12,11 @@ def count_cells(results_container):
     return results_container.locator(":scope > div").count()
 
 
-def scroll_until_fully_loaded(page, results_container, max_rounds=80, pause_ms=1200, stable_rounds_needed=10, N_rows=100):
+def scroll_until_fully_loaded(page, results_container, pause_ms=1200, stable_rounds_needed=10, N_rows=2000):
     stable_rounds = 0
     previous = count_cells(results_container)
 
-    for _ in range(max_rounds):
-        print(previous)
+    while True:
         results_container.hover()
         page.mouse.wheel(0, 4000)
         page.wait_for_timeout(pause_ms)
@@ -35,6 +37,7 @@ def expand_loaded_rows(page, results_container, pause_ms=300):
     wrappers_count = wrappers.count()
 
     for i in range(wrappers_count):
+        print(i)
         wrapper = wrappers.nth(i)
         row = wrapper.locator(".adv-row .main-row-wrapper").first
         detail_row = wrapper.locator(".adv-detail-row").first
@@ -102,6 +105,7 @@ def scrape_html():
         expand_loaded_rows(page, results_container)
         open_all_detail_tabs(page, results_container)
 
+        print("scraping web")
         html = page.content()
 
         browser.close()

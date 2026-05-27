@@ -45,31 +45,42 @@ def create_offer_candidate(row, file):
     offer_id = row["id"]
 
     offer_name = row["name"]
-
+    offer_url = row["offer_url"]
+    #program_url
     category = row["category"]
     description = row["description_raw"]
 
-    sale_commission_raw = row["sale_commission_raw"]
+    payout_type = None
+    payout_amount_original = None
+    payout_currency = None
+    payout_amount_usd = None
+    payout_percent = None
+
+    #estimated_order_value_usd
+    #estimated_cpa_usd
+    #revshare_estimation_source
+    #revshare_estimation_confidence
+
     lead_commission_raw = row["lead_commission_raw"]
+    sale_commission_raw = row["sale_commission_raw"]
+    
 
     three_month_epc_raw = row["three_month_epc"]
     seven_day_epc_raw = row["seven_day_epc"]
-
-    payout_type = None
-    payout_percent = None
-    payout_amount_original = None
-    payout_currency = None
 
     three_month_epc_original = None
     three_month_epc_currency = None
     seven_day_epc_original = None
     seven_day_epc_currency = None
-    partner_terms_available = False
+    partner_terms_available = row["program_terms_raw"] != "Unknown"
 
-    cookie_window_days = None
+    cookie_window_days = row["refferal_period"]
+    cookie_window_source = "More Info Tab"
 
-    target_markets_raw = row["servicable_area_raw"]
+    target_markets_raw = row["servicable_area_raw"].split(", ")
     target_markets_processed = []
+
+    raw_source_file = row["raw_source_file"]
 
     if target_markets_raw != None:
         target_markets_raw_splitted = row["servicable_area_raw"].split(", ")
@@ -81,12 +92,14 @@ def create_offer_candidate(row, file):
     approval_required_before_scaling = True
     affiliate_approval_difficulty = "filled in code below"
 
+    normalized_at = row["extracted_at"]
 
     source_platform = "cj"
     source_file = file
     source_row_id = row["id"]
     reason_codes = []
-    
+
+
     if sale_commission_raw != "Unknown" and lead_commission_raw == "Unknown":
         sale_commission_raw_splitted = sale_commission_raw.split()
         if sale_commission_raw[-1] == "%":#check if its a percent payout
@@ -110,7 +123,7 @@ def create_offer_candidate(row, file):
             parsed_amount = extract_number(lead_commission_raw)
             payout_amount_original = parsed_amount if parsed_amount is not None else None
             payout_currency = lead_commission_raw_splitted[-1] if len(lead_commission_raw_splitted) > 1 else None
-    
+
     elif sale_commission_raw != "Unknown" and lead_commission_raw != "Unknown":
         payout_type = "Hybrid"
 
@@ -128,6 +141,10 @@ def create_offer_candidate(row, file):
 
     if three_month_epc_original != None: three_month_epc_original = float(remove_commas_keep_dots(three_month_epc_original))
     if seven_day_epc_original != None: seven_day_epc_original = float(remove_commas_keep_dots(seven_day_epc_original))
+
+    seven_day_epc_usd = seven_day_epc_original if seven_day_epc_currency == "USD" else None
+    three_month_epc_usd = three_month_epc_original if three_month_epc_currency == "USD" else None
+    payout_amount_usd = payout_amount_original if payout_currency == "USD" else None
 
     add_reason(reason_codes, description == None, "DESCRIPTION_MISSING_IN_SOURCE")
     add_reason(reason_codes, sale_commission_raw == None and lead_commission_raw == None, "COMMISSIONS_MISSING_IN_SOURCE")
@@ -148,31 +165,65 @@ def create_offer_candidate(row, file):
         "platform_id": platform_id,
         "partner_id": partner_id,
         "offer_id": offer_id,
+
         "offer_name": offer_name,
+        "offer_url": offer_url,
+        #program_url:
         "category": category,
         "description": description,
+
         "payout_type": payout_type,
-        "payout_percent": payout_percent,
         "payout_amount_original": payout_amount_original,
         "payout_currency": payout_currency,
+        "payout_amount_usd":payout_amount_usd,
+        "payout_percent": payout_percent,
+
+        #ESTIMATION
+        #estimated_order_value_usd
+        #estimated_cpa_usd
+        #revshare_estimation_source
+        #revshare_estimation_confidence
+
         "three_month_epc_original": three_month_epc_original,
         "three_month_epc_currency": three_month_epc_currency,
+        "three_month_epc_usd": three_month_epc_usd,
+
         "seven_day_epc_original": seven_day_epc_original,
         "seven_day_epc_currency": seven_day_epc_currency,
-        "cookie_window_days": cookie_window_days,
+        "seven_day_epc_usd": seven_day_epc_usd,
+
+        "cookie_window_days": cookie_window_days,#UNFINISHED
+        "cookie_window_source": cookie_window_source,
+
+        "target_markets_raw": target_markets_raw,
         "target_markets": target_markets_processed,
+
         "affiliate_access_status": affiliate_access_status,
         "approval_required_before_scaling": approval_required_before_scaling,
         "affiliate_approval_difficulty": affiliate_approval_difficulty,
+
+        "partner_terms_available": partner_terms_available,
+        "partner_terms": row["program_terms_raw"],
+
+        #allowed_promotion_methods
+        #restricted_promotion_methods
+        #promotion_policy_source
+
+        #backup_offer_available
+
         "source_platform": source_platform,
         "source_file": source_file,
         "source_row_id": source_row_id,
+        "raw_source_file": raw_source_file,
+
+        "normalized_at": normalized_at,
+        "mapped_at": datetime.now().strftime("%Y-%m-%d-%H-%M-%S"),
+
         "sale_commission_raw": sale_commission_raw,
         "lead_commission_raw": lead_commission_raw,
         "three_month_epc_raw": three_month_epc_raw,
         "seven_day_epc_raw": seven_day_epc_raw,
-        "backup_offer_available": False,
-        "partner_terms_available": partner_terms_available,
+
         "reason_codes": reason_codes,
     }
     #TODO: ADD OTHER UN ADDED ROWS LIKE COOKIE WINDOW
@@ -188,7 +239,7 @@ def map_json(json_data, file):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     noww = datetime.now().strftime("%H-%M-%S")
-    path = f"data/normalized/cj/advertisers/24-05-2026/14-50-22.json"
+    path = f"data/normalized/cj/advertisers/26-05-2026/21-46-16.json"
     jsonn = import_json(path)
     mapped_json = map_json(jsonn, path)
     output_path = f"data/processed/cj/advertisers/{today}/{noww}.json"

@@ -1,133 +1,234 @@
-import os
 import json as js
-from datetime import datetime
+import os
+from datetime import datetime, timezone
+
 
 def import_json(path):
     with open(path, "r", encoding="utf-8") as f:
-        data = js.load(f)
+        return js.load(f)
 
-    return data
 
 def export_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         js.dump(data, f, ensure_ascii=False, indent=2)
 
-def score_json(json):
+
+def _score_payout(row, positive_signals, risk_signals):
+    payout_type = row.get("payout_type")
+    payout_amount = row.get("payout_amount_original")
+    payout_percent = row.get("payout_percent")
+
     points = 0
-    risk_signals = []
-    next_action = []
 
-    if json["payout_type"] == "CPA":
-        if json["payout_amount_original"] == "Unknown": 
-            points += 0
+    if payout_type in ("CPA", "CPL"):
+        positive_signals.append("CPA_PAYOUT_PRESENT")
+        if payout_amount is None:
             risk_signals.append("PAYOUT_AMOUNT_UNKNOWN")
-        elif json["payout_amount_original"] >= 150: points += 35
-        elif json["payout_amount_original"] >= 80: points += 30
-        elif json["payout_amount_original"] >= 30: points += 22
-        elif json["payout_amount_original"] >= 15: points += 20
-        elif json["payout_amount_original"] < 15 : points += 3
+            return 0
+        if payout_amount >= 150:
+            positive_signals.append("PAYOUT_ABOVE_150_USD")
+            return 35
+        if payout_amount >= 80:
+            positive_signals.append("PAYOUT_ABOVE_80_USD")
+            return 30
+        if payout_amount >= 30:
+            return 22
+        if payout_amount >= 15:
+            return 20
+        return 3
 
-    elif json["payout_type"] == "RevShare":
-        if json["payout_percent"] == "Unknown":
-            points += 0
+    if payout_type == "RevShare":
+        positive_signals.append("REVSHARE_PAYOUT_PRESENT")
+        if payout_percent is None:
             risk_signals.append("PAYOUT_PERCENT_UNKNOWN")
-        elif json["payout_percent"] >= 50: points += 25
-        elif json["payout_percent"] >= 25: points += 20
-        elif json["payout_percent"] >= 10: points += 14
-        elif json["payout_percent"] >= 5: points += 8
-        elif json["payout_percent"] < 5: points += 4
-        risk_signals.append("REVSHARE_REQUIRES_ESTIMATION")
-    
-    if json["payout_percent"] == None and json["payout_amount_original"] == None:
-        risk_signals.append("PAYOUT_UNKNOWN")
-    elif json["payout_type"] == "Hybrid":
-        if json["payout_percent"] == None: risk_signals.append("PAYOUT_PERCENT_UNKNOWN")
-        elif json["payout_amount_original"] == None: risk_signals.append("PAYOUT_AMOUNT_UNKNOWN")
+            return 0
+        if payout_percent >= 50:
+            return 25
+        if payout_percent >= 25:
+            return 20
+        if payout_percent >= 10:
+            return 14
+        if payout_percent >= 5:
+            return 8
+        return 4
 
-        elif json["payout_percent"] > json["payout_amount_original"]: 
-            if json["payout_percent"] == "Unknown":
-                points += 0
-                risk_signals.append("PPAYOUT_ERCENT_UNKNOWN")
-            elif json["payout_percent"] >= 50: points += 25
-            elif json["payout_percent"] >= 25: points += 20
-            elif json["payout_percent"] >= 10: points += 14
-            elif json["payout_percent"] >= 5: points += 8
-            elif json["payout_percent"] < 5: points += 4
-            risk_signals.append("REVSHARE_REQUIRES_ESTIMATION")
-
-        elif json["payout_percent"] < json["payout_amount_original"]:
-            if json["payout_amount_original"] == "Unknown": 
-                points += 0
-                risk_signals.append("PAYOUT_AMOUNT_UNKNOWN")
-            elif json["payout_amount_original"] >= 150: point += 35
-            elif json["payout_amount_original"] >= 80: point += 30
-            elif json["payout_amount_original"] >= 30: point += 22
-            elif json["payout_amount_original"] >= 15: point += 20
-            elif json["payout_amount_original"] < 15 : point += 3
+    if payout_type == "Hybrid":
         risk_signals.append("HYBRID_PAYOUT_NEEDS_NORMALIZATION")
+        # Prefer stronger of amount/percent path for preliminary score.
+        if payout_amount is not None:
+            points = max(points, _score_payout({"payout_type": "CPA", "payout_amount_original": payout_amount}, positive_signals, risk_signals))
+        if payout_percent is not None:
+            points = max(points, _score_payout({"payout_type": "RevShare", "payout_percent": payout_percent}, positive_signals, risk_signals))
+        if payout_amount is None and payout_percent is None:
+            risk_signals.append("PAYOUT_UNKNOWN")
+        return points
 
-    if json["three_month_epc_original"] == "Unknown" and json["seven_day_epc_original"] == "Unknown":
+    risk_signals.append("PAYOUT_UNKNOWN")
+    return 0
+
+
+def _score_epc(row, risk_signals):
+    three_month_epc = row.get("three_month_epc_original")
+    seven_day_epc = row.get("seven_day_epc_original")
+
+    if three_month_epc is None and seven_day_epc is None:
         risk_signals.append("EPC_MISSING")
+        return 0
 
-    if json["three_month_epc_original"] != "Unknown":
-        if json["three_month_epc_original"] >= 100: points += 20
-        elif json["three_month_epc_original"] >= 50: points += 16
-        elif json["three_month_epc_original"] >= 20: points += 12
-        elif json["three_month_epc_original"] >= 5: points += 7
-        elif json["three_month_epc_original"] < 0: points += 3
-        else: risk_signals.append("EPC_ZERO")
-    
-    if json["seven_day_epc_original"] != None:
-        if json["seven_day_epc_original"] >= 100: points += 20
-        elif json["seven_day_epc_original"] >= 50: points += 16
-        elif json["seven_day_epc_original"] >= 20: points += 12
-        elif json["seven_day_epc_original"] >= 5: points += 7
-        elif json["seven_day_epc_original"] < 0: points += 3
-        else: risk_signals.append("EPC_ZERO")
+    epc_value = three_month_epc if three_month_epc is not None else seven_day_epc
 
-    if len(json["target_markets"]) != 0: points += 15
-    else: risk_signals.append("NO_AVAILABLE_MARKETS")
+    if epc_value is None:
+        return 0
+    if epc_value >= 100:
+        return 20
+    if epc_value >= 50:
+        return 16
+    if epc_value >= 20:
+        return 12
+    if epc_value >= 5:
+        risk_signals.append("EPC_TOO_LOW")
+        return 7
+    if epc_value > 0:
+        risk_signals.append("EPC_TOO_LOW")
+        return 3
 
-    if json["affiliate_approval_difficulty"] == "Unknown": points -= 1
-    if json["affiliate_approval_difficulty"] == "easy": points += 2
-    if json["affiliate_approval_difficulty"] == "medium": points += 0
-    if json["affiliate_approval_difficulty"] == "premium": points -= 3
+    risk_signals.append("EPC_ZERO")
+    return 0
 
-    if json["payout_type"] == "Unknown" or "NO_AVAILABLE_MARKETS" in risk_signals:
-        next_action.append("blocked")
-    elif "COOKIE_WINDOW_UNKNOWN" in json["reason_codes"] or "TERMS_UNKNOWN" in json["reason_codes"] or "REVSHARE_REQUIRES_ESTIMATION" in risk_signals:
-        next_action.append("needs_enrichment")
 
+def _score_market(row, positive_signals, risk_signals):
+    markets = row.get("target_markets") or []
+    if not markets:
+        risk_signals.append("NO_AVAILABLE_MARKETS")
+        return 0
+
+    if "U.S." in markets or "UNITED STATES" in markets:
+        positive_signals.append("US_MARKET_SIGNAL")
+        return 20
+    return 15
+
+
+def _score_data_completeness(row, positive_signals):
+    points = 0
+
+    if row.get("partner_terms_available"):
+        positive_signals.append("PARTNER_TERMS_PRESENT")
+        points += 5
+
+    if row.get("cookie_window_days") is not None:
+        positive_signals.append("COOKIE_WINDOW_PRESENT")
+        points += 5
+
+    return points
+
+def _filter_categories(row, risk_signals):
+    pass
+
+def _score_access(row, risk_signals):
+    difficulty = row.get("affiliate_approval_difficulty")
+    access_status = row.get("affiliate_access_status")
+
+    if access_status == "not_applied":
+        risk_signals.append("NOT_APPLIED")
+
+    if row.get("approval_required_before_scaling"):
+        risk_signals.append("APPROVAL_REQUIRED_BEFORE_SCALING")
+
+    if difficulty == "easy":
+        return 5
+    if difficulty == "medium":
+        return 3
+    if difficulty == "premium":
+        return 1
+    return 2
+
+
+def score_row(row):
+    positive_signals = []
+    risk_signals = []
+    blocking_reasons = []
+
+    payout_points = _score_payout(row, positive_signals, risk_signals)
+    epc_points = _score_epc(row, risk_signals)
+    market_points = _score_market(row, positive_signals, risk_signals)
+    data_completeness_points = _score_data_completeness(row, positive_signals)
+    access_points = _score_access(row, risk_signals)
+
+    preliminary_score = min(100, max(0, payout_points + epc_points + market_points + data_completeness_points + access_points))
+
+
+    if "NO_AVAILABLE_MARKETS" in risk_signals:
+        blocking_reasons.append("NO_AVAILABLE_MARKETS")
+    if "PAYOUT_UNKNOWN" in risk_signals:
+        blocking_reasons.append("PAYOUT_UNKNOWN")
+    if epc_points <= 7:
+        blocking_reasons.append("EPC_TOO_LOW")
+    if "PROHIBITED_CATEGORY" in risk_signals:
+        blocking_reasons.append("PROHIBITED_CATEGORY")
+
+    if blocking_reasons:
+        scoring_status = "blocked"
+    elif any(code in risk_signals for code in ["PAYOUT_AMOUNT_UNKNOWN", "PAYOUT_PERCENT_UNKNOWN", "EPC_MISSING"]):
+        scoring_status = "needs_enrichment"
     else:
-        next_action.append("scorable_basic")
-    #TODO: ADD OTHER ROWS LIKE COOKIE WINDOW
+        scoring_status = "scoreable_basic"
 
-    return points, risk_signals, next_action
-   
+    if preliminary_score >= 80:
+        score_confidence = "high"
+    elif preliminary_score >= 50:
+        score_confidence = "medium"
+    else:
+        score_confidence = "low"
 
-def shape_json(json):
-    scored_jsons = []
-    for row in json:
-        print(row)
-        points, risk_signals, next_action = score_json(row)
-        scored_json = {
-            "platform_id": row["platform_id"],
-            "offer_id": row["offer_id"],
-            "offer_name": row["offer_name"],
-            "preliminary_score": points,
-            "next_action": next_action,
-            "risk_signals": risk_signals,
-        }
-        scored_jsons.append(scored_json)
-    return scored_jsons
+    source_file = row.get("source_file")
+    source_row_id = row.get("source_row_id")
+
+    return {
+        "platform_id": row.get("platform_id"),
+        "offer_id": row.get("offer_id"),
+        "partner_id": row.get("partner_id", row.get("offer_id")),
+        "offer_name": row.get("offer_name"),
+        "category": row.get("category"),
+        "scoring_type": "preliminary_offer_score",
+        "scoring_version": "v0.1",
+        "preliminary_score": preliminary_score,
+        "score_max_points": 100,
+        "score_confidence": score_confidence,
+        "scoring_status": scoring_status,
+        "score_breakdown": {
+            "payout_points": payout_points,
+            "epc_points": epc_points,
+            "market_points": market_points,
+            "data_completeness_points": data_completeness_points,
+            "access_points": access_points,
+        },
+        "positive_signals": sorted(set(positive_signals)),
+        "risk_signals": sorted(set(risk_signals)),
+        "next_actions": [
+            "APPLY_TO_PROGRAM_IF_SELECTED",
+            "FETCH_PROGRAM_URL",
+        ],
+        "blocking_reasons": blocking_reasons,
+        "source_offer_ref": {
+            "source_file": source_file,
+            "source_row_id": source_row_id,
+        },
+        "scored_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+    }
+
+
+def shape_json(rows):
+    return [score_row(row) for row in rows]
+
 
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
-    input_path = "data/processed/cj/advertisers/25-05-2026/17-51-48.json"
+    input_path = "data/processed/cj/advertisers/26-05-2026/21-48-46.json"
     output_path = f"data/scored/cj/advertisers/{today}/{now}.json"
 
-    json = import_json(input_path)
-    scored_json = shape_json(json)
+    raw_json = import_json(input_path)
+    scored_json = shape_json(raw_json)
+    print(len(scored_json))
     export_json(output_path, scored_json)
