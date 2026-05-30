@@ -13,8 +13,16 @@ def export_json(data, path):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 def parse_epc(epc_raw):
-    if not epc_raw or epc_raw == None:
+    if epc_raw is None:
         return None, None
+    epc_raw = epc_raw.strip()
+    if not epc_raw:
+        return None, None
+
+    # Accept both "2.42 USD" and "(2.42 USD)" raw formats.
+    if epc_raw.startswith("(") and epc_raw.endswith(")"):
+        epc_raw = epc_raw[1:-1].strip()
+
     parts = epc_raw.split()
     if len(parts) < 2:
         return None, None
@@ -192,7 +200,7 @@ def create_offer_candidate(row, file):
         "seven_day_epc_currency": seven_day_epc_currency,
         "seven_day_epc_usd": seven_day_epc_usd,
 
-        "cookie_window_days": cookie_window_days,#UNFINISHED
+        "cookie_window_days": cookie_window_days,
         "cookie_window_source": cookie_window_source,
 
         "target_markets_raw": target_markets_raw,

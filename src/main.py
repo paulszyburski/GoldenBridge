@@ -15,7 +15,8 @@ def run_cj_pipeline(top_n=10):
     now = datetime.now().strftime("%H-%M-%S")
     extracted_at = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
-    raw_html_path = f"data/raw/cj/advertisers/{today}/html"
+    raw_folder_path = f"data/raw/cj/advertisers/{today}"
+    raw_html_path = f"{raw_folder_path}/{now}.html"
     normalized_path = f"data/normalized/cj/advertisers/{today}/{now}.json"
     processed_path = f"data/processed/cj/advertisers/{today}/{now}.json"
     scored_path = f"data/scored/cj/advertisers/{today}/{now}.json"
@@ -26,8 +27,7 @@ def run_cj_pipeline(top_n=10):
     print(f"Saved raw HTML: {raw_html_path}")
 
     print("[2/6] Extracting + normalizing raw rows...")
-    imported_html = extractor.import_html(raw_html_path)
-    normalized_rows = extractor.extract_raw_data_from_html(imported_html, raw_html_path, extracted_at)
+    normalized_rows = extractor.extract_from_raw_folder(raw_folder_path, extracted_at)
     extractor.save_json(normalized_rows, normalized_path)
     print(f"Saved normalized JSON: {normalized_path} ({len(normalized_rows)} rows)")
 
@@ -39,7 +39,7 @@ def run_cj_pipeline(top_n=10):
 
     print("[4/6] Scoring offers...")
     processed_json = prelimitary_offer_scoring.import_json(processed_path)
-    scored_rows = prelimitary_offer_scoring.shape_json(processed_json)
+    scored_rows = prelimitary_offer_scoring.shape_json(processed_json, processed_path)
     prelimitary_offer_scoring.export_json(scored_path, scored_rows)
     print(f"Saved scored JSON: {scored_path} ({len(scored_rows)} rows)")
 
@@ -55,6 +55,7 @@ def run_cj_pipeline(top_n=10):
         print(f"Saved category cluster scores: {path}")
 
     return {
+        "raw_folder_path": raw_folder_path,
         "raw_html_path": raw_html_path,
         "normalized_path": normalized_path,
         "processed_path": processed_path,

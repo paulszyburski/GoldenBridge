@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import json
 import os
+from typing import List
 
 def get_text_or_none(parent, **find_kwargs):
     tag = parent.find(**find_kwargs)
@@ -21,6 +22,17 @@ def import_html(path):
     with open(path, "r", encoding="utf-8") as f:
         html = f.read()
     return html
+
+
+def list_raw_html_files(raw_folder_path: str) -> List[str]:
+    if not os.path.isdir(raw_folder_path):
+        return []
+    files = []
+    for entry in sorted(os.listdir(raw_folder_path)):
+        candidate = os.path.join(raw_folder_path, entry)
+        if os.path.isfile(candidate):
+            files.append(candidate)
+    return files
 
 def extract_raw_data_from_html(html, path, now):
     soup = BeautifulSoup(html, "html.parser")
@@ -59,6 +71,7 @@ def extract_raw_data_from_html(html, path, now):
         if refferal_period_tag != None:
             try:
                 refferal_period = int(refferal_period_tag.text.split()[0])
+                print(refferal_period)
             except ValueError:
                 refferal_period = "Unknown"
         else:
@@ -129,14 +142,22 @@ def save_json(extracted_data, path):
         json.dump(extracted_data, f, ensure_ascii=False, indent=2)
 
 
+def extract_from_raw_folder(raw_folder_path, extracted_at):
+    extracted_data = []
+    html_files = list_raw_html_files(raw_folder_path)
+    for html_file in html_files:
+        html = import_html(html_file)
+        extracted_data.extend(extract_raw_data_from_html(html, html_file, extracted_at))
+    return extracted_data
+
+
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
-    path = f"data/raw/cj/advertisers/26-05-2026/html"
+    raw_folder_path = f"data/raw/cj/advertisers/{today}"
 
     json_path = f"data/normalized/cj/advertisers/{today}/{now}.json"
 
-    html = import_html(path)
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    extracted_data = extract_raw_data_from_html(html, path, date)
+    extracted_data = extract_from_raw_folder(raw_folder_path, date)
     save_json(extracted_data, json_path)

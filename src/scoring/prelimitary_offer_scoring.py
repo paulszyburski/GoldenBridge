@@ -144,7 +144,7 @@ def _score_access(row, risk_signals):
     return 2
 
 
-def score_row(row):
+def score_row(row, file):
     positive_signals = []
     risk_signals = []
     blocking_reasons = []
@@ -155,17 +155,31 @@ def score_row(row):
     data_completeness_points = _score_data_completeness(row, positive_signals)
     access_points = _score_access(row, risk_signals)
 
-    preliminary_score = min(100, max(0, payout_points + epc_points + market_points + data_completeness_points + access_points))
+    composite_offer_score = min(100, max(0, payout_points + epc_points + market_points + data_completeness_points + access_points))/100
 
+    if composite_offer_score >= 0.7:
+        score_offer_tier = "high"
+    elif 0.69 >= composite_offer_score >= 0.55:
+        score_offer_tier = "medium"
+    elif 0.54 >= composite_offer_score >= 0.35:
+        score_offer_tier = "low"
+    else:
+        score_offer_tier = "reject"
 
     if "NO_AVAILABLE_MARKETS" in risk_signals:
         blocking_reasons.append("NO_AVAILABLE_MARKETS")
     if "PAYOUT_UNKNOWN" in risk_signals:
         blocking_reasons.append("PAYOUT_UNKNOWN")
-    if epc_points <= 7:
-        blocking_reasons.append("EPC_TOO_LOW")
+    if row["cookie_window_days"] == "Unknown":
+        blocking_reasons.append("COOKIE_WINDOW_DAYS_UNKNOWN")
+    elif row["cookie_window_days"] >= 30:
+        blocking_reasons.append("COOKIE_WINDOW_DAYS_TOO_SHORT")
     if "PROHIBITED_CATEGORY" in risk_signals:
         blocking_reasons.append("PROHIBITED_CATEGORY")
+    if row["partner_terms_available"] == False:
+        blocking_reasons.append("TERMS_UNKNOWN")
+    if score_offer_tier == "reject":
+        blocking_reasons.append("SCORE_TOO_LOW")
 
     if blocking_reasons:
         scoring_status = "blocked"
@@ -173,13 +187,6 @@ def score_row(row):
         scoring_status = "needs_enrichment"
     else:
         scoring_status = "scoreable_basic"
-
-    if preliminary_score >= 80:
-        score_confidence = "high"
-    elif preliminary_score >= 50:
-        score_confidence = "medium"
-    else:
-        score_confidence = "low"
 
     source_file = row.get("source_file")
     source_row_id = row.get("source_row_id")
@@ -192,9 +199,9 @@ def score_row(row):
         "category": row.get("category"),
         "scoring_type": "preliminary_offer_score",
         "scoring_version": "v0.1",
-        "preliminary_score": preliminary_score,
-        "score_max_points": 100,
-        "score_confidence": score_confidence,
+        "composite_offer_score": composite_offer_score,
+        "score_max_points": 1,
+        "score_tier": score_offer_tier,
         "scoring_status": scoring_status,
         "score_breakdown": {
             "payout_points": payout_points,
@@ -212,14 +219,15 @@ def score_row(row):
         "blocking_reasons": blocking_reasons,
         "source_offer_ref": {
             "source_file": source_file,
+            "processed_source_file": file,
             "source_row_id": source_row_id,
         },
         "scored_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
 
 
-def shape_json(rows):
-    return [score_row(row) for row in rows]
+def shape_json(rows, file):
+    return [score_row(row, file) for row in rows]
 
 
 if __name__ == "__main__":
@@ -229,6 +237,6 @@ if __name__ == "__main__":
     output_path = f"data/scored/cj/advertisers/{today}/{now}.json"
 
     raw_json = import_json(input_path)
-    scored_json = shape_json(raw_json)
+    scored_json = shape_json(raw_json, input_path)
     print(len(scored_json))
     export_json(output_path, scored_json)
