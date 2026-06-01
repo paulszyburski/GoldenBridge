@@ -172,7 +172,7 @@ def score_row(row, file):
         blocking_reasons.append("PAYOUT_UNKNOWN")
     if row["cookie_window_days"] == "Unknown":
         blocking_reasons.append("COOKIE_WINDOW_DAYS_UNKNOWN")
-    elif row["cookie_window_days"] >= 30:
+    elif row["cookie_window_days"] <= 30:
         blocking_reasons.append("COOKIE_WINDOW_DAYS_TOO_SHORT")
     if "PROHIBITED_CATEGORY" in risk_signals:
         blocking_reasons.append("PROHIBITED_CATEGORY")
