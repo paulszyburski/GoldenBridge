@@ -8,6 +8,13 @@ from openai import OpenAI
 load_dotenv()
 
 gpt_api = os.getenv("CHAT_GPT_API_KEY", None)
+gpt_model = os.getenv("QUERY_GENERATION_MODEL", "gpt-4o-mini")
+
+MODEL_PRICING_PER_1M = {
+    "gpt-4o-mini": {"input": 0.15, "cached_input": 0.075, "output": 0.60},
+    "gpt-4.1-mini": {"input": 0.40, "cached_input": 0.10, "output": 1.60},
+    "gpt-4.1-nano": {"input": 0.10, "cached_input": 0.025, "output": 0.40},
+}
 
 QUERY_TYPES = {
     "best_for",
@@ -39,6 +46,15 @@ ASSET_TYPE_RECOMMENDATIONS = {
 }
 
 _QUERY_GENERATION_CACHE = {}
+_PROCESSED_JSON_CACHE = {}
+_GPT_CLIENT = OpenAI(api_key=gpt_api) if gpt_api else None
+_USAGE_TOTALS = {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cached_input_tokens": 0,
+    "total_tokens": 0,
+    "requests": 0,
+}
 
 def import_json(path):
     with open(path, 'r') as f:
@@ -50,7 +66,10 @@ def export_json(data, path):
         json.dump(data, f, indent=4)
 
 def extract_processed_json(path, id):
-    data = import_json(path)
+    if path not in _PROCESSED_JSON_CACHE:
+        _PROCESSED_JSON_CACHE[path] = import_json(path)
+
+    data = _PROCESSED_JSON_CACHE[path]
     for item in data:
         if (
             item.get("id") == id
@@ -62,50 +81,91 @@ def extract_processed_json(path, id):
     return None
 
 def generate_response_from_gpt(prompt, max_tokens=500):
-    client = OpenAI(api_key=gpt_api)
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+    if _GPT_CLIENT is None:
+        raise ValueError("CHAT_GPT_API_KEY is not set.")
+
+    response = _GPT_CLIENT.chat.completions.create(
+        model=gpt_model,
         messages=[
             {"role": "user", "content": prompt}
         ],
         max_tokens=max_tokens
     )
+    usage = response.usage
+    prompt_tokens_details = getattr(usage, "prompt_tokens_details", None)
+    cached_tokens = getattr(prompt_tokens_details, "cached_tokens", 0) if prompt_tokens_details else 0
+
+    _USAGE_TOTALS["input_tokens"] += getattr(usage, "prompt_tokens", 0)
+    _USAGE_TOTALS["output_tokens"] += getattr(usage, "completion_tokens", 0)
+    _USAGE_TOTALS["cached_input_tokens"] += cached_tokens
+    _USAGE_TOTALS["total_tokens"] += getattr(usage, "total_tokens", 0)
+    _USAGE_TOTALS["requests"] += 1
+
     return response.choices[0].message.content
 
-def generate_query(offer, reason_codes=None):
-    prompt = f"""
-    Given the following offer details, generate a search query that a potential customer might use when searching for this offer. The query shouldnt be too specific and it shouldnt look for a specific brand, just a vague query a potential customer will use. Offer details: {offer}
+def estimate_total_cost():
+    pricing = MODEL_PRICING_PER_1M.get(gpt_model)
+    if pricing is None:
+        return None
 
-    """
-    return generate_response_from_gpt(prompt)
+    cached_input_tokens = _USAGE_TOTALS["cached_input_tokens"]
+    non_cached_input_tokens = max(0, _USAGE_TOTALS["input_tokens"] - cached_input_tokens)
 
-def generate_query_type(query, reason_codes):
-    prompt = f"""
-    Given the following query {query}, generate the most suitable query type from the following list:
-    {", ".join(QUERY_TYPES)}
-    """
-    return generate_response_from_gpt(prompt)
+    input_cost = (non_cached_input_tokens / 1_000_000) * pricing["input"]
+    cached_input_cost = (cached_input_tokens / 1_000_000) * pricing["cached_input"]
+    output_cost = (_USAGE_TOTALS["output_tokens"] / 1_000_000) * pricing["output"]
 
-def generate_persona(offer, reason_codes):
-    prompt = f"""
-    Describe the most likely persona for a potential customer searching for this offer, based on the offer details. The description should be short but descriptive. Examples: "small business owner", "tech-savvy professional". If not clear use None. Offer details: {offer}
-    """
-    return generate_response_from_gpt(prompt)
+    return input_cost + cached_input_cost + output_cost
 
-def generate_problem(query, reason_codes):
+def _parse_json_response(raw_response):
+    cleaned_response = raw_response.strip()
+    if cleaned_response.startswith("```"):
+        cleaned_response = cleaned_response.strip("`")
+        if cleaned_response.startswith("json"):
+            cleaned_response = cleaned_response[4:].strip()
+
+    return json.loads(cleaned_response)
+
+def generate_query_metadata(offer, reason_codes=None):
+    cache_key = json.dumps(offer, sort_keys=True, default=str)
+    if cache_key in _QUERY_GENERATION_CACHE:
+        return _QUERY_GENERATION_CACHE[cache_key]
+
     prompt = f"""
-    Identify the main problem or pain point that this user that searched this query has. Example: "track leads without enterprise CRM complexity". If not clear use None. Query: {query}
+    Given the following offer details, generate marketing search metadata.
+    Keep outputs short and practical.
+    Do not mention the brand unless it is necessary to make the query natural.
+    If something is not clear, use null.
+
+    Return valid JSON only with these keys:
+    "query_text", "query_type", "persona", "problem", "asset_type_recommendation"
+
+    query_type must be one of: {", ".join(QUERY_TYPES)}
+    asset_type_recommendation must be one of: {", ".join(ASSET_TYPE_RECOMMENDATIONS)}
+
+    Offer details: {offer}
     """
-    return generate_response_from_gpt(prompt)
+    raw_response = generate_response_from_gpt(prompt, max_tokens=220)
+
+    try:
+        metadata = _parse_json_response(raw_response)
+    except json.JSONDecodeError:
+        if reason_codes is not None:
+            reason_codes.append("invalid_ai_json")
+        metadata = {}
+
+    result = {
+        "query_text": metadata.get("query_text"),
+        "query_type": metadata.get("query_type"),
+        "persona": metadata.get("persona"),
+        "problem": metadata.get("problem"),
+        "asset_type_recommendation": metadata.get("asset_type_recommendation"),
+    }
+    _QUERY_GENERATION_CACHE[cache_key] = result
+    return result
 
 def generate_intent_stage(offer, reason_codes):
-    return # TODO: implement in the future here or somehwere else
-
-def generate_asset_type_recommendation(offer, reason_codes):
-    prompt = f"""
-    Choose exactly one content format that best fits this query. Do not choose based on what is easiest. Choose based on user intent. Select from the following list: {", ".join(ASSET_TYPE_RECOMMENDATIONS)}. If not clear use None. Offer details: {offer}
-    """
-    return generate_response_from_gpt(prompt)
+    return None
 
 def generate_query_candidate(offer, source_path):
     reason_codes = []
@@ -113,12 +173,13 @@ def generate_query_candidate(offer, source_path):
     platform_id = offer.get("platform_id", "Unknown")
     offer_id = offer.get("offer_id", "Unknown")
     name = offer.get("name") or offer.get("offer_name", "Unknown")
-    query_text = generate_query(offer, reason_codes)
-    query_type = generate_query_type(query_text, reason_codes)
-    persona = generate_persona(offer, reason_codes)
-    problem = generate_problem(query_text, reason_codes)
+    metadata = generate_query_metadata(offer, reason_codes)
+    query_text = metadata.get("query_text")
+    query_type = metadata.get("query_type")
+    persona = metadata.get("persona")
+    problem = metadata.get("problem")
     intent_stage = generate_intent_stage(offer, reason_codes)
-    asset_type_recommendation = generate_asset_type_recommendation(offer, reason_codes)
+    asset_type_recommendation = metadata.get("asset_type_recommendation")
     primary_offer = offer.get("offer_name", "Unknown")
     target_markets = offer.get("target_markets_processed")
     source_file = source_path
@@ -143,7 +204,11 @@ def generate_query_candidate(offer, source_path):
 
 def generate_query_candidates(offers, source_path):
     query_candidates = []
-    for offer in offers:
+    for i, offer in enumerate(offers):
+        if offer["scoring_status"] != "scoreable_basic":
+            print(f"Offer with id {id} has scoring status {offer['scoring_status']}, skipping GPT generation.")
+            continue
+
         id = offer.get("source_offer_ref").get("source_row_id")
         extracted_offer = extract_processed_json(source_path, id)
         if extracted_offer is None:
@@ -151,7 +216,8 @@ def generate_query_candidates(offers, source_path):
             continue
         candidate = generate_query_candidate(extracted_offer, source_path)
         query_candidates.append(candidate)
-        break
+        if i == 10:
+            break
 
     return query_candidates
 
@@ -166,4 +232,15 @@ if __name__ == "__main__":
     query_candidates = generate_query_candidates(scored_offers, source_path)
     print(f"Generated {len(query_candidates)} query candidates, exporting to JSON...")
     export_json(query_candidates, output_path)
-
+    estimated_cost = estimate_total_cost()
+    print(
+        "Usage summary: "
+        f"{_USAGE_TOTALS['requests']} request(s), "
+        f"{_USAGE_TOTALS['input_tokens']} input tokens, "
+        f"{_USAGE_TOTALS['output_tokens']} output tokens, "
+        f"{_USAGE_TOTALS['total_tokens']} total tokens."
+    )
+    if estimated_cost is None:
+        print(f"Estimated cost unavailable for model {gpt_model}. Add pricing to MODEL_PRICING_PER_1M to enable it.")
+    else:
+        print(f"Estimated cost for {gpt_model}: ${estimated_cost:.6f}")
