@@ -98,7 +98,7 @@ def _score_epc(row, risk_signals):
 
 
 def _score_market(row, positive_signals, risk_signals):
-    markets = row.get("target_markets") or []
+    markets = row.get("target_markets_filtered") or []
     if not markets:
         risk_signals.append("NO_AVAILABLE_MARKETS")
         return 0
@@ -233,7 +233,7 @@ def shape_json(rows, file):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
-    input_path = "data/processed/cj/advertisers/26-05-2026/21-48-46.json"
+    input_path = "data/processed/cj/advertisers/06-06-2026/20-53-33.json"
     output_path = f"data/scored/cj/advertisers/{today}/{now}.json"
 
     raw_json = import_json(input_path)

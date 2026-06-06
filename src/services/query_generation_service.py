@@ -1,17 +1,51 @@
 import json
+import os
 from dotenv import load_dotenv
-from typing import Any, Dict, List
+from datetime import datetime
 
-# from openai import OpenAI
+from openai import OpenAI
 
 load_dotenv()
 
+gpt_api = os.getenv("CHAT_GPT_API_KEY", None)
+
+QUERY_TYPES = {
+    "best_for",
+    "vs",
+    "alternatives",
+    "pricing",
+    "price_sensitive",
+    "review",
+    "comparison",
+    "problem_aware",
+    "negative_intent",
+    "use_case",
+    "persona_specific",
+    "integration_specific",
+    "informational",
+}
+
+ASSET_TYPE_RECOMMENDATIONS = {
+    "comparison_page",
+    "alternatives_page",
+    "pricing_breakdown",
+    "review_page",
+    "problem_asset",
+    "utility_asset",
+    "scorecard_asset",
+    "checklist_asset",
+    "calculator_asset",
+    "supporting_info_page",
+}
+
+_QUERY_GENERATION_CACHE = {}
 
 def import_json(path):
     with open(path, 'r') as f:
         return json.load(f)
 
 def export_json(data, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w') as f:
         json.dump(data, f, indent=4)
 
@@ -27,151 +61,109 @@ def extract_processed_json(path, id):
             return item
     return None
 
-def convert_target_markets(target_markets):
-    modified_target_markets = []
-    if not target_markets:
-        return []
-    normalized = {str(x).strip().upper() for x in target_markets}
-    if "U.S." in normalized or "UNITED STATES" in normalized or "USA" in normalized:
-        modified_target_markets.append("EN-US")
-    if "U.K." in normalized or "UNITED KINGDOM" in normalized or "UK" in normalized:
-        modified_target_markets.append("EN-GB")
-    if "CANADA" in normalized:
-        modified_target_markets.append("EN-CA")
-    return modified_target_markets
+def generate_response_from_gpt(prompt, max_tokens=500):
+    client = OpenAI(api_key=gpt_api)
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=max_tokens
+    )
+    return response.choices[0].message.content
 
-def _template_candidates(row: Dict[str, Any], target_markets: List[str]) -> List[Dict[str, Any]]:
-    offer_name = row.get("offer_name", "Offer")
-    category = row.get("category", "software")
-    market = target_markets[0] if target_markets else "EN-US"
-    offer_id = str(row.get("offer_id", ""))
-    platform_id = str(row.get("platform_id", ""))
-    partner_id = str(row.get("partner_id", ""))
-    base = {
-        "offer_id": offer_id,
-        "platform_id": platform_id,
-        "partner_id": partner_id,
-        "target_market": market,
-        "base_category": category,
-        "persona": "placeholder persona",
-        "problem": f"placeholder problem for {category.lower()}",
-        "use_case": "placeholder use case",
-        "buyer_intent_estimate": "high",
-        "recommended_asset_type": "comparison_page",
-        "dual_engine_human_component": "placeholder human component",
-        "dual_engine_ai_component": "placeholder ai component",
-        "source": "dummy_generated",
-        "status": "generated",
-        "reason_codes": []
-    }
-    return [
-        {
-            **base,
-            "query": f"best {category.lower()} placeholder query",
-            "query_type": "best_for",
-        },
-        {
-            **base,
-            "query": f"{offer_name} alternatives placeholder",
-            "query_type": "alternatives",
-        },
-    ]
+def generate_query(offer, reason_codes=None):
+    prompt = f"""
+    Given the following offer details, generate a search query that a potential customer might use when searching for this offer. The query shouldnt be too specific and it shouldnt look for a specific brand, just a vague query a potential customer will use. Offer details: {offer}
 
-def _generate_with_chatgpt(row: Dict[str, Any], target_markets: List[str]):
-    # Dummy mode only: ChatGPT generation is disabled to avoid API costs.
-    #
-    # if not gpt_api or OpenAI is None:
-    #     return _template_candidates(row, target_markets), "template_generated"
-    #
-    # client = OpenAI(api_key=gpt_api)
-    # prompt = (
-    #     "Generate 2 high-intent SEO query candidates for an affiliate offer.\n"
-    #     "Return JSON only as an array of objects.\n"
-    #     "Each object must include: "
-    #     "query, query_type, target_market, base_category, persona, problem, use_case, "
-    #     "buyer_intent_estimate, recommended_asset_type, dual_engine_human_component, "
-    #     "dual_engine_ai_component.\n"
-    #     "query_type should be one of: best_for, alternatives.\n"
-    #     "buyer_intent_estimate should be low|medium|high.\n"
-    #     f"Offer data: {json.dumps(row, ensure_ascii=False)}\n"
-    #     f"Allowed target markets: {json.dumps(target_markets)}"
-    # )
-    # response = client.responses.create(
-    #     model=os.getenv("CHAT_GPT_MODEL", "gpt-4.1-mini"),
-    #     temperature=0.4,
-    #     input=prompt,
-    # )
-    # raw_text = (response.output_text or "").strip()
-    # try:
-    #     parsed = json.loads(raw_text)
-    #     if isinstance(parsed, list):
-    #         return parsed, "chat_gpt_generated"
-    # except json.JSONDecodeError:
-    #     pass
-    # return _template_candidates(row, target_markets), "template_generated"
-    return _template_candidates(row, target_markets), "dummy_generated"
+    """
+    return generate_response_from_gpt(prompt)
 
-def generate_query_candidate(row):
-    if not row:
-        return {
-            "platform_id": None,
-            "partner_id": None,
-            "offer_id": None,
-            "offer_name": None,
-            "status": "error",
-            "reason_codes": ["SOURCE_ROW_NOT_FOUND"],
-            "query_candidates": [],
-        }
+def generate_query_type(query, reason_codes):
+    prompt = f"""
+    Given the following query {query}, generate the most suitable query type from the following list:
+    {", ".join(QUERY_TYPES)}
+    """
+    return generate_response_from_gpt(prompt)
 
-    target_markets = convert_target_markets(row.get("target_markets", []))
-    generated, source = _generate_with_chatgpt(row, target_markets)
+def generate_persona(offer, reason_codes):
+    prompt = f"""
+    Describe the most likely persona for a potential customer searching for this offer, based on the offer details. The description should be short but descriptive. Examples: "small business owner", "tech-savvy professional". If not clear use None. Offer details: {offer}
+    """
+    return generate_response_from_gpt(prompt)
 
-    candidates = []
-    for item in generated[:2]:
-        candidates.append(
-            {
-                "offer_id": row.get("offer_id"),
-                "platform_id": row.get("platform_id"),
-                "partner_id": row.get("partner_id"),
-                "query": item.get("query"),
-                "query_type": item.get("query_type"),
-                "target_market": item.get("target_market") or (target_markets[0] if target_markets else "EN-US"),
-                "base_category": item.get("base_category") or row.get("category"),
-                "persona": item.get("persona"),
-                "problem": item.get("problem"),
-                "use_case": item.get("use_case"),
-                "buyer_intent_estimate": item.get("buyer_intent_estimate", "high"),
-                "recommended_asset_type": item.get("recommended_asset_type", "comparison_page"),
-                "dual_engine_human_component": item.get("dual_engine_human_component", "comparison scorecard"),
-                "dual_engine_ai_component": item.get("dual_engine_ai_component", "Q&A blocks + comparison table + methodology note"),
-                "source": source,
-                "status": "generated",
-                "reason_codes": [],
-            }
-        )
+def generate_problem(query, reason_codes):
+    prompt = f"""
+    Identify the main problem or pain point that this user that searched this query has. Example: "track leads without enterprise CRM complexity". If not clear use None. Query: {query}
+    """
+    return generate_response_from_gpt(prompt)
+
+def generate_intent_stage(offer, reason_codes):
+    return # TODO: implement in the future here or somehwere else
+
+def generate_asset_type_recommendation(offer, reason_codes):
+    prompt = f"""
+    Choose exactly one content format that best fits this query. Do not choose based on what is easiest. Choose based on user intent. Select from the following list: {", ".join(ASSET_TYPE_RECOMMENDATIONS)}. If not clear use None. Offer details: {offer}
+    """
+    return generate_response_from_gpt(prompt)
+
+def generate_query_candidate(offer, source_path):
+    reason_codes = []
+
+    platform_id = offer.get("platform_id", "Unknown")
+    offer_id = offer.get("offer_id", "Unknown")
+    name = offer.get("name") or offer.get("offer_name", "Unknown")
+    query_text = generate_query(offer, reason_codes)
+    query_type = generate_query_type(query_text, reason_codes)
+    persona = generate_persona(offer, reason_codes)
+    problem = generate_problem(query_text, reason_codes)
+    intent_stage = generate_intent_stage(offer, reason_codes)
+    asset_type_recommendation = generate_asset_type_recommendation(offer, reason_codes)
+    primary_offer = offer.get("offer_name", "Unknown")
+    target_markets = offer.get("target_markets_processed")
+    source_file = source_path
+    status = "generated" if reason_codes == [] else "needs_review"
+
     return {
-        "platform_id": row.get("platform_id"),
-        "partner_id": row.get("partner_id"),
-        "offer_id": row.get("offer_id"),
-        "offer_name": row.get("offer_name"),
-        "status": "generated",
-        "reason_codes": [],
-        "query_candidates": candidates,
+        "platform_id": platform_id, 
+        "offer_id": offer_id,
+        "name": name,
+        "query_text": query_text,
+        "query_type": query_type,
+        "target_markets": target_markets,
+        "persona": persona,
+        "problem": problem,
+        "intent_stage": intent_stage,
+        "asset_type_recommendation": asset_type_recommendation,
+        "primary_offer": primary_offer,
+        "status": status,
+        "source_file": source_file,
+        "reason_codes": reason_codes,
     }
 
+def generate_query_candidates(offers, source_path):
+    query_candidates = []
+    for offer in offers:
+        id = offer.get("source_offer_ref").get("source_row_id")
+        extracted_offer = extract_processed_json(source_path, id)
+        if extracted_offer is None:
+            print(f"No processed data found for offer with id {id}, skipping GPT generation.")
+            continue
+        candidate = generate_query_candidate(extracted_offer, source_path)
+        query_candidates.append(candidate)
+        break
 
-def main(data):
-    modified_data = []
-    for row in data:
-        processed_row_path = row["source_offer_ref"]["processed_source_file"]
-        processed_row = extract_processed_json(processed_row_path, row["offer_id"])
-
-        query_candidate = generate_query_candidate(processed_row)
-        modified_data.append(query_candidate)
-    return modified_data
-
+    return query_candidates
 
 if __name__ == "__main__":
-    input_data = import_json("data/scored/cj/advertisers/30-05-2026/15-20-02.json")
-    output = main(input_data)
-    export_json(output, "output_data.json")
+    now = datetime.now().strftime("%H-%M-%S")
+    today = datetime.now().strftime("%d-%m-%Y")
+    input_path = f"data/scored/cj/advertisers/06-06-2026/20-56-46.json"
+    output_path = f"data/query_candidates/cj/advertisers/{today}/{now}.json"
+    source_path = f"data/processed/cj/advertisers/{today}/20-53-33.json"
+    scored_offers = import_json(input_path)
+    print(f"Generating query candidates for {len(scored_offers)} offers...")
+    query_candidates = generate_query_candidates(scored_offers, source_path)
+    print(f"Generated {len(query_candidates)} query candidates, exporting to JSON...")
+    export_json(query_candidates, output_path)
+

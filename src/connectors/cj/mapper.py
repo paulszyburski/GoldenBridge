@@ -28,6 +28,18 @@ def parse_epc(epc_raw):
         return None, None
     return parts[0], parts[1]
 
+def convert_target_markets(target_markets):
+    modified_target_markets = []
+    if not target_markets:
+        return []
+    normalized = {str(x).strip().upper() for x in target_markets}
+    if "U.S." in normalized or "UNITED STATES" in normalized or "USA" in normalized:
+        modified_target_markets.append("EN-US")
+    if "U.K." in normalized or "UNITED KINGDOM" in normalized or "UK" in normalized:
+        modified_target_markets.append("EN-GB")
+    if "CANADA" in normalized:
+        modified_target_markets.append("EN-CA")
+    return modified_target_markets
 
 def extract_number(value):
     if not value:
@@ -86,7 +98,7 @@ def create_offer_candidate(row, file):
     cookie_window_source = "More Info Tab"
 
     target_markets_raw = row["servicable_area_raw"].split(", ")
-    target_markets_processed = []
+    target_markets_filtered = []
 
     raw_source_file = row["raw_source_file"]
 
@@ -94,7 +106,9 @@ def create_offer_candidate(row, file):
         target_markets_raw_splitted = row["servicable_area_raw"].split(", ")
         for target_market in ["U.S.", "UNITED STATES"]:
             if target_market in target_markets_raw_splitted:
-                target_markets_processed.append(target_market)
+                target_markets_filtered.append(target_market)
+
+    target_markets_processed = convert_target_markets(target_markets_raw)
 
     affiliate_access_status = "not_applied"
     approval_required_before_scaling = True
@@ -204,7 +218,8 @@ def create_offer_candidate(row, file):
         "cookie_window_source": cookie_window_source,
 
         "target_markets_raw": target_markets_raw,
-        "target_markets": target_markets_processed,
+        "target_markets_filtered": target_markets_filtered,
+        "target_markets_processed": target_markets_processed,
 
         "affiliate_access_status": affiliate_access_status,
         "approval_required_before_scaling": approval_required_before_scaling,
@@ -247,7 +262,7 @@ def map_json(json_data, file):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     noww = datetime.now().strftime("%H-%M-%S")
-    path = f"data/normalized/cj/advertisers/26-05-2026/21-46-16.json"
+    path = f"data/normalized/cj/advertisers/06-06-2026/20-52-10.json"
     jsonn = import_json(path)
     mapped_json = map_json(jsonn, path)
     output_path = f"data/processed/cj/advertisers/{today}/{noww}.json"

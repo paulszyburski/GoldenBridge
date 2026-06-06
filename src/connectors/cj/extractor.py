@@ -56,7 +56,9 @@ def extract_raw_data_from_html(html, path, now):
         sale_commission_raw = row.find(class_="commission-value sale-terms").text
         lead_commission_raw = row.find(class_="commission-value lead-terms").text
 
-        application_approval_signal_raw = row.find(class_="approval-odds-text").text
+        application_approval_signal_raw_tag = row.find(class_="approval-odds-text")
+        application_approval_signal_raw = application_approval_signal_raw_tag.text if application_approval_signal_raw_tag else None
+
         relationship_raw = "not applied"
 
         adv_description = get_text_or_none(row, id="advertiser-description")

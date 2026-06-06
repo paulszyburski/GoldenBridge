@@ -1,6 +1,8 @@
 try:
     from .connector import open_main_page_cj
 except ImportError:
+    if __package__:
+        raise
     from connector import open_main_page_cj
 from playwright.sync_api import sync_playwright
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError

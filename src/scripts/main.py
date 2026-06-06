@@ -1,13 +1,14 @@
 from datetime import datetime
+import pprint
+import sys
+from pathlib import Path
 
-try:
-    from src.connectors.cj import export_html, extractor, mapper
-    from src.scoring import prelimitary_offer_scoring
-    from src.services import top_offers_service, category_cluster_service
-except ImportError:
-    from connectors.cj import export_html, extractor, mapper
-    from scoring import prelimitary_offer_scoring
-    from services import top_offers_service, category_cluster_service
+if __package__ is None or __package__ == "":
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from src.connectors.cj import export_html, extractor, mapper
+from src.scoring import prelimitary_offer_scoring
+from src.services import top_offers_service, category_cluster_service
 
 
 def run_cj_pipeline(top_n=10):
@@ -22,8 +23,8 @@ def run_cj_pipeline(top_n=10):
     scored_path = f"data/scored/cj/advertisers/{today}/{now}.json"
 
     print("[1/6] Exporting CJ HTML...")
-    html = export_html.scrape_html()
-    export_html.save_html(html, raw_html_path)
+    #html = export_html.scrape_html()
+    #export_html.save_html(html, raw_html_path)
     print(f"Saved raw HTML: {raw_html_path}")
 
     print("[2/6] Extracting + normalizing raw rows...")
@@ -68,4 +69,4 @@ def run_cj_pipeline(top_n=10):
 if __name__ == "__main__":
     result = run_cj_pipeline()
     print("Pipeline finished.")
-    print(result)
+    pprint.pprint(result)
