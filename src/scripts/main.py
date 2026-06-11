@@ -23,8 +23,8 @@ def run_cj_pipeline(top_n=10):
     scored_path = f"data/scored/cj/advertisers/{today}/{now}.json"
 
     print("[1/6] Exporting CJ HTML...")
-    #html = export_html.scrape_html()
-    #export_html.save_html(html, raw_html_path)
+    html = export_html.scrape_html()
+    export_html.save_html(html, raw_html_path)
     print(f"Saved raw HTML: {raw_html_path}")
 
     print("[2/6] Extracting + normalizing raw rows...")

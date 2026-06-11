@@ -234,7 +234,7 @@ if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
     input_path = "data/processed/cj/advertisers/06-06-2026/20-53-33.json"
-    output_path = f"data/scored/cj/advertisers/{today}/{now}.json"
+    output_path = f"data/scored/offers/cj/advertisers/{today}/{now}.json"
 
     raw_json = import_json(input_path)
     scored_json = shape_json(raw_json, input_path)

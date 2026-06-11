@@ -29,16 +29,12 @@ def parse_epc(epc_raw):
     return parts[0], parts[1]
 
 def convert_target_markets(target_markets):
-    modified_target_markets = []
+    modified_target_markets = ''
     if not target_markets:
         return []
     normalized = {str(x).strip().upper() for x in target_markets}
     if "U.S." in normalized or "UNITED STATES" in normalized or "USA" in normalized:
-        modified_target_markets.append("EN-US")
-    if "U.K." in normalized or "UNITED KINGDOM" in normalized or "UK" in normalized:
-        modified_target_markets.append("EN-GB")
-    if "CANADA" in normalized:
-        modified_target_markets.append("EN-CA")
+        modified_target_markets = "EN-US"
     return modified_target_markets
 
 def extract_number(value):
