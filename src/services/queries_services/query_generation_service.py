@@ -75,25 +75,25 @@ _USAGE_TOTALS = {
 }
 
 def import_json(path):
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def export_json(data, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, 'w') as f:
-        json.dump(data, f, indent=4)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
-def extract_processed_json(path, id):
+def extract_processed_json(path, offer_id):
     if path not in _PROCESSED_JSON_CACHE:
         _PROCESSED_JSON_CACHE[path] = import_json(path)
 
     data = _PROCESSED_JSON_CACHE[path]
     for item in data:
         if (
-            item.get("id") == id
-            or item.get("offer_id") == id
-            or item.get("partner_id") == id
-            or item.get("source_row_id") == id
+            item.get("id") == offer_id
+            or item.get("offer_id") == offer_id
+            or item.get("partner_id") == offer_id
+            or item.get("source_row_id") == offer_id
         ):
             return item
     return None
@@ -144,6 +144,33 @@ def _parse_json_response(raw_response):
 
     return json.loads(cleaned_response)
 
+def _build_query_candidate(offer, candidate=None):
+    candidate = candidate or {}
+    query = candidate.get("query") or candidate.get("query_text")
+
+    return {
+        "offer_candidate_id": offer.get("offer_id"),
+        "query": query,
+        "query_type": candidate.get("query_type"),
+        "persona": candidate.get("persona"),
+        "problem": candidate.get("problem"),
+        "target_market": offer.get("target_markets_processed"),
+        "language": "en",
+        "comparison_offer": candidate.get("comparison_offer"),
+        "known_competitor_used": candidate.get("known_competitor_used"),
+        "commercial_intent_hint": candidate.get("commercial_intent_hint"),
+        "buyer_intent_score": None,
+        "buyer_intent_reason_code": None,
+        "negative_claim_evidence_required": candidate.get("negative_claim_evidence_required"),
+        "human_layer_idea": candidate.get("human_layer_idea"),
+        "ai_layer_idea": candidate.get("ai_layer_idea"),
+        "llm_confidence": candidate.get("llm_confidence"),
+        "asset_type_recommendation": candidate.get("asset_type_recommendation"),
+        "primary_offer": offer.get("offer_name"),
+        "status": "generated" if query else "needs_check",
+        "notes": candidate.get("notes"),
+    }
+
 def _normalize_query_candidates(metadata, offer):
     if isinstance(metadata, dict):
         raw_candidates = metadata.get("queriesCandidates", [])
@@ -155,66 +182,11 @@ def _normalize_query_candidates(metadata, offer):
     candidates = []
 
     for raw_candidate in raw_candidates[:QUERY_CANDIDATE_COUNT]:
-        candidate = raw_candidate if isinstance(raw_candidate, dict) else {}
-        normalized_candidate = {
-            "offer_candidate_id": offer.get('offer_id'),
-            "query": candidate.get("query") or candidate.get("query_text"),
-            "query_type": candidate.get("query_type"),
-            "persona": candidate.get("persona"),
-            "problem": candidate.get("problem"),
-            "target_market": offer.get("target_markets_processed"),
-
-            "language": "en",
-            "comparison_offer": candidate.get("comparison_offer"),
-            "known_competitor_used": candidate.get("known_competitor_used"),
-
-            "commercial_intent_hint": candidate.get("commercial_intent_hint"),
-            "buyer_intent_score": None,
-            "buyer_intent_reason_code": None,
-            "negative_claim_evidence_required": candidate.get("negative_claim_evidence_required"),
-
-            "human_layer_idea": candidate.get("human_layer_idea"),
-            "ai_layer_idea": candidate.get("ai_layer_idea"),
-            "llm_confidence": candidate.get("llm_confidence"),
-
-            "asset_type_recommendation": candidate.get("asset_type_recommendation"),
-            "primary_offer": offer.get("offer_name"),
-
-            "status": "generated" if candidate.get("query") else "needs_check",
-            "notes": candidate.get("notes"),
-        }
-        if candidate.get("comparison_offer") is not None:
-            normalized_candidate["comparison_offer"] = candidate.get("comparison_offer")
-        candidates.append(normalized_candidate)
+        candidate = raw_candidate if isinstance(raw_candidate, dict) else None
+        candidates.append(_build_query_candidate(offer, candidate))
 
     while len(candidates) < QUERY_CANDIDATE_COUNT:
-        candidates.append({
-            "offer_candidate_id": offer.get('offer_id'),
-            "query": None,
-            "query_type": None,
-            "persona": None,
-            "problem": None,
-            "target_market": offer.get("target_market_processed"),
-
-            "language": "en",
-            "comparison_offer": None,
-            "known_competitor_used": None,
-
-            "commercial_intent_hint": None,
-            "buyer_intent_score": None,
-            "buyer_intent_reason_code": None,
-            "negative_claim_evidence_required": None,
-
-            "human_layer_idea": None,
-            "ai_layer_idea": None,
-            "llm_confidence": None,
-
-            "asset_type_recommendation": None,
-            "primary_offer": offer.get("offer_name"),
-
-            "status": "needs_check",
-            "notes": None,
-        })
+        candidates.append(_build_query_candidate(offer))
 
     return candidates
 
@@ -349,13 +321,13 @@ def generate_query_candidates(offers, source_path):
         if i == 1:
             break
         if offer["scoring_status"] != "scoreable_basic":
-            print(f"Offer with id {id} has scoring status {offer['scoring_status']}, skipping GPT generation.")
+            print(f"Offer with id {offer.get('offer_id')} has scoring status {offer['scoring_status']}, skipping GPT generation.")
             continue
 
-        id = offer.get("source_offer_ref").get("source_row_id")
-        extracted_offer = extract_processed_json(source_path, id)
+        source_row_id = offer.get("source_offer_ref").get("source_row_id")
+        extracted_offer = extract_processed_json(source_path, source_row_id)
         if extracted_offer is None:
-            print(f"No processed data found for offer with id {id}, skipping GPT generation.")
+            print(f"No processed data found for offer with id {source_row_id}, skipping GPT generation.")
             continue
         candidate = generate_query_candidate(extracted_offer, source_path)
         query_candidates.append(candidate)
