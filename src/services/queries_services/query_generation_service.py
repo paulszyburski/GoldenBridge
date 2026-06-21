@@ -318,7 +318,7 @@ def generate_query_candidates(offers, source_path):
     query_candidates = []
     for i, offer in enumerate(offers):
         print(i)
-        if i == 1:
+        if i == 10:
             break
         if offer["scoring_status"] != "scoreable_basic":
             print(f"Offer with id {offer.get('offer_id')} has scoring status {offer['scoring_status']}, skipping GPT generation.")
@@ -337,9 +337,9 @@ def generate_query_candidates(offers, source_path):
 if __name__ == "__main__":
     now = datetime.now().strftime("%H-%M-%S")
     today = datetime.now().strftime("%d-%m-%Y")
-    input_path = f"data/scored/cj/advertisers/07-06-2026/12-44-38.json"
+    input_path = f"data/scored/cj/advertisers/20-06-2026/19-18-30.json"
     output_path = f"data/query_candidates/generated/cj/advertisers/{today}/{now}.json"
-    source_path = f"data/processed/cj/advertisers/{today}/12-44-38.json"
+    source_path = f"data/processed/cj/advertisers/{today}/19-18-30.json"
     scored_offers = import_json(input_path)
     print(f"Generating query candidates for {len(scored_offers)} offers...")
     query_candidates = generate_query_candidates(scored_offers, source_path)

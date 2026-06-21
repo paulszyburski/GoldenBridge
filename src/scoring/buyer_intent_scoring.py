@@ -89,8 +89,8 @@ def score_buyer_intents(data):
 
 
 if __name__ == "__main__":
-    input_path = "data/query_candidates/validated/cj/advertisers/07-06-2026/15-35-58.json"
-    output_path = "test.json"
+    input_path = "data/query_candidates/validated/cj/advertisers/20-06-2026/21-05-35.json"
+    output_path = "data/query_candidates/buyer_intent_scored/cj/advertisers/07-06-2026/15-35-58.json"
 
     data = import_json(input_path)
     modified_data = score_buyer_intents(data)

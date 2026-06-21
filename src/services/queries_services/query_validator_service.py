@@ -53,7 +53,7 @@ def validate_query_candidates(offers):
 if __name__ == "__main__":
     today = datetime.now().strftime("%d-%m-%Y")
     now = datetime.now().strftime("%H-%M-%S")
-    input_path = f"data/query_candidates/generated/cj/advertisers/{today}/15-26-40.json"
+    input_path = f"data/query_candidates/generated/cj/advertisers/{today}/21-02-40.json"
     output_path = f"data/query_candidates/validated/cj/advertisers/{today}/{now}.json"
 
     candidates = import_json(input_path)
